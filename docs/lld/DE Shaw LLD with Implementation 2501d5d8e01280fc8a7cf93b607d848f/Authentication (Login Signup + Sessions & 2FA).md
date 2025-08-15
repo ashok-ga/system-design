@@ -198,43 +198,231 @@ Below is a complete, runnable implementation. For brevity, dependencies like a T
 
 **`User.java` (Model)**
 
-Java
-
 ```java
-// ...see previous content for full code...
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class User {
+    private final String id;
+    private final String email;
+    private String passwordHash;
+    private boolean twoFactorEnabled;
+    private String totpSecret;
+    private long lockedUntil;
+    private final AtomicInteger failedLoginAttempts = new AtomicInteger(0);
+    // ...constructors, getters, setters...
+}
 ```
 
-**`AuthService.java` (Orchestrator)**
-
-Java
+**`Session.java` (Model)**
 
 ```java
-// ...see previous content for full code...
+import java.time.Instant;
+
+public class Session {
+    private final String sessionId;
+    private final String userId;
+    private final Instant expiresAt;
+    // ...constructors, getters...
+}
 ```
 
----
-
-6. Testing (JUnit 5)
-
-Tests are crucial to verify all flows, especially failure cases.
-
-Java
+**`PasswordHasher.java` (Interface and Implementation)**
 
 ```java
-// ...see previous content for full code...
+public interface PasswordHasher {
+    String hash(String password);
+    boolean verify(String password, String hash);
+}
+
+public class BCryptPasswordHasher implements PasswordHasher {
+    public String hash(String password) {
+        return org.mindrot.jbcrypt.BCrypt.hashpw(password, org.mindrot.jbcrypt.BCrypt.gensalt());
+    }
+    public boolean verify(String password, String hash) {
+        return org.mindrot.jbcrypt.BCrypt.checkpw(password, hash);
+    }
+}
 ```
 
-### **7. Concurrency, Security, and Scalability**
+**`TotpService.java` (Interface and Mock Implementation)**
 
-- **Concurrency:** The in-memory repositories (`InMemoryUserRepository`) use `ConcurrentHashMap` to be thread-safe. The `failedLoginAttempts` counter on the `User` object is an `AtomicInteger` to handle concurrent failed logins safely. In a database-backed system, we would use transactions with `SELECT ... FOR UPDATE` to ensure atomic updates to the user's state.
-- **Security:**
-    - **Password Hashing:** We use BCrypt, an adaptive hashing function that incorporates a salt automatically. The work factor can be tuned over time.
-    - **Session Management:** Session IDs are generated using `UUID.randomUUID()` providing 122 bits of randomness, making them unguessable. They should be transmitted over HTTPS in `HttpOnly`, `Secure`, `SameSite=Strict` cookies.
-    - **2FA Secrets:** The TOTP secret stored in the database should be encrypted at rest.
-    - **Token Security:** Password reset tokens must be short-lived and single-use. Using JWTs signed with a strong secret (e.g., HMAC-SHA256) is a standard approach.
-- **Scalability:**
-    - **Stateless Service:** The `AuthService` is stateless. Multiple instances can be run behind a load balancer.
-    - **Centralized State:** The state (users, sessions) must be moved out of instance memory.
-        - `UserRepository` would point to a relational database (e.g., PostgreSQL, MySQL).
-        - `SessionRepository` would point to a distributed, low-latency key-value store like Redis. Sessions in Redis can have a TTL set automatically, simplifying expiry logic.
-    - **Rate Limiting:** The brute-force counter (`failedLoginAttempts`) stored on the user object works but can be enhanced. A distributed rate limiter (e.g., using Redis's `INCR` command with `EXPIRE`) can provide more sophisticated protection against IP-based or subnet-based attacks, not just user-based ones.
+```java
+public interface TotpService {
+    String generateSecret();
+    boolean verify(String secret, String code);
+}
+
+public class MockTotpService implements TotpService {
+    public String generateSecret() { return "SECRET"; }
+    public boolean verify(String secret, String code) { return code.equals("123456"); }
+}
+```
+
+**`UserRepository.java` (Interface and In-Memory Implementation)**
+
+```java
+import java.util.concurrent.ConcurrentHashMap;
+
+public interface UserRepository {
+    User findByEmail(String email);
+    User findById(String id);
+    void save(User user);
+}
+
+public class InMemoryUserRepository implements UserRepository {
+    private final ConcurrentHashMap<String, User> byId = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, User> byEmail = new ConcurrentHashMap<>();
+    public User findByEmail(String email) { return byEmail.get(email); }
+    public User findById(String id) { return byId.get(id); }
+    public void save(User user) {
+        byId.put(user.getId(), user);
+        byEmail.put(user.getEmail(), user);
+    }
+}
+```
+
+**`SessionRepository.java` (Interface and In-Memory Implementation)**
+
+```java
+import java.util.concurrent.ConcurrentHashMap;
+
+public interface SessionRepository {
+    void save(Session session);
+    Session findById(String sessionId);
+    void deleteByUserId(String userId);
+}
+
+public class InMemorySessionRepository implements SessionRepository {
+    private final ConcurrentHashMap<String, Session> byId = new ConcurrentHashMap<>();
+    public void save(Session session) { byId.put(session.getSessionId(), session); }
+    public Session findById(String sessionId) { return byId.get(sessionId); }
+    public void deleteByUserId(String userId) {
+        byId.values().removeIf(s -> s.getUserId().equals(userId));
+    }
+}
+```
+
+**`AuthService.java` (Core Logic)**
+
+```java
+import java.time.Instant;
+import java.util.Optional;
+import java.util.UUID;
+
+public class AuthServiceImpl implements AuthService {
+    private final UserRepository userRepo;
+    private final SessionRepository sessionRepo;
+    private final PasswordHasher hasher;
+    private final TotpService totpService;
+    // ...TokenService, EmailService omitted for brevity...
+
+    public AuthServiceImpl(UserRepository userRepo, SessionRepository sessionRepo, PasswordHasher hasher, TotpService totpService) {
+        this.userRepo = userRepo;
+        this.sessionRepo = sessionRepo;
+        this.hasher = hasher;
+        this.totpService = totpService;
+    }
+
+    public User signup(String email, String password) throws UserAlreadyExistsException {
+        if (userRepo.findByEmail(email) != null) throw new UserAlreadyExistsException();
+        User user = new User(UUID.randomUUID().toString(), email, hasher.hash(password));
+        userRepo.save(user);
+        return user;
+    }
+
+    public Session login(String email, String password) throws UserNotFoundException, InvalidCredentialsException, AccountLockedException, TwoFactorRequiredException {
+        User user = userRepo.findByEmail(email);
+        if (user == null) throw new UserNotFoundException();
+        if (user.getLockedUntil() > System.currentTimeMillis()) throw new AccountLockedException();
+        if (!hasher.verify(password, user.getPasswordHash())) {
+            int attempts = user.getFailedLoginAttempts().incrementAndGet();
+            if (attempts > 5) {
+                user.setLockedUntil(System.currentTimeMillis() + 15 * 60 * 1000);
+            }
+            userRepo.save(user);
+            throw new InvalidCredentialsException();
+        }
+        user.getFailedLoginAttempts().set(0);
+        user.setLockedUntil(0);
+        userRepo.save(user);
+        if (user.isTwoFactorEnabled()) throw new TwoFactorRequiredException(user.getId());
+        Session session = new Session(UUID.randomUUID().toString(), user.getId(), Instant.now().plusSeconds(3600));
+        sessionRepo.save(session);
+        return session;
+    }
+
+    public Session verifyLoginWithTotp(String userId, String totpCode) throws UserNotFoundException, InvalidCredentialsException {
+        User user = userRepo.findById(userId);
+        if (user == null) throw new UserNotFoundException();
+        if (!totpService.verify(user.getTotpSecret(), totpCode)) throw new InvalidCredentialsException();
+        Session session = new Session(UUID.randomUUID().toString(), user.getId(), Instant.now().plusSeconds(3600));
+        sessionRepo.save(session);
+        return session;
+    }
+
+    public void logout(String sessionId) {
+        // Remove session (not shown)
+    }
+
+    public Optional<Session> validateSession(String sessionId) {
+        Session s = sessionRepo.findById(sessionId);
+        if (s == null || s.getExpiresAt().isBefore(Instant.now())) return Optional.empty();
+        return Optional.of(s);
+    }
+
+    public String generate2FASecret(String userId) throws UserNotFoundException {
+        User user = userRepo.findById(userId);
+        if (user == null) throw new UserNotFoundException();
+        String secret = totpService.generateSecret();
+        user.setTotpSecret(secret);
+        userRepo.save(user);
+        return secret;
+    }
+
+    public void enable2FA(String userId, String totpCode) throws UserNotFoundException, InvalidCredentialsException {
+        User user = userRepo.findById(userId);
+        if (user == null) throw new UserNotFoundException();
+        if (!totpService.verify(user.getTotpSecret(), totpCode)) throw new InvalidCredentialsException();
+        user.setTwoFactorEnabled(true);
+        userRepo.save(user);
+    }
+
+    public void requestPasswordReset(String email) throws UserNotFoundException {
+        // Omitted for brevity
+    }
+    public void completePasswordReset(String resetToken, String newPassword) throws InvalidTokenException {
+        // Omitted for brevity
+    }
+}
+```
+
+**Testing (JUnit 5)**
+
+```java
+import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class AuthServiceTest {
+    private AuthServiceImpl authService;
+    @BeforeEach
+    void setup() {
+        authService = new AuthServiceImpl(new InMemoryUserRepository(), new InMemorySessionRepository(), new BCryptPasswordHasher(), new MockTotpService());
+    }
+    @Test
+    void testSignupAndLogin() throws Exception {
+        User user = authService.signup("test@example.com", "password");
+        assertNotNull(user);
+        Session session = authService.login("test@example.com", "password");
+        assertNotNull(session);
+    }
+    @Test
+    void testBruteForceLockout() throws Exception {
+        authService.signup("a@b.com", "pw");
+        for (int i = 0; i < 6; i++) {
+            try { authService.login("a@b.com", "wrong"); } catch (InvalidCredentialsException | AccountLockedException ignored) {}
+        }
+        assertThrows(AccountLockedException.class, () -> authService.login("a@b.com", "pw"));
+    }
+    // ...more tests for 2FA, password reset, etc...
+}
+```
