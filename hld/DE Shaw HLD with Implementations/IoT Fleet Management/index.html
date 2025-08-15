@@ -8,19 +8,21 @@
       
       
       
+        <link rel="canonical" href="https://ashok-ga.github.io/system-design/hld/DE%20Shaw%20HLD%20with%20Implementations/IoT%20Fleet%20Management/">
       
       
       
-      <link rel="icon" href="/system-design/assets/images/favicon.png">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
     
     
       
-        <title>System Design Hub</title>
+        <title>IoT Fleet Management - System Design Hub</title>
       
     
     
-      <link rel="stylesheet" href="/system-design/assets/stylesheets/main.342714a4.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.342714a4.min.css">
       
       
 
@@ -39,7 +41,7 @@
       
     
     
-    <script>__md_scope=new URL("/system-design/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -57,6 +59,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#iot-fleet-management" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -67,7 +74,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/system-design/." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+    <a href="../../.." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -87,7 +94,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              IoT Fleet Management
             
           </span>
         </div>
@@ -174,7 +181,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/system-design/." class="md-tabs__link">
+      <a href="../../.." class="md-tabs__link">
         
   
   
@@ -195,7 +202,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/system-design/hld/overview/" class="md-tabs__link">
+        <a href="../../overview/" class="md-tabs__link">
           
   
   
@@ -215,7 +222,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/system-design/lld/de-shaw.md" class="md-tabs__link">
+        <a href="../../../lld/de-shaw.md" class="md-tabs__link">
           
   
   
@@ -233,7 +240,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/system-design/assets/" class="md-tabs__link">
+      <a href="../../../assets/" class="md-tabs__link">
         
   
   
@@ -252,7 +259,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/system-design/references/" class="md-tabs__link">
+      <a href="../../../references/" class="md-tabs__link">
         
   
   
@@ -271,7 +278,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/system-design/../CONTRIBUTING.md" class="md-tabs__link">
+      <a href="../../../../CONTRIBUTING.md" class="md-tabs__link">
         
   
   
@@ -306,7 +313,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/system-design/." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+    <a href="../../.." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -336,7 +343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   
@@ -401,7 +408,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/hld/overview/" class="md-nav__link">
+      <a href="../../overview/" class="md-nav__link">
         
   
   
@@ -424,7 +431,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/hld/architecture/" class="md-nav__link">
+      <a href="../../architecture/" class="md-nav__link">
         
   
   
@@ -447,7 +454,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/hld/de-shaw/" class="md-nav__link">
+      <a href="../../de-shaw/" class="md-nav__link">
         
   
   
@@ -520,7 +527,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/lld/de-shaw.md" class="md-nav__link">
+      <a href="../../../lld/de-shaw.md" class="md-nav__link">
         
   
   
@@ -543,7 +550,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/lld/module2/" class="md-nav__link">
+      <a href="../../../lld/module2/" class="md-nav__link">
         
   
   
@@ -573,7 +580,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/assets/" class="md-nav__link">
+      <a href="../../../assets/" class="md-nav__link">
         
   
   
@@ -595,7 +602,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/references/" class="md-nav__link">
+      <a href="../../../references/" class="md-nav__link">
         
   
   
@@ -617,7 +624,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/../CONTRIBUTING.md" class="md-nav__link">
+      <a href="../../../../CONTRIBUTING.md" class="md-nav__link">
         
   
   
@@ -649,6 +656,88 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-problem-statement-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Problem Statement &amp; Scope
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Requirements
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-capacity-estimation" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Capacity Estimation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-high-level-architecture-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. High-Level Architecture Diagram
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-data-schema-api-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Data Schema &amp; API Design
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-detailed-component-breakdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Detailed Component Breakdown
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-end-to-end-flow-telemetry-ingest-ota-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. End-to-End Flow (Telemetry Ingest &amp; OTA Update)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-bottlenecks-fault-tolerance-and-trade-offs" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Bottlenecks, Fault Tolerance, and Trade-offs
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -660,8 +749,137 @@
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+
+  
+  
+
+
+<h1 id="iot-fleet-management">IoT Fleet Management<a class="headerlink" href="#iot-fleet-management" title="Permanent link">&para;</a></h1>
+<h3 id="1-problem-statement-scope">1. Problem Statement &amp; Scope<a class="headerlink" href="#1-problem-statement-scope" title="Permanent link">&para;</a></h3>
+<p>Design a cloud-native platform to manage a large fleet of IoT devices. The system must support secure onboarding, high-volume telemetry ingestion, remote control, device shadowing, and over-the-air (OTA) firmware updates, with high reliability and scalability.</p>
+<h3 id="2-requirements">2. Requirements<a class="headerlink" href="#2-requirements" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Functional Requirements:</strong><ul>
+<li>Secure device onboarding and authentication.</li>
+<li>Ingest and store high-frequency telemetry from devices.</li>
+<li>Remote command/control (e.g., reboot, config update).</li>
+<li>Device shadow (digital twin) for state sync.</li>
+<li>OTA firmware updates to devices.</li>
+</ul>
+</li>
+<li><strong>Non-Functional Requirements:</strong><ul>
+<li><strong>Scalability:</strong> 1M+ devices, 10k+ messages/sec.</li>
+<li><strong>Reliability:</strong> No data loss, strong delivery guarantees.</li>
+<li><strong>Security:</strong> TLS, mutual auth, role-based access.</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-capacity-estimation">3. Capacity Estimation<a class="headerlink" href="#3-capacity-estimation" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Devices:</strong> 1M.</li>
+<li><strong>Telemetry Rate:</strong> 1 msg/sec/device = 1M/sec.</li>
+<li><strong>Storage:</strong> 1KB/msg, 1TB/day.</li>
+</ul>
+<h3 id="4-high-level-architecture-diagram">4. High-Level Architecture Diagram<a class="headerlink" href="#4-high-level-architecture-diagram" title="Permanent link">&para;</a></h3>
+<p>Code snippet</p>
+<p><code>graph TD
+    A[Device] --&gt; B[MQTT Broker Cluster];
+    B --&gt; C[Device Registry];
+    B --&gt; D[Device Shadow Service];
+    B --&gt; E[Rules Engine];
+    E --&gt; F[Time-series DB];
+    E --&gt; G[OTA Update Service];
+    D --&gt; H[Shadow DB];
+    G --&gt; I[Firmware Store];
+    C --&gt; J[User Portal/API];</code></p>
+<h3 id="5-data-schema-api-design">5. Data Schema &amp; API Design<a class="headerlink" href="#5-data-schema-api-design" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>API:</strong><ul>
+<li><code>POST /v1/devices</code>: Register device.</li>
+<li><code>POST /v1/devices/{id}/command</code>: Send command.</li>
+<li><code>POST /v1/ota/deployments</code>: Deploy firmware.</li>
+</ul>
+</li>
+<li><strong>Data Models:</strong><ul>
+<li><strong>Device Registry:</strong> <code>device_id, cert, status, metadata</code></li>
+<li><strong>Device Shadow:</strong> <code>device_id, reported, desired, last_sync</code></li>
+<li><strong>Telemetry:</strong> <code>device_id, ts, payload</code></li>
+<li><strong>OTA Deployment:</strong> <code>deployment_id, firmware_url, status</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="6-detailed-component-breakdown">6. Detailed Component Breakdown<a class="headerlink" href="#6-detailed-component-breakdown" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>MQTT Broker Cluster:</strong> Handles device connections, message routing, and QoS.</li>
+<li><strong>Device Registry:</strong> Stores device identities, certificates, and metadata.</li>
+<li><strong>Device Shadow Service:</strong> Maintains digital twin for each device, syncs state.</li>
+<li><strong>Rules Engine:</strong> Processes telemetry, triggers alerts/actions.</li>
+<li><strong>Time-series DB:</strong> Stores telemetry for analytics and monitoring.</li>
+<li><strong>OTA Update Service:</strong> Manages firmware deployments, tracks status.</li>
+<li><strong>Firmware Store:</strong> Stores firmware binaries.</li>
+<li><strong>User Portal/API:</strong> For device management and monitoring.</li>
+</ul>
+<h3 id="7-end-to-end-flow-telemetry-ingest-ota-update">7. End-to-End Flow (Telemetry Ingest &amp; OTA Update)<a class="headerlink" href="#7-end-to-end-flow-telemetry-ingest-ota-update" title="Permanent link">&para;</a></h3>
+<p>Code snippet</p>
+<p>`sequenceDiagram
+    participant Device
+    participant MQTT
+    participant Registry
+    participant Shadow
+    participant Rules
+    participant TSDB
+    participant OTA
+    participant Firmware</p>
+<div class="codehilite"><pre><span></span><code><span class="n">Device</span><span class="o">-&gt;&gt;</span><span class="n">MQTT</span><span class="p">:</span><span class="w"> </span><span class="n">Connect</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">authenticate</span>
+<span class="n">MQTT</span><span class="o">-&gt;&gt;</span><span class="n">Registry</span><span class="p">:</span><span class="w"> </span><span class="n">Validate</span><span class="w"> </span><span class="n">device</span>
+<span class="n">Device</span><span class="o">-&gt;&gt;</span><span class="n">MQTT</span><span class="p">:</span><span class="w"> </span><span class="n">Publish</span><span class="w"> </span><span class="n">telemetry</span>
+<span class="n">MQTT</span><span class="o">-&gt;&gt;</span><span class="n">Rules</span><span class="p">:</span><span class="w"> </span><span class="n">Route</span><span class="w"> </span><span class="n">message</span>
+<span class="n">Rules</span><span class="o">-&gt;&gt;</span><span class="n">TSDB</span><span class="p">:</span><span class="w"> </span><span class="n">Store</span><span class="w"> </span><span class="n">telemetry</span>
+<span class="n">User</span><span class="o">-&gt;&gt;</span><span class="n">OTA</span><span class="p">:</span><span class="w"> </span><span class="n">Deploy</span><span class="w"> </span><span class="n">firmware</span>
+<span class="n">OTA</span><span class="o">-&gt;&gt;</span><span class="n">Firmware</span><span class="p">:</span><span class="w"> </span><span class="n">Fetch</span><span class="w"> </span><span class="n">binary</span>
+<span class="n">OTA</span><span class="o">-&gt;&gt;</span><span class="n">MQTT</span><span class="p">:</span><span class="w"> </span><span class="n">Notify</span><span class="w"> </span><span class="n">device</span>
+<span class="n">Device</span><span class="o">-&gt;&gt;</span><span class="n">MQTT</span><span class="p">:</span><span class="w"> </span><span class="n">Download</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">update</span>
+<span class="n">MQTT</span><span class="o">-&gt;&gt;</span><span class="n">OTA</span><span class="p">:</span><span class="w"> </span><span class="n">Report</span><span class="w"> </span><span class="n">status</span>
+</code></pre></div>
+
+<p>`</p>
+<h3 id="8-bottlenecks-fault-tolerance-and-trade-offs">8. Bottlenecks, Fault Tolerance, and Trade-offs<a class="headerlink" href="#8-bottlenecks-fault-tolerance-and-trade-offs" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Bottleneck: MQTT Broker:</strong><ul>
+<li>Use clustering, horizontal scaling. Partition by device_id.</li>
+</ul>
+</li>
+<li><strong>Telemetry Storage:</strong><ul>
+<li>Time-series DB optimized for high ingest.</li>
+</ul>
+</li>
+<li><strong>OTA Updates:</strong><ul>
+<li>Staged rollout, retries for reliability.</li>
+</ul>
+</li>
+<li><strong>Trade-offs:</strong><ul>
+<li>MQTT is efficient for IoT, but HTTP is simpler for some use cases.</li>
+<li>Device shadow enables offline sync but adds complexity.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p>This design is used by AWS IoT, Azure IoT Hub, and other large-scale IoT platforms.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -703,10 +921,10 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "/system-design/", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "/system-design/assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="/system-design/assets/javascripts/bundle.56ea9cef.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.56ea9cef.min.js"></script>
       
     
   </body>

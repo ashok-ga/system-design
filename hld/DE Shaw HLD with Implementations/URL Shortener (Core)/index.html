@@ -8,19 +8,21 @@
       
       
       
+        <link rel="canonical" href="https://ashok-ga.github.io/system-design/hld/DE%20Shaw%20HLD%20with%20Implementations/URL%20Shortener%20%28Core%29/">
       
       
       
-      <link rel="icon" href="/system-design/assets/images/favicon.png">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
     
     
       
-        <title>System Design Hub</title>
+        <title>URL Shortener (Core) - System Design Hub</title>
       
     
     
-      <link rel="stylesheet" href="/system-design/assets/stylesheets/main.342714a4.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.342714a4.min.css">
       
       
 
@@ -39,7 +41,7 @@
       
     
     
-    <script>__md_scope=new URL("/system-design/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -57,6 +59,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#url-shortener-core" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -67,7 +74,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/system-design/." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+    <a href="../../.." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -87,7 +94,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              URL Shortener (Core)
             
           </span>
         </div>
@@ -174,7 +181,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/system-design/." class="md-tabs__link">
+      <a href="../../.." class="md-tabs__link">
         
   
   
@@ -195,7 +202,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/system-design/hld/overview/" class="md-tabs__link">
+        <a href="../../overview/" class="md-tabs__link">
           
   
   
@@ -215,7 +222,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/system-design/lld/de-shaw.md" class="md-tabs__link">
+        <a href="../../../lld/de-shaw.md" class="md-tabs__link">
           
   
   
@@ -233,7 +240,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/system-design/assets/" class="md-tabs__link">
+      <a href="../../../assets/" class="md-tabs__link">
         
   
   
@@ -252,7 +259,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/system-design/references/" class="md-tabs__link">
+      <a href="../../../references/" class="md-tabs__link">
         
   
   
@@ -271,7 +278,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/system-design/../CONTRIBUTING.md" class="md-tabs__link">
+      <a href="../../../../CONTRIBUTING.md" class="md-tabs__link">
         
   
   
@@ -306,7 +313,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/system-design/." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+    <a href="../../.." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -336,7 +343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   
@@ -401,7 +408,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/hld/overview/" class="md-nav__link">
+      <a href="../../overview/" class="md-nav__link">
         
   
   
@@ -424,7 +431,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/hld/architecture/" class="md-nav__link">
+      <a href="../../architecture/" class="md-nav__link">
         
   
   
@@ -447,7 +454,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/hld/de-shaw/" class="md-nav__link">
+      <a href="../../de-shaw/" class="md-nav__link">
         
   
   
@@ -520,7 +527,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/lld/de-shaw.md" class="md-nav__link">
+      <a href="../../../lld/de-shaw.md" class="md-nav__link">
         
   
   
@@ -543,7 +550,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/lld/module2/" class="md-nav__link">
+      <a href="../../../lld/module2/" class="md-nav__link">
         
   
   
@@ -573,7 +580,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/assets/" class="md-nav__link">
+      <a href="../../../assets/" class="md-nav__link">
         
   
   
@@ -595,7 +602,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/references/" class="md-nav__link">
+      <a href="../../../references/" class="md-nav__link">
         
   
   
@@ -617,7 +624,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/../CONTRIBUTING.md" class="md-nav__link">
+      <a href="../../../../CONTRIBUTING.md" class="md-nav__link">
         
   
   
@@ -649,6 +656,70 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#problem-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem Statement
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functional-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Functional Requirements
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Concepts
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#high-level-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      High-Level Design
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-by-step-solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step-by-Step Solution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#edge-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Edge Cases
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -660,8 +731,76 @@
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+
+  
+  
+
+
+<h1 id="url-shortener-core">URL Shortener (Core)<a class="headerlink" href="#url-shortener-core" title="Permanent link">&para;</a></h1>
+<h2 id="problem-statement">Problem Statement<a class="headerlink" href="#problem-statement" title="Permanent link">&para;</a></h2>
+<p>Shorten URLs, expand codes, and track clicks. Prevent malicious loops.</p>
+<h2 id="functional-requirements">Functional Requirements<a class="headerlink" href="#functional-requirements" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>shorten(url, custom?)</code>, <code>expand(code)</code>, basic stats</li>
+<li>Prevent malicious loops</li>
+</ul>
+<h2 id="core-concepts">Core Concepts<a class="headerlink" href="#core-concepts" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>CodeGenerator</code> (base62 of counter or hash+collision)</li>
+<li><code>UrlMapping(code, longUrl, createdAt, owner)</code></li>
+<li><code>Store</code>, <code>StatsService</code></li>
+</ul>
+<h2 id="high-level-design">High-Level Design<a class="headerlink" href="#high-level-design" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Shortening:</strong><ul>
+<li>Generate code (base62 of counter or hash)</li>
+<li>Store mapping in DB (code → longUrl)</li>
+<li>Support custom aliases (check for collision)</li>
+</ul>
+</li>
+<li><strong>Expanding:</strong><ul>
+<li>Lookup code in DB, return longUrl</li>
+<li>Track click stats (increment counter)</li>
+</ul>
+</li>
+<li><strong>Malicious Loops:</strong><ul>
+<li>Validate longUrl is not a shortener domain</li>
+</ul>
+</li>
+<li><strong>Caching:</strong><ul>
+<li>Cache code→longUrl for fast redirects</li>
+<li>TTL for dead links</li>
+</ul>
+</li>
+</ul>
+<h2 id="step-by-step-solution">Step-by-Step Solution<a class="headerlink" href="#step-by-step-solution" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>CodeGenerator</strong>: base62 encode counter/hash</li>
+<li><strong>Store</strong>: mapping and stats</li>
+<li><strong>API</strong>: shorten, expand, stats endpoints</li>
+<li><strong>Validation</strong>: check for loops, dead links</li>
+</ol>
+<h2 id="edge-cases">Edge Cases<a class="headerlink" href="#edge-cases" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Custom alias collision</li>
+<li>Expired/deleted links</li>
+<li>Invalid URLs</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -703,10 +842,10 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "/system-design/", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "/system-design/assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="/system-design/assets/javascripts/bundle.56ea9cef.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.56ea9cef.min.js"></script>
       
     
   </body>

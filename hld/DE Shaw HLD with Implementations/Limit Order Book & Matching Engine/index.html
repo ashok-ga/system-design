@@ -8,19 +8,21 @@
       
       
       
+        <link rel="canonical" href="https://ashok-ga.github.io/system-design/hld/DE%20Shaw%20HLD%20with%20Implementations/Limit%20Order%20Book%20%26%20Matching%20Engine/">
       
       
       
-      <link rel="icon" href="/system-design/assets/images/favicon.png">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
     
     
       
-        <title>System Design Hub</title>
+        <title>Limit Order Book & Matching Engine - System Design Hub</title>
       
     
     
-      <link rel="stylesheet" href="/system-design/assets/stylesheets/main.342714a4.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.342714a4.min.css">
       
       
 
@@ -39,7 +41,7 @@
       
     
     
-    <script>__md_scope=new URL("/system-design/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -57,6 +59,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#limit-order-book-matching-engine" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -67,7 +74,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/system-design/." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+    <a href="../../.." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -87,7 +94,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Limit Order Book &amp; Matching Engine
             
           </span>
         </div>
@@ -174,7 +181,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/system-design/." class="md-tabs__link">
+      <a href="../../.." class="md-tabs__link">
         
   
   
@@ -195,7 +202,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/system-design/hld/overview/" class="md-tabs__link">
+        <a href="../../overview/" class="md-tabs__link">
           
   
   
@@ -215,7 +222,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/system-design/lld/de-shaw.md" class="md-tabs__link">
+        <a href="../../../lld/de-shaw.md" class="md-tabs__link">
           
   
   
@@ -233,7 +240,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/system-design/assets/" class="md-tabs__link">
+      <a href="../../../assets/" class="md-tabs__link">
         
   
   
@@ -252,7 +259,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/system-design/references/" class="md-tabs__link">
+      <a href="../../../references/" class="md-tabs__link">
         
   
   
@@ -271,7 +278,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/system-design/../CONTRIBUTING.md" class="md-tabs__link">
+      <a href="../../../../CONTRIBUTING.md" class="md-tabs__link">
         
   
   
@@ -306,7 +313,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/system-design/." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+    <a href="../../.." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -336,7 +343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   
@@ -401,7 +408,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/hld/overview/" class="md-nav__link">
+      <a href="../../overview/" class="md-nav__link">
         
   
   
@@ -424,7 +431,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/hld/architecture/" class="md-nav__link">
+      <a href="../../architecture/" class="md-nav__link">
         
   
   
@@ -447,7 +454,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/hld/de-shaw/" class="md-nav__link">
+      <a href="../../de-shaw/" class="md-nav__link">
         
   
   
@@ -520,7 +527,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/lld/de-shaw.md" class="md-nav__link">
+      <a href="../../../lld/de-shaw.md" class="md-nav__link">
         
   
   
@@ -543,7 +550,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/lld/module2/" class="md-nav__link">
+      <a href="../../../lld/module2/" class="md-nav__link">
         
   
   
@@ -573,7 +580,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/assets/" class="md-nav__link">
+      <a href="../../../assets/" class="md-nav__link">
         
   
   
@@ -595,7 +602,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/references/" class="md-nav__link">
+      <a href="../../../references/" class="md-nav__link">
         
   
   
@@ -617,7 +624,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/../CONTRIBUTING.md" class="md-nav__link">
+      <a href="../../../../CONTRIBUTING.md" class="md-nav__link">
         
   
   
@@ -649,6 +656,88 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-problem-statement-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Problem Statement &amp; Scope
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Requirements
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-capacity-estimation" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Capacity Estimation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-high-level-architecture-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. High-Level Architecture Diagram
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-data-schema-api-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Data Schema &amp; API Design
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-detailed-component-breakdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Detailed Component Breakdown
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-end-to-end-flow-order-submission-matching" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. End-to-End Flow (Order Submission &amp; Matching)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-bottlenecks-fault-tolerance-and-trade-offs" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Bottlenecks, Fault Tolerance, and Trade-offs
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -660,8 +749,143 @@
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+
+  
+  
+
+
+<h1 id="limit-order-book-matching-engine">Limit Order Book &amp; Matching Engine<a class="headerlink" href="#limit-order-book-matching-engine" title="Permanent link">&para;</a></h1>
+<h3 id="1-problem-statement-scope">1. Problem Statement &amp; Scope<a class="headerlink" href="#1-problem-statement-scope" title="Permanent link">&para;</a></h3>
+<p>Design a high-performance, deterministic matching engine for a single financial instrument (e.g., AAPL stock). The engine must process new/cancel orders, match trades using strict price-time priority, and ensure durability and fault tolerance. The system should support high throughput (100k+ orders/sec), low latency (&lt;1ms per match), and be the source of truth for all trades.</p>
+<h3 id="2-requirements">2. Requirements<a class="headerlink" href="#2-requirements" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Functional Requirements:</strong><ul>
+<li>Accept new limit and market orders (buy/sell).</li>
+<li>Accept order cancellation and modification requests.</li>
+<li>Match orders using price-time priority (FIFO within price level).</li>
+<li>Support order types: Limit, Market, IOC (Immediate or Cancel), FOK (Fill or Kill).</li>
+<li>Generate trade execution reports and order status updates.</li>
+</ul>
+</li>
+<li><strong>Non-Functional Requirements:</strong><ul>
+<li><strong>Performance:</strong> &lt;1ms matching latency, 100k+ orders/sec.</li>
+<li><strong>Determinism:</strong> Same input sequence always produces same output.</li>
+<li><strong>Durability:</strong> No loss of orders/trades on crash (WAL, snapshots).</li>
+<li><strong>Availability:</strong> 99.99% uptime, fast failover.</li>
+<li><strong>Auditability:</strong> Full replay and audit trail.</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-capacity-estimation">3. Capacity Estimation<a class="headerlink" href="#3-capacity-estimation" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Order Rate:</strong> 100k orders/sec peak.</li>
+<li><strong>Order Book Depth:</strong> 10k price levels, 1M open orders.</li>
+<li><strong>Trade Rate:</strong> 10k trades/sec.</li>
+<li><strong>Storage:</strong> Each order ~200 bytes, 1M open orders = 200MB in-memory. WAL: 100k orders/sec * 200B = 20MB/sec, ~1.7TB/day.</li>
+</ul>
+<h3 id="4-high-level-architecture-diagram">4. High-Level Architecture Diagram<a class="headerlink" href="#4-high-level-architecture-diagram" title="Permanent link">&para;</a></h3>
+<p>Code snippet</p>
+<p><code>graph TD
+    A[Client Gateway] --&gt; B[Sequencer];
+    B --&gt; C[Matching Engine (Single-threaded)];
+    C --&gt; D[WAL Persister];
+    C --&gt; E[Snapshotter];
+    C --&gt; F[Event Bus];
+    F --&gt; G[Downstream Consumers (Analytics, Risk, UI)];
+    D --&gt; H[Durable Storage];
+    E --&gt; H;
+    B --&gt; I[Order Book State];
+    C --&gt; I;
+    I --&gt; C;</code></p>
+<h3 id="5-data-schema-api-design">5. Data Schema &amp; API Design<a class="headerlink" href="#5-data-schema-api-design" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>API:</strong><ul>
+<li><code>NewOrderSingle</code>: <code>{order_id, side, price, qty, type, tif, user_id}</code></li>
+<li><code>OrderCancelRequest</code>: <code>{order_id, user_id}</code></li>
+<li><code>OrderReplaceRequest</code>: <code>{order_id, new_qty, new_price}</code></li>
+<li><code>ExecutionReport</code>: <code>{order_id, status, fill_qty, fill_price, ...}</code></li>
+</ul>
+</li>
+<li><strong>Order Book:</strong><ul>
+<li>Two price-ordered trees (bids, asks), each price → FIFO queue of orders.</li>
+<li>In-memory, with periodic snapshots and WAL for durability.</li>
+</ul>
+</li>
+<li><strong>WAL (Write-Ahead Log):</strong><ul>
+<li>Append-only log of all order events, persisted before ack.</li>
+</ul>
+</li>
+</ul>
+<h3 id="6-detailed-component-breakdown">6. Detailed Component Breakdown<a class="headerlink" href="#6-detailed-component-breakdown" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Client Gateway:</strong> Authenticates clients, validates messages, and forwards to sequencer.</li>
+<li><strong>Sequencer:</strong> Assigns a global sequence number to all incoming messages, ensuring total ordering and preventing race conditions.</li>
+<li><strong>Matching Engine:</strong> Single-threaded for determinism. Maintains in-memory order book, processes events in order, matches trades, and generates execution reports.</li>
+<li><strong>WAL Persister:</strong> Writes every event to disk before ack. Enables crash recovery and replay.</li>
+<li><strong>Snapshotter:</strong> Periodically saves full in-memory state for fast recovery.</li>
+<li><strong>Event Bus:</strong> Publishes all events (order, trade, cancel) to downstream consumers (risk, analytics, UI).</li>
+<li><strong>Durable Storage:</strong> Stores WAL and snapshots for audit and replay.</li>
+</ul>
+<h3 id="7-end-to-end-flow-order-submission-matching">7. End-to-End Flow (Order Submission &amp; Matching)<a class="headerlink" href="#7-end-to-end-flow-order-submission-matching" title="Permanent link">&para;</a></h3>
+<p>Code snippet</p>
+<p>`sequenceDiagram
+    participant Trader
+    participant Gateway
+    participant Sequencer
+    participant MatchingEngine
+    participant WAL
+    participant Snapshotter
+    participant EventBus</p>
+<div class="codehilite"><pre><span></span><code><span class="n">Trader</span><span class="o">-&gt;&gt;</span><span class="n">Gateway</span><span class="o">:</span><span class="w"> </span><span class="n">NewOrderSingle</span>
+<span class="n">Gateway</span><span class="o">-&gt;&gt;</span><span class="n">Sequencer</span><span class="o">:</span><span class="w"> </span><span class="kr">Validate</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">Forward</span>
+<span class="n">Sequencer</span><span class="o">-&gt;&gt;</span><span class="n">MatchingEngine</span><span class="o">:</span><span class="w"> </span><span class="n">Assign</span><span class="w"> </span><span class="n">sequence</span><span class="p">,</span><span class="w"> </span><span class="n">forward</span><span class="w"> </span><span class="nf">event</span>
+<span class="n">MatchingEngine</span><span class="o">-&gt;&gt;</span><span class="n">WAL</span><span class="o">:</span><span class="w"> </span><span class="n">Write</span><span class="w"> </span><span class="nf">event</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">WAL</span>
+<span class="n">WAL</span><span class="o">--&gt;&gt;</span><span class="n">MatchingEngine</span><span class="o">:</span><span class="w"> </span><span class="n">Ack</span>
+<span class="n">MatchingEngine</span><span class="o">-&gt;&gt;</span><span class="n">MatchingEngine</span><span class="o">:</span><span class="w"> </span><span class="n">Update</span><span class="w"> </span><span class="n">order</span><span class="w"> </span><span class="n">book</span><span class="p">,</span><span class="w"> </span><span class="n">match</span><span class="w"> </span><span class="n">trades</span>
+<span class="n">MatchingEngine</span><span class="o">-&gt;&gt;</span><span class="n">Snapshotter</span><span class="o">:</span><span class="w"> </span><span class="n">Periodic</span><span class="w"> </span><span class="n">snapshot</span>
+<span class="n">MatchingEngine</span><span class="o">-&gt;&gt;</span><span class="n">EventBus</span><span class="o">:</span><span class="w"> </span><span class="n">Publish</span><span class="w"> </span><span class="n">ExecutionReport</span>
+<span class="n">EventBus</span><span class="o">--&gt;&gt;</span><span class="n">Trader</span><span class="o">:</span><span class="w"> </span><span class="n">ExecutionReport</span>
+</code></pre></div>
+
+<p>`</p>
+<h3 id="8-bottlenecks-fault-tolerance-and-trade-offs">8. Bottlenecks, Fault Tolerance, and Trade-offs<a class="headerlink" href="#8-bottlenecks-fault-tolerance-and-trade-offs" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Bottleneck: Single-threaded Engine:</strong><ul>
+<li>Ensures determinism but limits vertical scaling. Mitigation: Partition by instrument (one engine per symbol).</li>
+</ul>
+</li>
+<li><strong>Durability:</strong><ul>
+<li>WAL + periodic snapshots. On crash, replay WAL from last snapshot.</li>
+</ul>
+</li>
+<li><strong>Availability:</strong><ul>
+<li>Hot standby replica can replay WAL in real-time for fast failover.</li>
+</ul>
+</li>
+<li><strong>Trade-offs:</strong><ul>
+<li>Single-threaded = simple, deterministic, but not horizontally scalable for one instrument.</li>
+<li>WAL = strong durability, but adds write latency.</li>
+<li>Partitioning by instrument enables horizontal scale.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p>This design is used in real-world exchanges (e.g., NASDAQ, NYSE) for its determinism, auditability, and performance.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -703,10 +927,10 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "/system-design/", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "/system-design/assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="/system-design/assets/javascripts/bundle.56ea9cef.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.56ea9cef.min.js"></script>
       
     
   </body>

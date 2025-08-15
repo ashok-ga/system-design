@@ -8,19 +8,21 @@
       
       
       
+        <link rel="canonical" href="https://ashok-ga.github.io/system-design/hld/DE%20Shaw%20HLD%20with%20Implementations/Short-video%20Feed%20%28TikTok-style%29/">
       
       
       
-      <link rel="icon" href="/system-design/assets/images/favicon.png">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
     
     
       
-        <title>System Design Hub</title>
+        <title>Short-video Feed (TikTok-style) - System Design Hub</title>
       
     
     
-      <link rel="stylesheet" href="/system-design/assets/stylesheets/main.342714a4.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.342714a4.min.css">
       
       
 
@@ -39,7 +41,7 @@
       
     
     
-    <script>__md_scope=new URL("/system-design/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -57,6 +59,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#short-video-feed-tiktok-style" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -67,7 +74,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/system-design/." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+    <a href="../../.." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -87,7 +94,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Short-video Feed (TikTok-style)
             
           </span>
         </div>
@@ -174,7 +181,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/system-design/." class="md-tabs__link">
+      <a href="../../.." class="md-tabs__link">
         
   
   
@@ -195,7 +202,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/system-design/hld/overview/" class="md-tabs__link">
+        <a href="../../overview/" class="md-tabs__link">
           
   
   
@@ -215,7 +222,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/system-design/lld/de-shaw.md" class="md-tabs__link">
+        <a href="../../../lld/de-shaw.md" class="md-tabs__link">
           
   
   
@@ -233,7 +240,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/system-design/assets/" class="md-tabs__link">
+      <a href="../../../assets/" class="md-tabs__link">
         
   
   
@@ -252,7 +259,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/system-design/references/" class="md-tabs__link">
+      <a href="../../../references/" class="md-tabs__link">
         
   
   
@@ -271,7 +278,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/system-design/../CONTRIBUTING.md" class="md-tabs__link">
+      <a href="../../../../CONTRIBUTING.md" class="md-tabs__link">
         
   
   
@@ -306,7 +313,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/system-design/." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+    <a href="../../.." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -336,7 +343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   
@@ -401,7 +408,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/hld/overview/" class="md-nav__link">
+      <a href="../../overview/" class="md-nav__link">
         
   
   
@@ -424,7 +431,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/hld/architecture/" class="md-nav__link">
+      <a href="../../architecture/" class="md-nav__link">
         
   
   
@@ -447,7 +454,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/hld/de-shaw/" class="md-nav__link">
+      <a href="../../de-shaw/" class="md-nav__link">
         
   
   
@@ -520,7 +527,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/lld/de-shaw.md" class="md-nav__link">
+      <a href="../../../lld/de-shaw.md" class="md-nav__link">
         
   
   
@@ -543,7 +550,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/lld/module2/" class="md-nav__link">
+      <a href="../../../lld/module2/" class="md-nav__link">
         
   
   
@@ -573,7 +580,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/assets/" class="md-nav__link">
+      <a href="../../../assets/" class="md-nav__link">
         
   
   
@@ -595,7 +602,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/references/" class="md-nav__link">
+      <a href="../../../references/" class="md-nav__link">
         
   
   
@@ -617,7 +624,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/../CONTRIBUTING.md" class="md-nav__link">
+      <a href="../../../../CONTRIBUTING.md" class="md-nav__link">
         
   
   
@@ -649,6 +656,88 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-problem-statement-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Problem Statement &amp; Scope
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Requirements
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-capacity-estimation" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Capacity Estimation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-high-level-architecture-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. High-Level Architecture Diagram
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-data-schema-api-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Data Schema &amp; API Design
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-detailed-component-breakdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Detailed Component Breakdown
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-end-to-end-flow-feed-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. End-to-End Flow (Feed Generation)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-bottlenecks-fault-tolerance-and-trade-offs" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Bottlenecks, Fault Tolerance, and Trade-offs
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -660,8 +749,138 @@
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+
+  
+  
+
+
+<h1 id="short-video-feed-tiktok-style">Short-video Feed (TikTok-style)<a class="headerlink" href="#short-video-feed-tiktok-style" title="Permanent link">&para;</a></h1>
+<h3 id="1-problem-statement-scope">1. Problem Statement &amp; Scope<a class="headerlink" href="#1-problem-statement-scope" title="Permanent link">&para;</a></h3>
+<p>Design a scalable backend for a short-video mobile app (like TikTok) that delivers a personalized, infinite feed. The system must support low-latency video delivery, real-time user interactions, and high availability for millions of users.</p>
+<h3 id="2-requirements">2. Requirements<a class="headerlink" href="#2-requirements" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Functional Requirements:</strong><ul>
+<li>Generate personalized, infinite video feeds per user.</li>
+<li>Support user interactions: like, comment, share, follow.</li>
+<li>Real-time event ingestion for engagement signals.</li>
+<li>Low TTFB (time to first byte) for video playback.</li>
+</ul>
+</li>
+<li><strong>Non-Functional Requirements:</strong><ul>
+<li><strong>Scalability:</strong> 100M+ users, 1M QPS.</li>
+<li><strong>Low Latency:</strong> &lt;100ms feed load, &lt;1s video start.</li>
+<li><strong>Availability:</strong> 99.99% uptime.</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-capacity-estimation">3. Capacity Estimation<a class="headerlink" href="#3-capacity-estimation" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Users:</strong> 100M.</li>
+<li><strong>Videos:</strong> 1B+.</li>
+<li><strong>Feed Requests:</strong> 1M QPS.</li>
+<li><strong>Video Size:</strong> 5MB avg, 5PB total.</li>
+</ul>
+<h3 id="4-high-level-architecture-diagram">4. High-Level Architecture Diagram<a class="headerlink" href="#4-high-level-architecture-diagram" title="Permanent link">&para;</a></h3>
+<p>Code snippet</p>
+<p><code>graph TD
+    A[User] --&gt; B[API Gateway];
+    B --&gt; C[Feed Orchestrator];
+    C --&gt; D[Candidate Generators];
+    C --&gt; E[Feature Service];
+    C --&gt; F[Ranker];
+    F --&gt; G[Filtering/Composition];
+    G --&gt; H[CDN (Video Assets)];
+    C --&gt; I[Event Ingestion];
+    I --&gt; J[Analytics/ML];</code></p>
+<h3 id="5-data-schema-api-design">5. Data Schema &amp; API Design<a class="headerlink" href="#5-data-schema-api-design" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>API:</strong><ul>
+<li><code>GET /v1/feed</code>: Fetch personalized feed.</li>
+<li><code>POST /v1/videos/{video_id}/like</code>: Like a video.</li>
+<li><code>POST /v1/videos/{video_id}/comment</code>: Comment on a video.</li>
+</ul>
+</li>
+<li><strong>Data Models:</strong><ul>
+<li><strong>Videos:</strong> <code>video_id, uploader_id, url, metadata, features</code></li>
+<li><strong>Users:</strong> <code>user_id, profile, preferences, history</code></li>
+<li><strong>Events:</strong> <code>event_id, user_id, video_id, type, ts</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="6-detailed-component-breakdown">6. Detailed Component Breakdown<a class="headerlink" href="#6-detailed-component-breakdown" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Feed Orchestrator:</strong> Entry point for feed requests. Coordinates candidate generation, ranking, and filtering.</li>
+<li><strong>Candidate Generators:</strong> Generate a pool of potential videos (fresh, trending, followed, etc.).</li>
+<li><strong>Feature Service:</strong> Computes user/video features for ranking (e.g., embeddings, engagement).</li>
+<li><strong>Ranker:</strong> ML model ranks candidates for personalization.</li>
+<li><strong>Filtering/Composition:</strong> Removes seen/ineligible videos, composes final feed.</li>
+<li><strong>CDN:</strong> Delivers video assets with low latency.</li>
+<li><strong>Event Ingestion:</strong> Streams user interactions to analytics/ML for feedback loop.</li>
+</ul>
+<h3 id="7-end-to-end-flow-feed-generation">7. End-to-End Flow (Feed Generation)<a class="headerlink" href="#7-end-to-end-flow-feed-generation" title="Permanent link">&para;</a></h3>
+<p>Code snippet</p>
+<p>`sequenceDiagram
+    participant User
+    participant APIGW
+    participant Orchestrator
+    participant CandidateGen
+    participant FeatureSvc
+    participant Ranker
+    participant Filter
+    participant CDN</p>
+<div class="codehilite"><pre><span></span><code><span class="n">User</span><span class="o">-&gt;&gt;</span><span class="n">APIGW</span><span class="o">:</span><span class="w"> </span><span class="n">GET</span><span class="w"> </span><span class="o">/</span><span class="n">feed</span>
+<span class="n">APIGW</span><span class="o">-&gt;&gt;</span><span class="n">Orchestrator</span><span class="o">:</span><span class="w"> </span><span class="n">Forward</span><span class="w"> </span><span class="n">request</span>
+<span class="n">Orchestrator</span><span class="o">-&gt;&gt;</span><span class="n">CandidateGen</span><span class="o">:</span><span class="w"> </span><span class="n">Get</span><span class="w"> </span><span class="n">candidates</span>
+<span class="n">CandidateGen</span><span class="o">--&gt;&gt;</span><span class="n">Orchestrator</span><span class="o">:</span><span class="w"> </span><span class="n">Candidate</span><span class="w"> </span><span class="n">list</span>
+<span class="n">Orchestrator</span><span class="o">-&gt;&gt;</span><span class="n">FeatureSvc</span><span class="o">:</span><span class="w"> </span><span class="n">Get</span><span class="w"> </span><span class="n">features</span>
+<span class="n">FeatureSvc</span><span class="o">--&gt;&gt;</span><span class="n">Orchestrator</span><span class="o">:</span><span class="w"> </span><span class="n">Features</span>
+<span class="n">Orchestrator</span><span class="o">-&gt;&gt;</span><span class="n">Ranker</span><span class="o">:</span><span class="w"> </span><span class="nf">Rank</span><span class="w"> </span><span class="n">candidates</span>
+<span class="n">Ranker</span><span class="o">--&gt;&gt;</span><span class="n">Orchestrator</span><span class="o">:</span><span class="w"> </span><span class="nf">Ranked</span><span class="w"> </span><span class="n">list</span>
+<span class="n">Orchestrator</span><span class="o">-&gt;&gt;</span><span class="n">Filter</span><span class="o">:</span><span class="w"> </span><span class="n">Filter</span><span class="o">/</span><span class="n">compose</span>
+<span class="n">Filter</span><span class="o">--&gt;&gt;</span><span class="n">Orchestrator</span><span class="o">:</span><span class="w"> </span><span class="n">Final</span><span class="w"> </span><span class="n">feed</span>
+<span class="n">Orchestrator</span><span class="o">-&gt;&gt;</span><span class="n">APIGW</span><span class="o">:</span><span class="w"> </span><span class="kr">Return</span><span class="w"> </span><span class="n">feed</span>
+<span class="n">APIGW</span><span class="o">-&gt;&gt;</span><span class="n">User</span><span class="o">:</span><span class="w"> </span><span class="n">Show</span><span class="w"> </span><span class="n">feed</span>
+<span class="n">User</span><span class="o">-&gt;&gt;</span><span class="n">CDN</span><span class="o">:</span><span class="w"> </span><span class="nf">Fetch</span><span class="w"> </span><span class="n">video</span><span class="w"> </span><span class="n">asset</span>
+<span class="n">CDN</span><span class="o">--&gt;&gt;</span><span class="n">User</span><span class="o">:</span><span class="w"> </span><span class="n">Stream</span><span class="w"> </span><span class="n">video</span>
+</code></pre></div>
+
+<p>`</p>
+<h3 id="8-bottlenecks-fault-tolerance-and-trade-offs">8. Bottlenecks, Fault Tolerance, and Trade-offs<a class="headerlink" href="#8-bottlenecks-fault-tolerance-and-trade-offs" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Bottleneck: Feed Generation:</strong><ul>
+<li>Use precomputed feeds for cold start, real-time for active users.</li>
+</ul>
+</li>
+<li><strong>Video Delivery:</strong><ul>
+<li>CDN ensures low-latency, global delivery. Multi-CDN for redundancy.</li>
+</ul>
+</li>
+<li><strong>Personalization:</strong><ul>
+<li>ML ranking is compute-intensive. Use feature stores and caching.</li>
+</ul>
+</li>
+<li><strong>Trade-offs:</strong><ul>
+<li>Real-time feeds are more personalized but costlier. Precomputed feeds are faster but less fresh.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p>This design is used by TikTok, Instagram Reels, and YouTube Shorts for scalable, personalized video feeds.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -703,10 +922,10 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "/system-design/", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "/system-design/assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="/system-design/assets/javascripts/bundle.56ea9cef.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.56ea9cef.min.js"></script>
       
     
   </body>

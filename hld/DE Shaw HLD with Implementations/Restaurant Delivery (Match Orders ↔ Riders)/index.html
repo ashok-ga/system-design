@@ -8,25 +8,21 @@
       
       
       
-        <link rel="canonical" href="https://ashok-ga.github.io/system-design/lld/module1/">
+        <link rel="canonical" href="https://ashok-ga.github.io/system-design/hld/DE%20Shaw%20HLD%20with%20Implementations/Restaurant%20Delivery%20%28Match%20Orders%20%E2%86%94%20Riders%29/">
       
       
-        <link rel="prev" href="../../hld/diagrams/hld_architecture.png">
       
       
-        <link rel="next" href="../module2/">
-      
-      
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
     
     
       
-        <title>Module 1 - System Design Hub</title>
+        <title>Restaurant Delivery (Match Orders ↔ Riders) - System Design Hub</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.342714a4.min.css">
       
       
 
@@ -45,7 +41,7 @@
       
     
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -64,7 +60,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#module-1-user-management-service-lld" class="md-skip">
+        <a href="#restaurant-delivery-match-orders-riders" class="md-skip">
           Skip to content
         </a>
       
@@ -78,7 +74,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+    <a href="../../.." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -98,7 +94,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Module 1
+              Restaurant Delivery (Match Orders ↔ Riders)
             
           </span>
         </div>
@@ -185,7 +181,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../.." class="md-tabs__link">
+      <a href="../../.." class="md-tabs__link">
         
   
   
@@ -206,7 +202,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../hld/overview/" class="md-tabs__link">
+        <a href="../../overview/" class="md-tabs__link">
           
   
   
@@ -222,13 +218,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../../lld/de-shaw.md" class="md-tabs__link">
           
   
   
@@ -246,7 +240,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../assets/" class="md-tabs__link">
+      <a href="../../../assets/" class="md-tabs__link">
         
   
   
@@ -265,7 +259,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../references/" class="md-tabs__link">
+      <a href="../../../references/" class="md-tabs__link">
         
   
   
@@ -284,7 +278,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../CONTRIBUTING.md" class="md-tabs__link">
+      <a href="../../../../CONTRIBUTING.md" class="md-tabs__link">
         
   
   
@@ -319,7 +313,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+    <a href="../../.." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -349,7 +343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   
@@ -414,7 +408,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../hld/overview/" class="md-nav__link">
+      <a href="../../overview/" class="md-nav__link">
         
   
   
@@ -437,7 +431,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../hld/architecture/" class="md-nav__link">
+      <a href="../../architecture/" class="md-nav__link">
         
   
   
@@ -460,12 +454,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../hld/diagrams/hld_architecture.png" class="md-nav__link">
+      <a href="../../de-shaw/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Diagrams
+    DE Shaw
     
   </span>
   
@@ -487,31 +481,26 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
             
   
   
@@ -524,7 +513,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             Low-Level Design
@@ -535,98 +524,20 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Module 1
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../../lld/de-shaw.md" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Module 1
+    DE Shaw
     
   </span>
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
-    <span class="md-ellipsis">
-      Overview
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#class-diagram" class="md-nav__link">
-    <span class="md-ellipsis">
-      Class Diagram
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#main-classes" class="md-nav__link">
-    <span class="md-ellipsis">
-      Main Classes
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#key-methods" class="md-nav__link">
-    <span class="md-ellipsis">
-      Key Methods
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -639,7 +550,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../module2/" class="md-nav__link">
+      <a href="../../../lld/module2/" class="md-nav__link">
         
   
   
@@ -655,29 +566,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../class_diagrams/module1_class.png" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Class Diagrams
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -692,7 +580,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../assets/" class="md-nav__link">
+      <a href="../../../assets/" class="md-nav__link">
         
   
   
@@ -714,7 +602,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../references/" class="md-nav__link">
+      <a href="../../../references/" class="md-nav__link">
         
   
   
@@ -736,7 +624,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../CONTRIBUTING.md" class="md-nav__link">
+      <a href="../../../../CONTRIBUTING.md" class="md-nav__link">
         
   
   
@@ -778,36 +666,72 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
+  <a href="#1-problem-statement-scope" class="md-nav__link">
     <span class="md-ellipsis">
-      Overview
+      1. Problem Statement &amp; Scope
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#class-diagram" class="md-nav__link">
+  <a href="#2-requirements" class="md-nav__link">
     <span class="md-ellipsis">
-      Class Diagram
+      2. Requirements
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#main-classes" class="md-nav__link">
+  <a href="#3-capacity-estimation" class="md-nav__link">
     <span class="md-ellipsis">
-      Main Classes
+      3. Capacity Estimation
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#key-methods" class="md-nav__link">
+  <a href="#4-high-level-architecture-diagram" class="md-nav__link">
     <span class="md-ellipsis">
-      Key Methods
+      4. High-Level Architecture Diagram
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-data-schema-api-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Data Schema &amp; API Design
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-detailed-component-breakdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Detailed Component Breakdown
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-end-to-end-flow-order-assignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. End-to-End Flow (Order Assignment)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-bottlenecks-fault-tolerance-and-trade-offs" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Bottlenecks, Fault Tolerance, and Trade-offs
     </span>
   </a>
   
@@ -832,26 +756,116 @@
   
 
 
-<h1 id="module-1-user-management-service-lld">Module 1 – User Management Service (LLD)<a class="headerlink" href="#module-1-user-management-service-lld" title="Permanent link">&para;</a></h1>
-<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>This module handles all operations related to user accounts, authentication, and profiles.</p>
-<hr />
-<h2 id="class-diagram">Class Diagram<a class="headerlink" href="#class-diagram" title="Permanent link">&para;</a></h2>
-<p><img alt="User Management Class Diagram" src="../class_diagrams/module1_class.png" /></p>
-<hr />
-<h2 id="main-classes">Main Classes<a class="headerlink" href="#main-classes" title="Permanent link">&para;</a></h2>
+<h1 id="restaurant-delivery-match-orders-riders">Restaurant Delivery (Match Orders ↔ Riders)<a class="headerlink" href="#restaurant-delivery-match-orders-riders" title="Permanent link">&para;</a></h1>
+<h3 id="1-problem-statement-scope">1. Problem Statement &amp; Scope<a class="headerlink" href="#1-problem-statement-scope" title="Permanent link">&para;</a></h3>
+<p>Design a scalable backend for a food delivery platform that matches orders with available riders in real time. The system must optimize for fast delivery, live tracking, dynamic pricing, and high availability during peak demand.</p>
+<h3 id="2-requirements">2. Requirements<a class="headerlink" href="#2-requirements" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>UserService:</strong> Core logic for user operations.</li>
-<li><strong>UserRepository:</strong> Interface for DB operations.</li>
-<li><strong>AuthManager:</strong> Handles authentication, password hashing, JWT generation.</li>
+<li><strong>Functional Requirements:</strong><ul>
+<li>Ingest real-time rider locations (GPS updates).</li>
+<li>Accept and manage new food orders.</li>
+<li>Assign best rider to each order using a scoring model (ETA, proximity, load).</li>
+<li>Live tracking for users and restaurants.</li>
+<li>Dynamic/surge pricing based on demand.</li>
+</ul>
+</li>
+<li><strong>Non-Functional Requirements:</strong><ul>
+<li><strong>Scalability:</strong> 1M+ orders/day, 100k+ concurrent riders.</li>
+<li><strong>Low Latency:</strong> &lt;1s for assignment.</li>
+<li><strong>Reliability:</strong> No lost orders, high uptime.</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-capacity-estimation">3. Capacity Estimation<a class="headerlink" href="#3-capacity-estimation" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Orders:</strong> 1M/day (~12/sec avg, 1k/sec peak).</li>
+<li><strong>Riders:</strong> 100k active.</li>
+<li><strong>Location Updates:</strong> 1/min/rider = 100k/min.</li>
+</ul>
+<h3 id="4-high-level-architecture-diagram">4. High-Level Architecture Diagram<a class="headerlink" href="#4-high-level-architecture-diagram" title="Permanent link">&para;</a></h3>
+<p>Code snippet</p>
+<p><code>graph TD
+    A[User App] --&gt; B[Order Service];
+    C[Rider App] --&gt; D[Telemetry Service];
+    B --&gt; E[Assignment/Dispatch Service];
+    D --&gt; E;
+    E --&gt; F[Geo-Index Service];
+    E --&gt; G[ETA Service];
+    E --&gt; H[Pricing Service];
+    E --&gt; I[Orders DB];
+    E --&gt; J[Rider Profile DB];
+    E --&gt; K[Notification Service];</code></p>
+<h3 id="5-data-schema-api-design">5. Data Schema &amp; API Design<a class="headerlink" href="#5-data-schema-api-design" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>API:</strong><ul>
+<li><code>POST /v1/orders</code>: Place new order.</li>
+<li><code>POST /v1/riders/location</code>: Update rider location.</li>
+<li><code>GET /v1/orders/{order_id}/status</code>: Track order.</li>
+</ul>
+</li>
+<li><strong>Data Models:</strong><ul>
+<li><strong>Orders:</strong> <code>order_id, user_id, restaurant_id, status, assigned_rider, ...</code></li>
+<li><strong>Riders:</strong> <code>rider_id, location, status, capacity, ...</code></li>
+<li><strong>Geo-Index:</strong> Spatial index for fast proximity search.</li>
+</ul>
+</li>
+</ul>
+<h3 id="6-detailed-component-breakdown">6. Detailed Component Breakdown<a class="headerlink" href="#6-detailed-component-breakdown" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Order Service:</strong> Handles order creation, status, and user notifications.</li>
+<li><strong>Telemetry Service:</strong> Ingests and stores real-time rider locations.</li>
+<li><strong>Assignment/Dispatch Service:</strong> Runs matching algorithm, assigns riders, and triggers notifications.</li>
+<li><strong>Geo-Index Service:</strong> Maintains spatial index for fast nearest-neighbor queries.</li>
+<li><strong>ETA Service:</strong> Estimates delivery times using traffic, distance, and rider load.</li>
+<li><strong>Pricing Service:</strong> Calculates dynamic pricing based on demand/supply.</li>
+<li><strong>Notification Service:</strong> Sends updates to users, riders, and restaurants.</li>
+</ul>
+<h3 id="7-end-to-end-flow-order-assignment">7. End-to-End Flow (Order Assignment)<a class="headerlink" href="#7-end-to-end-flow-order-assignment" title="Permanent link">&para;</a></h3>
+<p>Code snippet</p>
+<p>`sequenceDiagram
+    participant User
+    participant OrderSvc
+    participant Telemetry
+    participant Dispatch
+    participant GeoIndex
+    participant Rider
+    participant Notification</p>
+<div class="codehilite"><pre><span></span><code><span class="n">User</span><span class="o">-&gt;&gt;</span><span class="n">OrderSvc</span><span class="o">:</span><span class="w"> </span><span class="n">Place</span><span class="w"> </span><span class="n">order</span>
+<span class="n">OrderSvc</span><span class="o">-&gt;&gt;</span><span class="n">Dispatch</span><span class="o">:</span><span class="w"> </span><span class="n">New</span><span class="w"> </span><span class="n">order</span><span class="w"> </span><span class="nf">event</span>
+<span class="n">Telemetry</span><span class="o">-&gt;&gt;</span><span class="n">Dispatch</span><span class="o">:</span><span class="w"> </span><span class="n">Rider</span><span class="w"> </span><span class="n">location</span><span class="w"> </span><span class="n">update</span>
+<span class="n">Dispatch</span><span class="o">-&gt;&gt;</span><span class="n">GeoIndex</span><span class="o">:</span><span class="w"> </span><span class="n">Find</span><span class="w"> </span><span class="n">nearby</span><span class="w"> </span><span class="n">riders</span>
+<span class="n">GeoIndex</span><span class="o">--&gt;&gt;</span><span class="n">Dispatch</span><span class="o">:</span><span class="w"> </span><span class="n">Candidate</span><span class="w"> </span><span class="n">riders</span>
+<span class="n">Dispatch</span><span class="o">-&gt;&gt;</span><span class="n">Dispatch</span><span class="o">:</span><span class="w"> </span><span class="n">Score</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">select</span><span class="w"> </span><span class="kr">best</span><span class="w"> </span><span class="n">rider</span>
+<span class="n">Dispatch</span><span class="o">-&gt;&gt;</span><span class="n">Rider</span><span class="o">:</span><span class="w"> </span><span class="n">Assign</span><span class="w"> </span><span class="n">order</span>
+<span class="n">Dispatch</span><span class="o">-&gt;&gt;</span><span class="n">OrderSvc</span><span class="o">:</span><span class="w"> </span><span class="n">Update</span><span class="w"> </span><span class="n">order</span><span class="w"> </span><span class="n">status</span>
+<span class="n">Dispatch</span><span class="o">-&gt;&gt;</span><span class="n">Notification</span><span class="o">:</span><span class="w"> </span><span class="kr">Notify</span><span class="w"> </span><span class="n">user</span><span class="o">/</span><span class="n">restaurant</span>
+<span class="n">Rider</span><span class="o">-&gt;&gt;</span><span class="n">OrderSvc</span><span class="o">:</span><span class="w"> </span><span class="n">Accept</span><span class="o">/</span><span class="n">reject</span>
+<span class="n">OrderSvc</span><span class="o">-&gt;&gt;</span><span class="n">Dispatch</span><span class="o">:</span><span class="w"> </span><span class="n">Update</span><span class="w"> </span><span class="n">status</span>
+</code></pre></div>
+
+<p>`</p>
+<h3 id="8-bottlenecks-fault-tolerance-and-trade-offs">8. Bottlenecks, Fault Tolerance, and Trade-offs<a class="headerlink" href="#8-bottlenecks-fault-tolerance-and-trade-offs" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Bottleneck: Geo-Index:</strong><ul>
+<li>Use in-memory spatial index (e.g., Redis Geo) for fast lookups. Partition by city/region.</li>
+</ul>
+</li>
+<li><strong>Assignment Algorithm:</strong><ul>
+<li>Greedy (fast) vs. batch (optimal). Greedy is simple, batch is more efficient but adds latency.</li>
+</ul>
+</li>
+<li><strong>Reliability:</strong><ul>
+<li>All state changes are persisted. Use retries and dead-letter queues for failed assignments.</li>
+</ul>
+</li>
+<li><strong>Trade-offs:</strong><ul>
+<li>Greedy matching is fast but may be suboptimal. Batch matching is optimal but slower.</li>
+<li>Real-time tracking is resource-intensive but improves user experience.</li>
+</ul>
+</li>
 </ul>
 <hr />
-<h2 id="key-methods">Key Methods<a class="headerlink" href="#key-methods" title="Permanent link">&para;</a></h2>
-<p>```python
-class UserService:
-    def register_user(self, email, password): ...
-    def authenticate(self, email, password): ...
-    def get_user_profile(self, user_id): ...</p>
+<p>This design is used by Uber Eats, DoorDash, and Swiggy for real-time order-to-rider matching.</p>
 
 
 
@@ -906,10 +920,10 @@ class UserService:
     
     
       
-      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.56ea9cef.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.56ea9cef.min.js"></script>
       
     
   </body>

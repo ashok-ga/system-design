@@ -8,19 +8,21 @@
       
       
       
+        <link rel="canonical" href="https://ashok-ga.github.io/system-design/hld/DE%20Shaw%20HLD%20with%20Implementations/Distributed%20ID%20Generator%20%28Snowflake-like%29/">
       
       
       
-      <link rel="icon" href="/system-design/assets/images/favicon.png">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
     
     
       
-        <title>System Design Hub</title>
+        <title>Distributed ID Generator (Snowflake-like) - System Design Hub</title>
       
     
     
-      <link rel="stylesheet" href="/system-design/assets/stylesheets/main.342714a4.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.342714a4.min.css">
       
       
 
@@ -39,7 +41,7 @@
       
     
     
-    <script>__md_scope=new URL("/system-design/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -57,6 +59,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#distributed-id-generator-snowflake-like" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -67,7 +74,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/system-design/." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+    <a href="../../.." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -87,7 +94,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Distributed ID Generator (Snowflake-like)
             
           </span>
         </div>
@@ -174,7 +181,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/system-design/." class="md-tabs__link">
+      <a href="../../.." class="md-tabs__link">
         
   
   
@@ -195,7 +202,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/system-design/hld/overview/" class="md-tabs__link">
+        <a href="../../overview/" class="md-tabs__link">
           
   
   
@@ -215,7 +222,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/system-design/lld/de-shaw.md" class="md-tabs__link">
+        <a href="../../../lld/de-shaw.md" class="md-tabs__link">
           
   
   
@@ -233,7 +240,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/system-design/assets/" class="md-tabs__link">
+      <a href="../../../assets/" class="md-tabs__link">
         
   
   
@@ -252,7 +259,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/system-design/references/" class="md-tabs__link">
+      <a href="../../../references/" class="md-tabs__link">
         
   
   
@@ -271,7 +278,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/system-design/../CONTRIBUTING.md" class="md-tabs__link">
+      <a href="../../../../CONTRIBUTING.md" class="md-tabs__link">
         
   
   
@@ -306,7 +313,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/system-design/." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+    <a href="../../.." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -336,7 +343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   
@@ -401,7 +408,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/hld/overview/" class="md-nav__link">
+      <a href="../../overview/" class="md-nav__link">
         
   
   
@@ -424,7 +431,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/hld/architecture/" class="md-nav__link">
+      <a href="../../architecture/" class="md-nav__link">
         
   
   
@@ -447,7 +454,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/hld/de-shaw/" class="md-nav__link">
+      <a href="../../de-shaw/" class="md-nav__link">
         
   
   
@@ -520,7 +527,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/lld/de-shaw.md" class="md-nav__link">
+      <a href="../../../lld/de-shaw.md" class="md-nav__link">
         
   
   
@@ -543,7 +550,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/lld/module2/" class="md-nav__link">
+      <a href="../../../lld/module2/" class="md-nav__link">
         
   
   
@@ -573,7 +580,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/assets/" class="md-nav__link">
+      <a href="../../../assets/" class="md-nav__link">
         
   
   
@@ -595,7 +602,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/references/" class="md-nav__link">
+      <a href="../../../references/" class="md-nav__link">
         
   
   
@@ -617,7 +624,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/../CONTRIBUTING.md" class="md-nav__link">
+      <a href="../../../../CONTRIBUTING.md" class="md-nav__link">
         
   
   
@@ -649,6 +656,88 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-problem-statement-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Problem Statement &amp; Scope
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Requirements
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-capacity-estimation" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Capacity Estimation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-high-level-architecture-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. High-Level Architecture Diagram
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-data-schema-api-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Data Schema &amp; API Design
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-detailed-component-breakdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Detailed Component Breakdown
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-end-to-end-flow-id-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. End-to-End Flow (ID Generation)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-bottlenecks-fault-tolerance-and-trade-offs" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Bottlenecks, Fault Tolerance, and Trade-offs
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -660,8 +749,127 @@
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+
+  
+  
+
+
+<h1 id="distributed-id-generator-snowflake-like">Distributed ID Generator (Snowflake-like)<a class="headerlink" href="#distributed-id-generator-snowflake-like" title="Permanent link">&para;</a></h1>
+<h3 id="1-problem-statement-scope">1. Problem Statement &amp; Scope<a class="headerlink" href="#1-problem-statement-scope" title="Permanent link">&para;</a></h3>
+<p>Design a distributed ID generator that produces unique, sortable 64-bit IDs across multiple data centers and workers, similar to Twitter Snowflake. The system must handle clock skew, sequence rollover, and be highly available.</p>
+<h3 id="2-requirements">2. Requirements<a class="headerlink" href="#2-requirements" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Functional Requirements:</strong><ul>
+<li>Generate unique 64-bit IDs: <code>timestamp | datacenter | worker | sequence</code>.</li>
+<li>IDs must be sortable by time.</li>
+<li>Handle clock skew, sequence rollover, and thread safety.</li>
+</ul>
+</li>
+<li><strong>Non-Functional Requirements:</strong><ul>
+<li><strong>Low Latency:</strong> &lt;1ms per ID generation.</li>
+<li><strong>High Availability:</strong> No duplicate IDs, even on failover.</li>
+<li><strong>Scalability:</strong> 10k+ QPS per node, 1000+ nodes.</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-capacity-estimation">3. Capacity Estimation<a class="headerlink" href="#3-capacity-estimation" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Nodes:</strong> 1000 (workers across DCs).</li>
+<li><strong>QPS:</strong> 10k/node = 10M QPS global.</li>
+<li><strong>ID Space:</strong> 64 bits, 41b timestamp, 5b DC, 5b worker, 12b sequence.</li>
+</ul>
+<h3 id="4-high-level-architecture-diagram">4. High-Level Architecture Diagram<a class="headerlink" href="#4-high-level-architecture-diagram" title="Permanent link">&para;</a></h3>
+<p>Code snippet</p>
+<p><code>graph TD
+    A[Client] --&gt; B[ID Generator Node];
+    B --&gt; C[Clock/Time Source];
+    B --&gt; D[Persistence (optional)];
+    B --&gt; E[Monitoring];
+    B --&gt; F[Cluster Coordination (optional)];</code></p>
+<h3 id="5-data-schema-api-design">5. Data Schema &amp; API Design<a class="headerlink" href="#5-data-schema-api-design" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>API:</strong><ul>
+<li><code>GET /v1/next_id</code>: Returns next unique ID.</li>
+</ul>
+</li>
+<li><strong>ID Layout:</strong><ul>
+<li>41 bits: timestamp (ms since custom epoch)</li>
+<li>5 bits: datacenter ID</li>
+<li>5 bits: worker ID</li>
+<li>12 bits: sequence (per ms)</li>
+</ul>
+</li>
+</ul>
+<h3 id="6-detailed-component-breakdown">6. Detailed Component Breakdown<a class="headerlink" href="#6-detailed-component-breakdown" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>ID Generator Node:</strong> Implements the ID generation logic, maintains local state (last timestamp, sequence), and exposes API.</li>
+<li><strong>Clock/Time Source:</strong> Uses system clock. If clock moves backward, node waits until safe.</li>
+<li><strong>Persistence (optional):</strong> Stores last timestamp for crash recovery.</li>
+<li><strong>Cluster Coordination (optional):</strong> Assigns unique worker/datacenter IDs, prevents collisions.</li>
+<li><strong>Monitoring:</strong> Tracks QPS, errors, clock skew events.</li>
+</ul>
+<h3 id="7-end-to-end-flow-id-generation">7. End-to-End Flow (ID Generation)<a class="headerlink" href="#7-end-to-end-flow-id-generation" title="Permanent link">&para;</a></h3>
+<p>Code snippet</p>
+<p>`sequenceDiagram
+    participant Client
+    participant IDGen
+    participant Clock
+    participant Persist</p>
+<div class="codehilite"><pre><span></span><code><span class="n">Client</span><span class="o">-&gt;&gt;</span><span class="n">IDGen</span><span class="o">:</span><span class="w"> </span><span class="n">Request</span><span class="w"> </span><span class="n">next_id</span>
+<span class="n">IDGen</span><span class="o">-&gt;&gt;</span><span class="n">Clock</span><span class="o">:</span><span class="w"> </span><span class="n">Get</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="n">timestamp</span>
+<span class="n">alt</span><span class="w"> </span><span class="n">Same</span><span class="w"> </span><span class="n">ms</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="kr">last</span>
+<span class="w">    </span><span class="n">IDGen</span><span class="o">-&gt;&gt;</span><span class="n">IDGen</span><span class="o">:</span><span class="w"> </span><span class="n">Increment</span><span class="w"> </span><span class="n">sequence</span>
+<span class="w">    </span><span class="n">alt</span><span class="w"> </span><span class="n">Sequence</span><span class="w"> </span><span class="n">overflow</span>
+<span class="w">        </span><span class="n">IDGen</span><span class="o">-&gt;&gt;</span><span class="n">Clock</span><span class="o">:</span><span class="w"> </span><span class="kr">Wait</span><span class="w"> </span><span class="n">for</span><span class="w"> </span><span class="n">next</span><span class="w"> </span><span class="n">ms</span>
+<span class="w">    </span><span class="kd">end</span>
+<span class="n">else</span><span class="w"> </span><span class="n">Clock</span><span class="w"> </span><span class="n">moved</span><span class="w"> </span><span class="n">backward</span>
+<span class="w">    </span><span class="n">IDGen</span><span class="o">-&gt;&gt;</span><span class="n">Clock</span><span class="o">:</span><span class="w"> </span><span class="kr">Wait</span><span class="w"> </span><span class="n">until</span><span class="w"> </span><span class="n">safe</span>
+<span class="kd">end</span>
+<span class="n">IDGen</span><span class="o">-&gt;&gt;</span><span class="kr">Persist</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="n">Optional</span><span class="p">)</span><span class="w"> </span><span class="kr">Store</span><span class="w"> </span><span class="kr">last</span><span class="w"> </span><span class="n">timestamp</span>
+<span class="n">IDGen</span><span class="o">--&gt;&gt;</span><span class="n">Client</span><span class="o">:</span><span class="w"> </span><span class="kr">Return</span><span class="w"> </span><span class="n">ID</span>
+</code></pre></div>
+
+<p>`</p>
+<h3 id="8-bottlenecks-fault-tolerance-and-trade-offs">8. Bottlenecks, Fault Tolerance, and Trade-offs<a class="headerlink" href="#8-bottlenecks-fault-tolerance-and-trade-offs" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Bottleneck: Sequence Overflow:</strong><ul>
+<li>12 bits = 4096 IDs/ms/node. If exceeded, must wait for next ms.</li>
+</ul>
+</li>
+<li><strong>Clock Skew:</strong><ul>
+<li>If clock moves backward, node must wait. Use NTP and monotonic clocks.</li>
+</ul>
+</li>
+<li><strong>Worker/DC ID Collisions:</strong><ul>
+<li>Use static config or coordination service (e.g., Zookeeper) to assign unique IDs.</li>
+</ul>
+</li>
+<li><strong>Persistence:</strong><ul>
+<li>Optional for crash recovery. If not used, may generate duplicate IDs after crash.</li>
+</ul>
+</li>
+<li><strong>Trade-offs:</strong><ul>
+<li>Simpler design is stateless but risks duplicates on crash. Persistent design is safer but slower.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p>This design is used by Twitter, Instagram, and many distributed systems for unique, sortable ID generation.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -703,10 +911,10 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "/system-design/", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "/system-design/assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="/system-design/assets/javascripts/bundle.56ea9cef.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.56ea9cef.min.js"></script>
       
     
   </body>

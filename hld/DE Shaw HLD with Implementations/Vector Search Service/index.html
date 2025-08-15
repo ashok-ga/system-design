@@ -8,19 +8,21 @@
       
       
       
+        <link rel="canonical" href="https://ashok-ga.github.io/system-design/hld/DE%20Shaw%20HLD%20with%20Implementations/Vector%20Search%20Service/">
       
       
       
-      <link rel="icon" href="/system-design/assets/images/favicon.png">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
     
     
       
-        <title>System Design Hub</title>
+        <title>Vector Search Service - System Design Hub</title>
       
     
     
-      <link rel="stylesheet" href="/system-design/assets/stylesheets/main.342714a4.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.342714a4.min.css">
       
       
 
@@ -39,7 +41,7 @@
       
     
     
-    <script>__md_scope=new URL("/system-design/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -57,6 +59,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#vector-search-service" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -67,7 +74,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/system-design/." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+    <a href="../../.." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -87,7 +94,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Vector Search Service
             
           </span>
         </div>
@@ -174,7 +181,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/system-design/." class="md-tabs__link">
+      <a href="../../.." class="md-tabs__link">
         
   
   
@@ -195,7 +202,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/system-design/hld/overview/" class="md-tabs__link">
+        <a href="../../overview/" class="md-tabs__link">
           
   
   
@@ -215,7 +222,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/system-design/lld/de-shaw.md" class="md-tabs__link">
+        <a href="../../../lld/de-shaw.md" class="md-tabs__link">
           
   
   
@@ -233,7 +240,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/system-design/assets/" class="md-tabs__link">
+      <a href="../../../assets/" class="md-tabs__link">
         
   
   
@@ -252,7 +259,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/system-design/references/" class="md-tabs__link">
+      <a href="../../../references/" class="md-tabs__link">
         
   
   
@@ -271,7 +278,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/system-design/../CONTRIBUTING.md" class="md-tabs__link">
+      <a href="../../../../CONTRIBUTING.md" class="md-tabs__link">
         
   
   
@@ -306,7 +313,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/system-design/." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+    <a href="../../.." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -336,7 +343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   
@@ -401,7 +408,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/hld/overview/" class="md-nav__link">
+      <a href="../../overview/" class="md-nav__link">
         
   
   
@@ -424,7 +431,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/hld/architecture/" class="md-nav__link">
+      <a href="../../architecture/" class="md-nav__link">
         
   
   
@@ -447,7 +454,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/hld/de-shaw/" class="md-nav__link">
+      <a href="../../de-shaw/" class="md-nav__link">
         
   
   
@@ -520,7 +527,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/lld/de-shaw.md" class="md-nav__link">
+      <a href="../../../lld/de-shaw.md" class="md-nav__link">
         
   
   
@@ -543,7 +550,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/lld/module2/" class="md-nav__link">
+      <a href="../../../lld/module2/" class="md-nav__link">
         
   
   
@@ -573,7 +580,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/assets/" class="md-nav__link">
+      <a href="../../../assets/" class="md-nav__link">
         
   
   
@@ -595,7 +602,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/references/" class="md-nav__link">
+      <a href="../../../references/" class="md-nav__link">
         
   
   
@@ -617,7 +624,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/../CONTRIBUTING.md" class="md-nav__link">
+      <a href="../../../../CONTRIBUTING.md" class="md-nav__link">
         
   
   
@@ -649,6 +656,88 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-problem-statement-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Problem Statement &amp; Scope
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Requirements
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-capacity-estimation" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Capacity Estimation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-high-level-architecture-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. High-Level Architecture Diagram
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-data-schema-api-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Data Schema &amp; API Design
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-detailed-component-breakdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Detailed Component Breakdown
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-end-to-end-flow-search-query" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. End-to-End Flow (Search Query)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-bottlenecks-fault-tolerance-and-trade-offs" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Bottlenecks, Fault Tolerance, and Trade-offs
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -660,8 +749,135 @@
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+
+  
+  
+
+
+<h1 id="vector-search-service">Vector Search Service<a class="headerlink" href="#vector-search-service" title="Permanent link">&para;</a></h1>
+<h3 id="1-problem-statement-scope">1. Problem Statement &amp; Scope<a class="headerlink" href="#1-problem-statement-scope" title="Permanent link">&para;</a></h3>
+<p>Design a scalable, low-latency vector search service for semantic search over 100M+ items using high-dimensional embeddings. The system must support fast k-NN queries, incremental updates, and metadata filtering, with high availability and horizontal scalability.</p>
+<h3 id="2-requirements">2. Requirements<a class="headerlink" href="#2-requirements" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Functional Requirements:</strong><ul>
+<li>Ingest and index high-dimensional vectors (e.g., 768D, 1536D).</li>
+<li>Support k-NN search with optional metadata filters.</li>
+<li>Incremental updates (add, delete, update vectors).</li>
+<li>Return top-k most similar items for a query vector.</li>
+</ul>
+</li>
+<li><strong>Non-Functional Requirements:</strong><ul>
+<li><strong>Latency:</strong> &lt;100ms/query for 100M+ items.</li>
+<li><strong>Scalability:</strong> Scale to billions of vectors via sharding.</li>
+<li><strong>Availability:</strong> 99.99% uptime.</li>
+<li><strong>Consistency:</strong> Eventual for index, strong for metadata.</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-capacity-estimation">3. Capacity Estimation<a class="headerlink" href="#3-capacity-estimation" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Corpus Size:</strong> 100M vectors, 1536D, float32 = ~600MB/1M vectors, ~60GB total.</li>
+<li><strong>Query Rate:</strong> 10k QPS.</li>
+<li><strong>Index Size:</strong> With metadata, ~100GB total.</li>
+</ul>
+<h3 id="4-high-level-architecture-diagram">4. High-Level Architecture Diagram<a class="headerlink" href="#4-high-level-architecture-diagram" title="Permanent link">&para;</a></h3>
+<p>Code snippet</p>
+<p><code>graph TD
+    A[Client] --&gt; B[API Gateway];
+    B --&gt; C[Embedding Model Service];
+    B --&gt; D[Query Router];
+    D --&gt; E[Shard 1 (Faiss/HNSW)];
+    D --&gt; F[Shard 2 (Faiss/HNSW)];
+    D --&gt; G[Shard N (Faiss/HNSW)];
+    E --&gt; H[Metadata Store];
+    F --&gt; H;
+    G --&gt; H;
+    D --&gt; I[Aggregator/Ranker];
+    I --&gt; J[Result];</code></p>
+<h3 id="5-data-schema-api-design">5. Data Schema &amp; API Design<a class="headerlink" href="#5-data-schema-api-design" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>API:</strong><ul>
+<li><code>POST /v1/search</code>: <code>{query_vector, k, filters}</code></li>
+<li><code>POST /v1/index</code>: <code>{item_id, vector, metadata}</code></li>
+<li><code>DELETE /v1/index/{item_id}</code></li>
+</ul>
+</li>
+<li><strong>Data Models:</strong><ul>
+<li><strong>Vector Index:</strong> HNSW/IVF-PQ, sharded by item_id hash.</li>
+<li><strong>Metadata Store:</strong> <code>item_id, metadata fields...</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="6-detailed-component-breakdown">6. Detailed Component Breakdown<a class="headerlink" href="#6-detailed-component-breakdown" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Embedding Model Service:</strong> Converts raw data (text, image) to vectors.</li>
+<li><strong>API Gateway:</strong> Handles authentication, rate limiting, and forwards requests.</li>
+<li><strong>Query Router:</strong> Routes search requests to relevant shards, aggregates results.</li>
+<li><strong>Shard (Faiss/HNSW):</strong> In-memory or SSD-based vector index for fast k-NN search.</li>
+<li><strong>Metadata Store:</strong> Stores item metadata for filtering and re-ranking.</li>
+<li><strong>Aggregator/Ranker:</strong> Merges results from shards, applies filters, sorts by similarity.</li>
+</ul>
+<h3 id="7-end-to-end-flow-search-query">7. End-to-End Flow (Search Query)<a class="headerlink" href="#7-end-to-end-flow-search-query" title="Permanent link">&para;</a></h3>
+<p>Code snippet</p>
+<p>`sequenceDiagram
+    participant Client
+    participant APIGW
+    participant Embed
+    participant Router
+    participant Shard1
+    participant Shard2
+    participant Agg</p>
+<div class="codehilite"><pre><span></span><code><span class="n">Client</span><span class="o">-&gt;&gt;</span><span class="nl">APIGW:</span><span class="w"> </span><span class="n">POST</span><span class="w"> </span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">search</span>
+<span class="n">APIGW</span><span class="o">-&gt;&gt;</span><span class="nl">Embed:</span><span class="w"> </span><span class="n">Get</span><span class="w"> </span><span class="n">query</span><span class="w"> </span><span class="n">vector</span>
+<span class="n">Embed</span><span class="o">--&gt;&gt;</span><span class="nl">APIGW:</span><span class="w"> </span><span class="n">Return</span><span class="w"> </span><span class="n">vector</span>
+<span class="n">APIGW</span><span class="o">-&gt;&gt;</span><span class="nl">Router:</span><span class="w"> </span><span class="n">Forward</span><span class="w"> </span><span class="n">search</span>
+<span class="n">Router</span><span class="o">-&gt;&gt;</span><span class="nl">Shard1:</span><span class="w"> </span><span class="n">k</span><span class="o">-</span><span class="n">NN</span><span class="w"> </span><span class="n">search</span>
+<span class="n">Router</span><span class="o">-&gt;&gt;</span><span class="nl">Shard2:</span><span class="w"> </span><span class="n">k</span><span class="o">-</span><span class="n">NN</span><span class="w"> </span><span class="n">search</span>
+<span class="n">Shard1</span><span class="o">--&gt;&gt;</span><span class="nl">Router:</span><span class="w"> </span><span class="n">Top</span><span class="o">-</span><span class="n">k</span><span class="w"> </span><span class="n">results</span>
+<span class="n">Shard2</span><span class="o">--&gt;&gt;</span><span class="nl">Router:</span><span class="w"> </span><span class="n">Top</span><span class="o">-</span><span class="n">k</span><span class="w"> </span><span class="n">results</span>
+<span class="n">Router</span><span class="o">-&gt;&gt;</span><span class="nl">Agg:</span><span class="w"> </span><span class="n">Aggregate</span><span class="p">,</span><span class="w"> </span><span class="n">filter</span><span class="p">,</span><span class="w"> </span><span class="n">rank</span>
+<span class="n">Agg</span><span class="o">--&gt;&gt;</span><span class="nl">APIGW:</span><span class="w"> </span><span class="n">Final</span><span class="w"> </span><span class="n">results</span>
+<span class="n">APIGW</span><span class="o">--&gt;&gt;</span><span class="nl">Client:</span><span class="w"> </span><span class="n">Return</span><span class="w"> </span><span class="n">top</span><span class="o">-</span><span class="n">k</span>
+</code></pre></div>
+
+<p>`</p>
+<h3 id="8-bottlenecks-fault-tolerance-and-trade-offs">8. Bottlenecks, Fault Tolerance, and Trade-offs<a class="headerlink" href="#8-bottlenecks-fault-tolerance-and-trade-offs" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Bottleneck: Shard Memory/CPU:</strong><ul>
+<li>Use SSD-based indexes for larger-than-memory datasets. Horizontal sharding for scale.</li>
+</ul>
+</li>
+<li><strong>Recall vs. Latency:</strong><ul>
+<li>HNSW/IVF-PQ trade off accuracy for speed. Tune parameters per use case.</li>
+</ul>
+</li>
+<li><strong>Fault Tolerance:</strong><ul>
+<li>Replicate shards, use stateless routers. Failed shard = partial results, degrade gracefully.</li>
+</ul>
+</li>
+<li><strong>Trade-offs:</strong><ul>
+<li>Eventual consistency for index updates. Strong consistency for metadata.</li>
+<li>SSD-based search is slower but cheaper than RAM.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p>This design is used by modern semantic search engines (e.g., Pinecone, Weaviate, OpenAI) for large-scale vector search.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -703,10 +919,10 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "/system-design/", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "/system-design/assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="/system-design/assets/javascripts/bundle.56ea9cef.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.56ea9cef.min.js"></script>
       
     
   </body>

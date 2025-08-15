@@ -8,19 +8,21 @@
       
       
       
+        <link rel="canonical" href="https://ashok-ga.github.io/system-design/hld/DE%20Shaw%20HLD%20with%20Implementations/Ticketing%20%28High%20Contention%29/">
       
       
       
-      <link rel="icon" href="/system-design/assets/images/favicon.png">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
     
     
       
-        <title>System Design Hub</title>
+        <title>Ticketing (High Contention) - System Design Hub</title>
       
     
     
-      <link rel="stylesheet" href="/system-design/assets/stylesheets/main.342714a4.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.342714a4.min.css">
       
       
 
@@ -39,7 +41,7 @@
       
     
     
-    <script>__md_scope=new URL("/system-design/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -57,6 +59,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#ticketing-high-contention" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -67,7 +74,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/system-design/." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+    <a href="../../.." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -87,7 +94,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Ticketing (High Contention)
             
           </span>
         </div>
@@ -174,7 +181,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/system-design/." class="md-tabs__link">
+      <a href="../../.." class="md-tabs__link">
         
   
   
@@ -195,7 +202,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/system-design/hld/overview/" class="md-tabs__link">
+        <a href="../../overview/" class="md-tabs__link">
           
   
   
@@ -215,7 +222,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/system-design/lld/de-shaw.md" class="md-tabs__link">
+        <a href="../../../lld/de-shaw.md" class="md-tabs__link">
           
   
   
@@ -233,7 +240,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/system-design/assets/" class="md-tabs__link">
+      <a href="../../../assets/" class="md-tabs__link">
         
   
   
@@ -252,7 +259,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/system-design/references/" class="md-tabs__link">
+      <a href="../../../references/" class="md-tabs__link">
         
   
   
@@ -271,7 +278,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/system-design/../CONTRIBUTING.md" class="md-tabs__link">
+      <a href="../../../../CONTRIBUTING.md" class="md-tabs__link">
         
   
   
@@ -306,7 +313,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/system-design/." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+    <a href="../../.." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -336,7 +343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   
@@ -401,7 +408,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/hld/overview/" class="md-nav__link">
+      <a href="../../overview/" class="md-nav__link">
         
   
   
@@ -424,7 +431,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/hld/architecture/" class="md-nav__link">
+      <a href="../../architecture/" class="md-nav__link">
         
   
   
@@ -447,7 +454,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/hld/de-shaw/" class="md-nav__link">
+      <a href="../../de-shaw/" class="md-nav__link">
         
   
   
@@ -520,7 +527,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/lld/de-shaw.md" class="md-nav__link">
+      <a href="../../../lld/de-shaw.md" class="md-nav__link">
         
   
   
@@ -543,7 +550,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/lld/module2/" class="md-nav__link">
+      <a href="../../../lld/module2/" class="md-nav__link">
         
   
   
@@ -573,7 +580,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/assets/" class="md-nav__link">
+      <a href="../../../assets/" class="md-nav__link">
         
   
   
@@ -595,7 +602,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/references/" class="md-nav__link">
+      <a href="../../../references/" class="md-nav__link">
         
   
   
@@ -617,7 +624,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/system-design/../CONTRIBUTING.md" class="md-nav__link">
+      <a href="../../../../CONTRIBUTING.md" class="md-nav__link">
         
   
   
@@ -649,6 +656,88 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-problem-statement-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Problem Statement &amp; Scope
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Requirements
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-capacity-estimation" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Capacity Estimation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-high-level-architecture-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. High-Level Architecture Diagram
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-data-schema-api-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Data Schema &amp; API Design
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-detailed-component-breakdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Detailed Component Breakdown
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-end-to-end-flow-seat-hold-purchase" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. End-to-End Flow (Seat Hold &amp; Purchase)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-bottlenecks-fault-tolerance-and-trade-offs" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Bottlenecks, Fault Tolerance, and Trade-offs
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -660,8 +749,142 @@
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+
+  
+  
+
+
+<h1 id="ticketing-high-contention">Ticketing (High Contention)<a class="headerlink" href="#ticketing-high-contention" title="Permanent link">&para;</a></h1>
+<h3 id="1-problem-statement-scope">1. Problem Statement &amp; Scope<a class="headerlink" href="#1-problem-statement-scope" title="Permanent link">&para;</a></h3>
+<p>Design a ticketing system for high-demand events (e.g., concerts, sports) that can handle massive traffic spikes, prevent overselling, and ensure fairness. The system must support temporary seat holds, payment, and confirmation, with strong consistency and resilience to failures.</p>
+<h3 id="2-requirements">2. Requirements<a class="headerlink" href="#2-requirements" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Functional Requirements:</strong><ul>
+<li>Users can view available seats in real time.</li>
+<li>Place temporary holds on seats (cart/hold window).</li>
+<li>Confirm purchase after payment.</li>
+<li>Release holds on timeout or user abandon.</li>
+<li>Waitlist/queue for overflow demand.</li>
+</ul>
+</li>
+<li><strong>Non-Functional Requirements:</strong><ul>
+<li><strong>Scalability:</strong> Handle 1M+ concurrent users during peak.</li>
+<li><strong>Fairness:</strong> Prevent bots, ensure first-come-first-served.</li>
+<li><strong>Consistency:</strong> No overselling, strong seat allocation.</li>
+<li><strong>Availability:</strong> Survive flash crowds, DDoS.</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-capacity-estimation">3. Capacity Estimation<a class="headerlink" href="#3-capacity-estimation" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Peak Users:</strong> 1M concurrent.</li>
+<li><strong>Seats/Event:</strong> 50k.</li>
+<li><strong>Hold Window:</strong> 5 minutes.</li>
+<li><strong>Purchase Rate:</strong> 10k/sec peak.</li>
+</ul>
+<h3 id="4-high-level-architecture-diagram">4. High-Level Architecture Diagram<a class="headerlink" href="#4-high-level-architecture-diagram" title="Permanent link">&para;</a></h3>
+<p>Code snippet</p>
+<p><code>graph TD
+    A[User] --&gt; B[CDN/WAF];
+    B --&gt; C[Virtual Waiting Room];
+    C --&gt; D[Ticket Service];
+    D --&gt; E[Redis (Seat Holds)];
+    D --&gt; F[Postgres (Durable State)];
+    D --&gt; G[Payment Service];
+    D --&gt; H[Notification Service];
+    D --&gt; I[Queue/Waitlist Service];</code></p>
+<h3 id="5-data-schema-api-design">5. Data Schema &amp; API Design<a class="headerlink" href="#5-data-schema-api-design" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>API:</strong><ul>
+<li><code>GET /v1/events/{event_id}/seats</code>: View seat map.</li>
+<li><code>POST /v1/events/{event_id}/hold</code>: Place hold.</li>
+<li><code>POST /v1/events/{event_id}/purchase</code>: Confirm purchase.</li>
+</ul>
+</li>
+<li><strong>Data Models:</strong><ul>
+<li><strong>Seats:</strong> <code>seat_id, event_id, status (available/held/sold), hold_expiry, user_id</code></li>
+<li><strong>Holds (Redis):</strong> <code>hold_id, seat_ids, user_id, expires_at</code></li>
+<li><strong>Orders (Postgres):</strong> <code>order_id, user_id, seat_ids, status, payment_id</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="6-detailed-component-breakdown">6. Detailed Component Breakdown<a class="headerlink" href="#6-detailed-component-breakdown" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>CDN/WAF:</strong> Absorbs DDoS, caches static content.</li>
+<li><strong>Virtual Waiting Room:</strong> Throttles entry, prevents overload, enforces fairness.</li>
+<li><strong>Ticket Service:</strong> Core logic for seat holds, purchase, and release. Uses Redis for fast holds, Postgres for durability.</li>
+<li><strong>Redis (Seat Holds):</strong> In-memory, expiring keys for temporary holds.</li>
+<li><strong>Postgres (Durable State):</strong> Source of truth for sold seats and orders.</li>
+<li><strong>Payment Service:</strong> Handles payment and refunds.</li>
+<li><strong>Notification Service:</strong> Sends confirmation, reminders, or waitlist updates.</li>
+<li><strong>Queue/Waitlist Service:</strong> Manages overflow demand.</li>
+</ul>
+<h3 id="7-end-to-end-flow-seat-hold-purchase">7. End-to-End Flow (Seat Hold &amp; Purchase)<a class="headerlink" href="#7-end-to-end-flow-seat-hold-purchase" title="Permanent link">&para;</a></h3>
+<p>Code snippet</p>
+<p>`sequenceDiagram
+    participant User
+    participant WaitingRoom
+    participant TicketSvc
+    participant Redis
+    participant Postgres
+    participant Payment
+    participant Notification</p>
+<div class="codehilite"><pre><span></span><code><span class="n">User</span><span class="o">-&gt;&gt;</span><span class="n">WaitingRoom</span><span class="o">:</span><span class="w"> </span><span class="n">Enter</span><span class="w"> </span><span class="nf">event</span>
+<span class="n">WaitingRoom</span><span class="o">-&gt;&gt;</span><span class="n">TicketSvc</span><span class="o">:</span><span class="w"> </span><span class="n">Allow</span><span class="w"> </span><span class="n">entry</span>
+<span class="n">TicketSvc</span><span class="o">-&gt;&gt;</span><span class="n">Redis</span><span class="o">:</span><span class="w"> </span><span class="n">Place</span><span class="w"> </span><span class="n">seat</span><span class="w"> </span><span class="n">hold</span>
+<span class="n">Redis</span><span class="o">--&gt;&gt;</span><span class="n">TicketSvc</span><span class="o">:</span><span class="w"> </span><span class="n">Hold</span><span class="w"> </span><span class="n">confirmed</span>
+<span class="n">TicketSvc</span><span class="o">-&gt;&gt;</span><span class="n">User</span><span class="o">:</span><span class="w"> </span><span class="n">Show</span><span class="w"> </span><span class="n">hold</span><span class="p">,</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="n">timer</span>
+<span class="n">User</span><span class="o">-&gt;&gt;</span><span class="n">TicketSvc</span><span class="o">:</span><span class="w"> </span><span class="n">Purchase</span>
+<span class="n">TicketSvc</span><span class="o">-&gt;&gt;</span><span class="n">Payment</span><span class="o">:</span><span class="w"> </span><span class="nf">Process</span><span class="w"> </span><span class="n">payment</span>
+<span class="n">Payment</span><span class="o">--&gt;&gt;</span><span class="n">TicketSvc</span><span class="o">:</span><span class="w"> </span><span class="kr">Success</span><span class="o">/</span><span class="kr">Fail</span>
+<span class="n">alt</span><span class="w"> </span><span class="kr">Success</span>
+<span class="w">    </span><span class="n">TicketSvc</span><span class="o">-&gt;&gt;</span><span class="n">Postgres</span><span class="o">:</span><span class="w"> </span><span class="n">Mark</span><span class="w"> </span><span class="n">seat</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="n">sold</span>
+<span class="w">    </span><span class="n">TicketSvc</span><span class="o">-&gt;&gt;</span><span class="n">Redis</span><span class="o">:</span><span class="w"> </span><span class="n">Remove</span><span class="w"> </span><span class="n">hold</span>
+<span class="w">    </span><span class="n">TicketSvc</span><span class="o">-&gt;&gt;</span><span class="n">Notification</span><span class="o">:</span><span class="w"> </span><span class="n">Send</span><span class="w"> </span><span class="n">confirmation</span>
+<span class="n">else</span><span class="w"> </span><span class="kr">Fail</span>
+<span class="w">    </span><span class="n">TicketSvc</span><span class="o">-&gt;&gt;</span><span class="n">Redis</span><span class="o">:</span><span class="w"> </span><span class="n">Release</span><span class="w"> </span><span class="n">hold</span>
+<span class="w">    </span><span class="n">TicketSvc</span><span class="o">-&gt;&gt;</span><span class="n">User</span><span class="o">:</span><span class="w"> </span><span class="n">Show</span><span class="w"> </span><span class="nf">error</span>
+<span class="kd">end</span>
+</code></pre></div>
+
+<p>`</p>
+<h3 id="8-bottlenecks-fault-tolerance-and-trade-offs">8. Bottlenecks, Fault Tolerance, and Trade-offs<a class="headerlink" href="#8-bottlenecks-fault-tolerance-and-trade-offs" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Bottleneck: Redis/DB:</strong><ul>
+<li>Redis for speed, Postgres for durability. Use optimistic locking for seat updates.</li>
+</ul>
+</li>
+<li><strong>Fairness:</strong><ul>
+<li>Virtual waiting room and rate limiting prevent unfair access.</li>
+</ul>
+</li>
+<li><strong>Consistency:</strong><ul>
+<li>Optimistic locking ensures no double-sell. Redis expiry releases abandoned holds.</li>
+</ul>
+</li>
+<li><strong>Trade-offs:</strong><ul>
+<li>Speed vs. consistency. Strong consistency for seat allocation, eventual for notifications.</li>
+<li>In-memory holds are fast but require careful expiry handling.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p>This design is used by major ticketing platforms to handle flash sales and high contention events.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -703,10 +926,10 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "/system-design/", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "/system-design/assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="/system-design/assets/javascripts/bundle.56ea9cef.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.56ea9cef.min.js"></script>
       
     
   </body>
