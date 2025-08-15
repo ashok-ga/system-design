@@ -1,0 +1,951 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://ashok-ga.github.io/system-design/hld/DE%20Shaw%20HLD%20with%20Implementations/Backtesting%20Platform%20%28Distributed%29/">
+      
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
+    
+    
+      
+        <title>Backtesting Platform (Distributed) - System Design Hub</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.342714a4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#backtesting-platform-distributed" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            System Design Hub
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Backtesting Platform (Distributed)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ashok-ga/system-design" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ashok-ga/system-design
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../overview/" class="md-tabs__link">
+          
+  
+  
+  High-Level Design
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../lld/de-shaw/" class="md-tabs__link">
+          
+  
+  
+  Low-Level Design
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../assets/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Assets
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../references/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  References
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../CONTRIBUTING.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Contributing
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    System Design Hub
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ashok-ga/system-design" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ashok-ga/system-design
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    High-Level Design
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            High-Level Design
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../de-shaw/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DE Shaw
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Low-Level Design
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Low-Level Design
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lld/de-shaw/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DE Shaw
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lld/module2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../assets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Assets
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../references/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    References
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../CONTRIBUTING.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Contributing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-problem-statement-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Problem Statement &amp; Scope
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Requirements
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-capacity-estimation" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Capacity Estimation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-high-level-architecture-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. High-Level Architecture Diagram
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-data-schema-api-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Data Schema &amp; API Design
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-detailed-component-breakdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Detailed Component Breakdown
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-end-to-end-flow-submitting-a-backtest" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. End-to-End Flow (Submitting a Backtest)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-bottlenecks-fault-tolerance-and-trade-offs" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Bottlenecks, Fault Tolerance, and Trade-offs
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="backtesting-platform-distributed">Backtesting Platform (Distributed)<a class="headerlink" href="#backtesting-platform-distributed" title="Permanent link">&para;</a></h1>
+<h3 id="1-problem-statement-scope">1. Problem Statement &amp; Scope<a class="headerlink" href="#1-problem-statement-scope" title="Permanent link">&para;</a></h3>
+<p>Design a distributed platform for quantitative analysts ("quants") to test their trading strategies against massive historical market data sets. The platform must be scalable to run hundreds of simulations concurrently and ensure that every backtest is perfectly reproducible.</p>
+<h3 id="2-requirements">2. Requirements<a class="headerlink" href="#2-requirements" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Functional Requirements:</strong><ul>
+<li>Users can submit a backtest job with parameters: strategy code, date range, symbols, etc.</li>
+<li>The platform runs the strategy simulation over the specified historical data.</li>
+<li>The system must produce detailed results: performance metrics (Sharpe ratio, drawdown), a list of simulated trades, and logs.</li>
+<li><strong>Reproducibility:</strong> A backtest run with the same code and data must produce the exact same result, bit for bit, every time.</li>
+</ul>
+</li>
+<li><strong>Non-Functional Requirements:</strong><ul>
+<li><strong>Scalability:</strong> Handle 10+ TB of historical data and run hundreds of concurrent backtest jobs.</li>
+<li><strong>Performance:</strong> A typical backtest of one strategy over one year of tick data should complete in a reasonable time (e.g., under 30 minutes).</li>
+<li><strong>Isolation:</strong> Jobs from different users must be isolated in terms of resources and security.</li>
+<li><strong>Cost-Effectiveness:</strong> Leverage cloud resources efficiently, potentially using cheaper spot instances for computation.</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-capacity-estimation">3. Capacity Estimation<a class="headerlink" href="#3-capacity-estimation" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Data Size:</strong> 10 TB of tick data. A single year for a single stock can be 50-100 GB.</li>
+<li><strong>Concurrent Jobs:</strong> 200.</li>
+<li><strong>Compute:</strong> If each job needs 4 CPU cores, we need <code>200 * 4 = 800</code> cores available.</li>
+<li><strong>Data Access:</strong> A single job might need to read 100 GB of data. At 200 concurrent jobs, the peak read throughput from storage could be significant, necessitating a high-performance storage solution.</li>
+</ul>
+<h3 id="4-high-level-architecture-diagram">4. High-Level Architecture Diagram<a class="headerlink" href="#4-high-level-architecture-diagram" title="Permanent link">&para;</a></h3>
+<p>Code snippet</p>
+<p>`graph TD
+    subgraph "User Interface"
+        A[Quant Analyst via UI/SDK] --&gt; B[Job API Service];
+    end</p>
+<div class="codehilite"><pre><span></span><code><span class="n">subgraph</span><span class="w"> </span><span class="s">&quot;Control Plane&quot;</span>
+<span class="w">    </span><span class="n">B</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">C</span><span class="p">[</span><span class="n">Job</span><span class="w"> </span><span class="n">Scheduler</span><span class="p">];</span>
+<span class="w">    </span><span class="n">C</span><span class="w"> </span><span class="o">--</span><span class="w"> </span><span class="n">reads</span><span class="o">/</span><span class="n">writes</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">D</span><span class="p">[</span><span class="n">Metadata</span><span class="w"> </span><span class="n">DB</span><span class="w"> </span><span class="p">(</span><span class="n">Postgres</span><span class="p">)];</span>
+<span class="n">end</span>
+
+<span class="n">subgraph</span><span class="w"> </span><span class="s">&quot;Execution Plane (e.g., on Kubernetes)&quot;</span>
+<span class="w">    </span><span class="n">C</span><span class="w"> </span><span class="o">--</span><span class="w"> </span><span class="n">creates</span><span class="w"> </span><span class="n">Pod</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">E</span><span class="p">{</span><span class="n">Backtest</span><span class="w"> </span><span class="n">Runner</span><span class="w"> </span><span class="n">Pod</span><span class="p">};</span>
+<span class="w">    </span><span class="n">subgraph</span><span class="w"> </span><span class="n">E</span>
+<span class="w">        </span><span class="n">F</span><span class="p">[</span><span class="n">Containerized</span><span class="w"> </span><span class="n">Strategy</span><span class="w"> </span><span class="n">Code</span><span class="p">]</span>
+<span class="w">    </span><span class="n">end</span>
+<span class="w">    </span><span class="n">E</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">G</span><span class="p">[</span><span class="n">Data</span><span class="w"> </span><span class="n">Access</span><span class="w"> </span><span class="n">Layer</span><span class="p">];</span>
+<span class="n">end</span>
+
+<span class="n">subgraph</span><span class="w"> </span><span class="s">&quot;Data &amp; Storage&quot;</span>
+<span class="w">    </span><span class="n">G</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">H</span><span class="p">[</span><span class="n">Object</span><span class="w"> </span><span class="n">Storage</span><span class="w"> </span><span class="p">(</span><span class="n">S3</span><span class="p">)];</span>
+<span class="w">    </span><span class="n">H</span><span class="w"> </span><span class="o">--</span><span class="w"> </span><span class="n">contains</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">I</span><span class="p">[</span><span class="n">Historical</span><span class="w"> </span><span class="n">Data</span><span class="w"> </span><span class="p">(</span><span class="n">Parquet</span><span class="p">)];</span>
+<span class="w">    </span><span class="n">E</span><span class="w"> </span><span class="o">--</span><span class="w"> </span><span class="n">writes</span><span class="w"> </span><span class="n">logs</span><span class="o">/</span><span class="n">results</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">J</span><span class="p">[</span><span class="n">Results</span><span class="w"> </span><span class="n">Store</span><span class="w"> </span><span class="p">(</span><span class="n">S3</span><span class="p">)];</span>
+<span class="w">    </span><span class="n">D</span><span class="w"> </span><span class="o">--</span><span class="w"> </span><span class="n">stores</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">K</span><span class="p">[</span><span class="n">Job</span><span class="w"> </span><span class="n">Metadata</span><span class="p">];</span>
+<span class="w">    </span><span class="n">J</span><span class="w"> </span><span class="o">--</span><span class="w"> </span><span class="n">triggers</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">L</span><span class="p">[</span><span class="n">Results</span><span class="w"> </span><span class="n">Analysis</span><span class="w"> </span><span class="n">Service</span><span class="p">]</span>
+<span class="n">end</span><span class="err">`</span>
+</code></pre></div>
+
+<h3 id="5-data-schema-api-design">5. Data Schema &amp; API Design<a class="headerlink" href="#5-data-schema-api-design" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>API:</strong><ul>
+<li><code>POST /v1/jobs</code>: Submit a new backtest.<ul>
+<li><strong>Body:</strong> <code>{"strategy_image": "docker.io/repo/my_strategy:v1.2", "start_date": "...", "end_date": "...", "params": {...}}</code></li>
+</ul>
+</li>
+<li><code>GET /v1/jobs/{job_id}</code>: Get the status and results of a job.</li>
+</ul>
+</li>
+<li><strong>Data Models:</strong><ul>
+<li><strong>Metadata DB (Postgres):</strong><ul>
+<li><code>jobs</code>: <code>job_id, user_id, status, docker_image_digest, submitted_at, results_path, ...</code></li>
+</ul>
+</li>
+<li><strong>Storage (S3):</strong><ul>
+<li><strong>Historical Data:</strong> Stored in Parquet format, partitioned by date and symbol. <code>s3://market-data/ticks/symbol=AAPL/date=2025-08-14/data.parquet</code></li>
+<li><strong>Results:</strong> Each job writes its output to a dedicated path. <code>s3://backtest-results/{job_id}/trades.csv</code>, <code>s3://backtest-results/{job_id}/metrics.json</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="6-detailed-component-breakdown">6. Detailed Component Breakdown<a class="headerlink" href="#6-detailed-component-breakdown" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Job API Service:</strong> The entry point for users. It authenticates the request, validates the parameters, and creates a new job record in the <strong>Metadata DB</strong> with a <code>PENDING</code> status.</li>
+<li><strong>Job Scheduler:</strong> The core of the control plane. It can be a custom service or built on a workflow orchestrator like Argo Workflows or a simple Kubernetes Operator. It polls the database for <code>PENDING</code> jobs and submits them to the compute cluster for execution.</li>
+<li><strong>Containerized Runner:</strong> This is the key to reproducibility. The user's strategy code and all its dependencies (e.g., specific versions of pandas, numpy) are packaged into a <strong>Docker image</strong>. The scheduler runs this specific, immutable image. This eliminates "it works on my machine" problems and guarantees an identical execution environment every time.</li>
+<li><strong>Data Access Layer:</strong> A library or sidecar container within the runner pod responsible for efficiently fetching data. It understands the partitioning scheme of the data in S3. To optimize performance, it can implement a <strong>local cache on the worker node's SSD</strong>, so if another job needs the same data, it can be read from the fast local disk instead of S3. The scheduler can be made "cache-aware" to try and place jobs on nodes that already have the data.</li>
+<li><strong>Object Storage (S3 + Parquet):</strong><ul>
+<li><strong>S3:</strong> Provides a cheap, scalable, and durable way to store terabytes of data.</li>
+<li><strong>Parquet:</strong> A columnar storage format. This is extremely efficient for backtesting, as a strategy often only needs a few columns (e.g., <code>price</code>, <code>volume</code>) out of many. Columnar storage allows the runner to read only the data it needs, drastically reducing I/O.</li>
+</ul>
+</li>
+</ul>
+<h3 id="7-end-to-end-flow-submitting-a-backtest">7. End-to-End Flow (Submitting a Backtest)<a class="headerlink" href="#7-end-to-end-flow-submitting-a-backtest" title="Permanent link">&para;</a></h3>
+<p>Code snippet</p>
+<p>`sequenceDiagram
+    participant Analyst
+    participant JobAPI
+    participant Scheduler
+    participant Kubernetes
+    participant RunnerPod
+    participant S3</p>
+<div class="codehilite"><pre><span></span><code><span class="n">Analyst</span><span class="o">-&gt;&gt;</span><span class="n">JobAPI</span><span class="p">:</span> <span class="n">POST</span> <span class="o">/</span><span class="n">jobs</span> <span class="p">(</span><span class="n">strategy_image</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+<span class="n">JobAPI</span><span class="o">-&gt;&gt;</span><span class="n">JobAPI</span><span class="p">:</span> <span class="n">Create</span> <span class="n">job</span> <span class="n">record</span> <span class="n">in</span> <span class="n">DB</span> <span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="n">PENDING</span><span class="p">)</span>
+<span class="n">JobAPI</span><span class="o">--&gt;&gt;</span><span class="n">Analyst</span><span class="p">:</span> <span class="mi">202</span> <span class="n">Accepted</span> <span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
+
+<span class="n">loop</span> <span class="n">Scheduler</span> <span class="n">Loop</span>
+    <span class="n">Scheduler</span><span class="o">-&gt;&gt;</span><span class="n">Scheduler</span><span class="p">:</span> <span class="n">Poll</span> <span class="n">DB</span> <span class="n">for</span> <span class="n">PENDING</span> <span class="n">jobs</span><span class="p">.</span>
+    <span class="n">Scheduler</span><span class="o">-&gt;&gt;</span><span class="n">Kubernetes</span><span class="p">:</span> <span class="n">Create</span> <span class="n">Pod</span> <span class="n">from</span> <span class="n">docker_image</span> <span class="n">for</span> <span class="n">job_id</span><span class="p">.</span>
+<span class="n">end</span>
+
+<span class="n">Kubernetes</span><span class="o">-&gt;&gt;</span><span class="n">RunnerPod</span><span class="p">:</span> <span class="n">Start</span> <span class="n">container</span><span class="p">.</span>
+<span class="n">RunnerPod</span><span class="o">-&gt;&gt;</span><span class="n">S3</span><span class="p">:</span> <span class="n">Stream</span> <span class="n">relevant</span> <span class="n">Parquet</span> <span class="n">data</span> <span class="n">partitions</span><span class="p">.</span>
+<span class="n">Note</span> <span class="n">over</span> <span class="n">RunnerPod</span><span class="p">:</span> <span class="n">Execute</span> <span class="n">strategy</span> <span class="n">logic</span> <span class="n">tick</span><span class="o">-</span><span class="n">by</span><span class="o">-</span><span class="n">tick</span><span class="p">...</span>
+<span class="n">RunnerPod</span><span class="o">-&gt;&gt;</span><span class="n">S3</span><span class="p">:</span> <span class="n">Write</span> <span class="n">trades</span><span class="p">.</span><span class="n">csv</span> <span class="n">and</span> <span class="n">metrics</span><span class="p">.</span><span class="n">json</span> <span class="n">to</span> <span class="n">results</span> <span class="n">path</span><span class="p">.</span>
+<span class="n">RunnerPod</span><span class="o">-&gt;&gt;</span><span class="n">RunnerPod</span><span class="p">:</span> <span class="n">Update</span> <span class="n">job</span> <span class="n">status</span> <span class="n">to</span> <span class="n">SUCCESS</span> <span class="n">in</span> <span class="n">DB</span><span class="p">.</span><span class="err">`</span>
+</code></pre></div>
+
+<h3 id="8-bottlenecks-fault-tolerance-and-trade-offs">8. Bottlenecks, Fault Tolerance, and Trade-offs<a class="headerlink" href="#8-bottlenecks-fault-tolerance-and-trade-offs" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Bottleneck: Data I/O:</strong> Reading large volumes of data from S3 can be the slowest part.<ul>
+<li><strong>Mitigation:</strong> The columnar Parquet format is the primary mitigation. The local SSD cache on worker nodes is another. Using a high-performance query engine like DuckDB within the runner can also speed up data processing.</li>
+</ul>
+</li>
+<li><strong>Fault Tolerance:</strong><ul>
+<li><strong>Runner Failure:</strong> The runner is a container. If it fails (e.g., out of memory), Kubernetes will automatically restart it based on the defined policy. Since the job is deterministic, it will restart from the beginning and produce the same result. The system can be enhanced with checkpointing for very long jobs.</li>
+</ul>
+</li>
+<li><strong>Key Trade-offs:</strong><ul>
+<li><strong>Object Store (S3) vs. Distributed File System (HDFS):</strong> S3 is easier to manage, more cost-effective, and offers infinite scalability (decoupled compute and storage). HDFS can offer better performance if data locality is critical but comes with significant operational overhead. For this use case, the flexibility of S3 is usually preferred.</li>
+<li><strong>Cost (Spot vs. On-Demand Instances):</strong> Backtesting jobs are often batch workloads that can tolerate interruption. Using cheaper EC2 Spot Instances can reduce compute costs by up to 90%. The trade-off is that a job might be preempted and need to be restarted, increasing its total wall-clock time.</li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.56ea9cef.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,35 @@
+site_name: System Design Hub
+site_url: https://ashok-ga.github.io/system-design/
+repo_url: https://github.com/ashok-ga/system-design
+repo_name: ashok-ga/system-design
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - content.code.copy
+
+nav:
+  - Home: index.md
+  - High-Level Design:
+      - Overview: hld/overview.md
+      - Architecture: hld/architecture.md
+      - DE Shaw: hld/de-shaw.md
+  - Low-Level Design:
+      - DE Shaw: lld/de-shaw.md
+      - Module 2: lld/module2.md
+  - Assets: assets/
+  - References: references.md
+  - Contributing: ../CONTRIBUTING.md
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - footnotes
+  - toc:
+      permalink: true
+  - pymdownx.superfences
+  - pymdownx.tabbed
