@@ -8,25 +8,21 @@
       
       
       
-        <link rel="canonical" href="https://ashok-ga.github.io/system-design/hld/de-shaw/">
+        <link rel="canonical" href="https://ashok-ga.github.io/system-design/hld/DE%20Shaw%20HLD%20with%20Implementations/Job%20Scheduler%20%28Cron%20%2B%20DAGs%29%20with%20Retries%20and%20SLAs/">
       
       
-        <link rel="prev" href="../architecture/">
       
       
-        <link rel="next" href="../../lld/de-shaw/">
-      
-      
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
     
     
       
-        <title>DE Shaw - System Design Hub</title>
+        <title>Job Scheduler (Cron + DAGs) with Retries & SLAs — Deep Dive - System Design Hub</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.342714a4.min.css">
       
       
 
@@ -45,7 +41,7 @@
       
     
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -64,7 +60,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#de-shaw-hld-with-implementations" class="md-skip">
+        <a href="#job-scheduler-cron-dags-with-retries-slas-deep-dive" class="md-skip">
           Skip to content
         </a>
       
@@ -80,7 +76,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+    <a href="../../.." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -100,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              DE Shaw
+              Job Scheduler (Cron + DAGs) with Retries &amp; SLAs — Deep Dive
             
           </span>
         </div>
@@ -192,7 +188,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+    <a href="../../.." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -222,7 +218,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   
@@ -241,8 +237,6 @@
       
   
   
-    
-  
   
   
     
@@ -255,11 +249,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
           <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
@@ -275,7 +269,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             High-Level Design
@@ -289,7 +283,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../overview/" class="md-nav__link">
+      <a href="../../overview/" class="md-nav__link">
         
   
   
@@ -312,7 +306,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../architecture/" class="md-nav__link">
+      <a href="../../architecture/" class="md-nav__link">
         
   
   
@@ -332,19 +326,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../de-shaw/" class="md-nav__link">
         
   
   
@@ -355,7 +340,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -418,7 +402,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lld/de-shaw/" class="md-nav__link">
+      <a href="../../../lld/de-shaw/" class="md-nav__link">
         
   
   
@@ -441,7 +425,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lld/module1/" class="md-nav__link">
+      <a href="../../../lld/module1/" class="md-nav__link">
         
   
   
@@ -464,7 +448,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lld/module2/" class="md-nav__link">
+      <a href="../../../lld/module2/" class="md-nav__link">
         
   
   
@@ -494,7 +478,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../assets/" class="md-nav__link">
+      <a href="../../../assets/" class="md-nav__link">
         
   
   
@@ -516,7 +500,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../references/" class="md-nav__link">
+      <a href="../../../references/" class="md-nav__link">
         
   
   
@@ -538,7 +522,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../CONTRIBUTING.md" class="md-nav__link">
+      <a href="../../../../CONTRIBUTING.md" class="md-nav__link">
         
   
   
@@ -573,6 +557,167 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-problem-statement-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Problem Statement &amp; Scope
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-functional-non-functional-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Functional &amp; Non-Functional Requirements
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Functional &amp; Non-Functional Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functional-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Functional Requirements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#non-functional-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Non-Functional Requirements
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-core-architecture-data-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Core Architecture &amp; Data Model
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-high-level-architecture-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. High-Level Architecture Diagram
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-detailed-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Detailed Workflows
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Detailed Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-job-scheduling-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      a) Job Scheduling &amp; Execution
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-backfill-manual-runs" class="md-nav__link">
+    <span class="md-ellipsis">
+      b) Backfill &amp; Manual Runs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-sla-monitoring-alerting" class="md-nav__link">
+    <span class="md-ellipsis">
+      c) SLA Monitoring &amp; Alerting
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-scaling-fault-tolerance-and-trade-offs" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Scaling, Fault Tolerance, and Trade-offs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-api-interface-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. API &amp; Interface Design
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. API &amp; Interface Design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#useradmin-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      User/Admin APIs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-security-operational-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Security &amp; Operational Considerations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-best-practices-industry-insights" class="md-nav__link">
+    <span class="md-ellipsis">
+      9. Best Practices &amp; Industry Insights
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -590,50 +735,119 @@
   
 
 
-<h1 id="de-shaw-hld-with-implementations">DE Shaw HLD with Implementations<a class="headerlink" href="#de-shaw-hld-with-implementations" title="Permanent link">&para;</a></h1>
-<hr />
+<h1 id="job-scheduler-cron-dags-with-retries-slas-deep-dive">Job Scheduler (Cron + DAGs) with Retries &amp; SLAs — Deep Dive<a class="headerlink" href="#job-scheduler-cron-dags-with-retries-slas-deep-dive" title="Permanent link">&para;</a></h1>
+<h2 id="1-problem-statement-scope">1. Problem Statement &amp; Scope<a class="headerlink" href="#1-problem-statement-scope" title="Permanent link">&para;</a></h2>
+<p>Design a scalable, reliable job scheduler supporting cron jobs, dependency DAGs, retries, SLAs, and backfills. The system must orchestrate complex workflows, ensure reliability, and provide observability for operations teams.</p>
+<h2 id="2-functional-non-functional-requirements">2. Functional &amp; Non-Functional Requirements<a class="headerlink" href="#2-functional-non-functional-requirements" title="Permanent link">&para;</a></h2>
+<h3 id="functional-requirements">Functional Requirements<a class="headerlink" href="#functional-requirements" title="Permanent link">&para;</a></h3>
 <ul>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/How%20to%20Approach/">How to Approach</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Backtesting%20Platform%20%28Distributed%29/">Backtesting Platform (Distributed)</a></li>
-<li><a href="DE%20Shaw%20HLD%20with%20Implementations/CDC%20Data%20Platform%20%28Operational%20DB%20to%20Lakehouse%29.md">CDC Data Platform (Operational DB to Lakehouse)</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Chat%20%281_1%20%2B%20Typing%20%2B%20Read%20Receipts%29/">Chat (1_1 + Typing + Read Receipts)</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Collaborative%20Document%20Editing%20%28Google-Docs-lite%29/">Collaborative Document Editing (Google-Docs-lite)</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Distributed%20Cache%20%28Multi-Region%29/">Distributed Cache (Multi-Region)</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Distributed%20ID%20Generator%20%28Snowflake-like%29/">Distributed ID Generator (Snowflake-like)</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/E-commerce%20Checkout/">E-commerce Checkout</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Feature%20Flag%20Platform%20%28Multi-tenant%29/">Feature Flag Platform (Multi-tenant)</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Feature%20Flag%20Service%20%28Local%29/">Feature Flag Service (Local)</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/HLD%20More/">HLD More</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/In-Memory%20File%20System%20%28Simplified%29/">In-Memory File System (Simplified)</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/IoT%20Fleet%20Management%20%28Edge%29/">IoT Fleet Management (Edge)</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Job%20Scheduler%20%28Cron%20%2B%20DAGs%29%20with%20Retries%20and%20SLAs/">Job Scheduler (Cron + DAGs) with Retries and SLAs</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Limit%20Order%20Book%20%26%20Matching%20Engine/">Limit Order Book &amp; Matching Engine</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Live%20Video%20Streaming%20with%20DVR/">Live Video Streaming with DVR</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Meeting%20Room%20Scheduler/">Meeting Room Scheduler</a></li>
-<li><a href="DE%20Shaw%20HLD%20with%20Implementations/Metrics%20Logs%20and%20Alerts%20Platform.md">Metrics Logs and Alerts Platform</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Model%20Serving%20Platform/">Model Serving Platform</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Multi-camera%20RTSP%20to%20WebRTC%20Gateway/">Multi-camera RTSP to WebRTC Gateway</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Near-real-time%20Analytics%20Pipeline/">Near-real-time Analytics Pipeline</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Notifications%20Hub/">Notifications Hub</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Parking%20Lot/">Parking Lot</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Payment%20Gateway%20%28Cards-UPI%29%20with%20Idempotency/">Payment Gateway (Cards-UPI) with Idempotency</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Portfolio%20Risk%20Calculation/">Portfolio Risk Calculation</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Real-time%20Chat%20%2B%20Notifications/">Real-time Chat + Notifications</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Real-time%20Fraud%20Detection/">Real-time Fraud Detection</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Real-time%20Market%20Data%20Fan-out/">Real-time Market Data Fan-out</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Real-time%20P%26L%20and%20Exposure%20Dashboard/">Real-time P&amp;L and Exposure Dashboard</a></li>
-<li><a href="DE%20Shaw%20HLD%20with%20Implementations/Restaurant%20Delivery%20%28Match%20Orders%20to%20Riders%29.md">Restaurant Delivery (Match Orders to Riders)</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Search%20Autocomplete%20with%20Typo%20Tolerance/">Search Autocomplete with Typo Tolerance</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Short-video%20Feed%20%28TikTok-style%29/">Short-video Feed (TikTok-style)</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Splitwise-like%20Expense%20Splitter/">Splitwise-like Expense Splitter</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Threshold%20Alerting%20Engine/">Threshold Alerting Engine</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Ticketing%20%28High%20Contention%29/">Ticketing (High Contention)</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Timeseries%20Database/">Timeseries Database</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Trade%20Capture%20and%20Reconciliation/">Trade Capture and Reconciliation</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/URL%20Shortener%20%28Core%29/">URL Shortener (Core)</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/URL%20Shortener%20%28Global%29/">URL Shortener (Global)</a></li>
-<li><a href="../DE%20Shaw%20HLD%20with%20Implementations/Vector%20Search%20Service/">Vector Search Service</a></li>
+<li>Schedule jobs via cron or dependency DAGs</li>
+<li>Support retries, backoff, and max attempts</li>
+<li>SLA monitoring and alerting for missed deadlines</li>
+<li>Backfill for missed or failed jobs</li>
+<li>Job artifact and log storage</li>
+<li>Manual and API-triggered runs</li>
 </ul>
+<h3 id="non-functional-requirements">Non-Functional Requirements<a class="headerlink" href="#non-functional-requirements" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Scalability:</strong> 100k+ jobs/day, 10k+ concurrent</li>
+<li><strong>Reliability:</strong> No job loss, at-least-once execution</li>
+<li><strong>Observability:</strong> Real-time status, logs, and metrics</li>
+<li><strong>Extensibility:</strong> Pluggable executors, custom hooks</li>
+</ul>
+<h2 id="3-core-architecture-data-model">3. Core Architecture &amp; Data Model<a class="headerlink" href="#3-core-architecture-data-model" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Scheduler Service:</strong> Central brain, plans DAGs, enqueues jobs</li>
+<li><strong>DAG State Store:</strong> Tracks job dependencies, state, and progress</li>
+<li><strong>Executor Pool:</strong> Workers that run jobs, report status</li>
+<li><strong>Artifact Store:</strong> Stores logs, outputs, and artifacts (S3, GCS)</li>
+<li><strong>SLA Monitor:</strong> Tracks deadlines, triggers alerts</li>
+<li><strong>Metadata DB:</strong> Stores job definitions, runs, and history</li>
+</ul>
+<h2 id="4-high-level-architecture-diagram">4. High-Level Architecture Diagram<a class="headerlink" href="#4-high-level-architecture-diagram" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>graph TD
+    Scheduler --&gt; DAGState
+    DAGState --&gt; ExecutorPool
+    ExecutorPool --&gt; ArtifactStore
+    ExecutorPool --&gt; SLA_Monitor
+    Scheduler --&gt; MetadataDB
+    SLA_Monitor --&gt; Alerting
+</code></pre></div>
+<h2 id="5-detailed-workflows">5. Detailed Workflows<a class="headerlink" href="#5-detailed-workflows" title="Permanent link">&para;</a></h2>
+<h3 id="a-job-scheduling-execution">a) Job Scheduling &amp; Execution<a class="headerlink" href="#a-job-scheduling-execution" title="Permanent link">&para;</a></h3>
+<ol>
+<li>User defines job (cron or DAG) via API/UI</li>
+<li>Scheduler plans DAG, resolves dependencies</li>
+<li>Runnable jobs enqueued to Executor Pool</li>
+<li>Executors pick up jobs, run, and report status</li>
+<li>On failure, retry/backoff logic applied</li>
+<li>Artifacts/logs uploaded to store</li>
+<li>SLA Monitor checks deadlines, triggers alerts if missed</li>
+</ol>
+<h3 id="b-backfill-manual-runs">b) Backfill &amp; Manual Runs<a class="headerlink" href="#b-backfill-manual-runs" title="Permanent link">&para;</a></h3>
+<ol>
+<li>User triggers backfill for missed/failed jobs</li>
+<li>Scheduler re-plans DAG, enqueues jobs as needed</li>
+</ol>
+<h3 id="c-sla-monitoring-alerting">c) SLA Monitoring &amp; Alerting<a class="headerlink" href="#c-sla-monitoring-alerting" title="Permanent link">&para;</a></h3>
+<ol>
+<li>SLA Monitor tracks job deadlines</li>
+<li>If job exceeds SLA, alert sent to ops/on-call</li>
+</ol>
+<h2 id="6-scaling-fault-tolerance-and-trade-offs">6. Scaling, Fault Tolerance, and Trade-offs<a class="headerlink" href="#6-scaling-fault-tolerance-and-trade-offs" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Scaling:</strong><ul>
+<li>Shard executor pool for scale</li>
+<li>Use distributed queue for job dispatch</li>
+</ul>
+</li>
+<li><strong>Fault Tolerance:</strong><ul>
+<li>Persist all job state to DB</li>
+<li>Executors heartbeat to detect failures</li>
+<li>At-least-once execution with idempotent jobs</li>
+</ul>
+</li>
+<li><strong>Trade-offs:</strong><ul>
+<li>Central queue is simple but can bottleneck; per-executor queues scale better</li>
+<li>Fairness vs throughput: prioritize critical jobs or maximize throughput</li>
+</ul>
+</li>
+</ul>
+<h2 id="7-api-interface-design">7. API &amp; Interface Design<a class="headerlink" href="#7-api-interface-design" title="Permanent link">&para;</a></h2>
+<h3 id="useradmin-apis">User/Admin APIs<a class="headerlink" href="#useradmin-apis" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>POST /jobs</code>: Create job</li>
+<li><code>POST /runs</code>: Trigger run/backfill</li>
+<li><code>GET /jobs/{id}</code>: Get job status</li>
+<li><code>GET /runs/{id}</code>: Get run status/logs</li>
+<li><code>GET /sla</code>: Get SLA status</li>
+</ul>
+<h2 id="8-security-operational-considerations">8. Security &amp; Operational Considerations<a class="headerlink" href="#8-security-operational-considerations" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Security:</strong><ul>
+<li>Role-based access for job creation and management</li>
+<li>All actions logged for audit</li>
+</ul>
+</li>
+<li><strong>Monitoring:</strong><ul>
+<li>Real-time dashboards for job status, failures, and SLAs</li>
+</ul>
+</li>
+<li><strong>Disaster Recovery:</strong><ul>
+<li>Regular DB and artifact backups</li>
+</ul>
+</li>
+</ul>
+<h2 id="9-best-practices-industry-insights">9. Best Practices &amp; Industry Insights<a class="headerlink" href="#9-best-practices-industry-insights" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Use DAGs for complex dependencies, cron for simple schedules</li>
+<li>Persist all state for reliability</li>
+<li>Use idempotent jobs to handle retries safely</li>
+<li>Integrate with alerting/on-call for SLA misses</li>
+<li>Design for manual override and backfill</li>
+</ul>
+<hr />
+<p>This design is inspired by Airflow, Argo, and other industry schedulers, and can be extended for event-driven triggers, dynamic scaling, and multi-tenant support.</p>
 
 
 
@@ -688,10 +902,10 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.56ea9cef.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.56ea9cef.min.js"></script>
       
     
   </body>

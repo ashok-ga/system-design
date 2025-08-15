@@ -18,7 +18,7 @@
     
     
       
-        <title>Feature Flag Service (Local) - System Design Hub</title>
+        <title>Feature Flag Service (Local) — Deep Dive - System Design Hub</title>
       
     
     
@@ -60,7 +60,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#feature-flag-service-local" class="md-skip">
+        <a href="#feature-flag-service-local-deep-dive" class="md-skip">
           Skip to content
         </a>
       
@@ -72,7 +72,9 @@
     
       
 
-<header class="md-header" data-md-component="header">
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../../.." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
@@ -94,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Feature Flag Service (Local)
+              Feature Flag Service (Local) — Deep Dive
             
           </span>
         </div>
@@ -170,131 +172,6 @@
       
         
           
-            
-<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
-  <div class="md-grid">
-    <ul class="md-tabs__list">
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
-        
-  
-  
-    
-  
-  Home
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../overview/" class="md-tabs__link">
-          
-  
-  
-  High-Level Design
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../../lld/de-shaw/" class="md-tabs__link">
-          
-  
-  
-  Low-Level Design
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../../../assets/" class="md-tabs__link">
-        
-  
-  
-    
-  
-  Assets
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../../../references/" class="md-tabs__link">
-        
-  
-  
-    
-  
-  References
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../../../../CONTRIBUTING.md" class="md-tabs__link">
-        
-  
-  
-    
-  
-  Contributing
-
-      </a>
-    </li>
-  
-
-      
-    </ul>
-  </div>
-</nav>
-          
         
       
       <main class="md-main" data-md-component="main">
@@ -308,10 +185,8 @@
                     
 
 
-  
 
-
-<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="../../.." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
@@ -369,19 +244,19 @@
     
     
       
-      
+        
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
             
   
   
@@ -488,19 +363,19 @@
     
     
       
-      
+        
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
@@ -698,38 +573,86 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-requirements" class="md-nav__link">
+  <a href="#2-functional-non-functional-requirements" class="md-nav__link">
     <span class="md-ellipsis">
-      2. Requirements
+      2. Functional &amp; Non-Functional Requirements
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Functional &amp; Non-Functional Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functional-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Functional Requirements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#non-functional-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Non-Functional Requirements
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-capacity-scale-estimation" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Capacity &amp; Scale Estimation
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-capacity-estimation" class="md-nav__link">
+  <a href="#4-high-level-architecture" class="md-nav__link">
     <span class="md-ellipsis">
-      3. Capacity Estimation
+      4. High-Level Architecture
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-high-level-architecture-diagram" class="md-nav__link">
+  <a href="#5-data-model-api-design" class="md-nav__link">
     <span class="md-ellipsis">
-      4. High-Level Architecture Diagram
+      5. Data Model &amp; API Design
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Data Model &amp; API Design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Models
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#5-data-schema-api-design" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#api-endpoints" class="md-nav__link">
     <span class="md-ellipsis">
-      5. Data Schema &amp; API Design
+      API Endpoints
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -752,9 +675,27 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#8-bottlenecks-fault-tolerance-and-trade-offs" class="md-nav__link">
+  <a href="#8-scaling-fault-tolerance-and-trade-offs" class="md-nav__link">
     <span class="md-ellipsis">
-      8. Bottlenecks, Fault Tolerance, and Trade-offs
+      8. Scaling, Fault Tolerance, and Trade-offs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-security-operational-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      9. Security &amp; Operational Considerations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-best-practices-industry-insights" class="md-nav__link">
+    <span class="md-ellipsis">
+      10. Best Practices &amp; Industry Insights
     </span>
   </a>
   
@@ -779,95 +720,159 @@
   
 
 
-<h1 id="feature-flag-service-local">Feature Flag Service (Local)<a class="headerlink" href="#feature-flag-service-local" title="Permanent link">&para;</a></h1>
-<h3 id="1-problem-statement-scope">1. Problem Statement &amp; Scope<a class="headerlink" href="#1-problem-statement-scope" title="Permanent link">&para;</a></h3>
-<p>Design a local feature flag service to enable/disable features for users or groups without redeploying code. The system must support targeting by user, group, or percentage, and provide low-latency flag evaluation in the app.</p>
-<h3 id="2-requirements">2. Requirements<a class="headerlink" href="#2-requirements" title="Permanent link">&para;</a></h3>
+<h1 id="feature-flag-service-local-deep-dive">Feature Flag Service (Local) — Deep Dive<a class="headerlink" href="#feature-flag-service-local-deep-dive" title="Permanent link">&para;</a></h1>
+<h2 id="1-problem-statement-scope">1. Problem Statement &amp; Scope<a class="headerlink" href="#1-problem-statement-scope" title="Permanent link">&para;</a></h2>
+<p>Design a robust, local-first feature flag service to enable/disable features for users, groups, or segments without redeploying code. The system must support fine-grained targeting, percentage rollouts, instant rollbacks, and low-latency evaluation in the app or SDK.</p>
+<h2 id="2-functional-non-functional-requirements">2. Functional &amp; Non-Functional Requirements<a class="headerlink" href="#2-functional-non-functional-requirements" title="Permanent link">&para;</a></h2>
+<h3 id="functional-requirements">Functional Requirements<a class="headerlink" href="#functional-requirements" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Functional Requirements:</strong><ul>
-<li>Create, update, delete feature flags.</li>
-<li>Target flags by user, group, or percentage rollout.</li>
-<li>Evaluate flags in the app (SDK or API).</li>
+<li>Create, update, delete feature flags</li>
+<li>Target flags by user, group, segment, or percentage rollout</li>
+<li>Evaluate flags in the app (SDK or API)</li>
+<li>Audit log for all flag changes</li>
+<li>Support for flag dependencies and prerequisites</li>
+<li>Admin UI for flag management and monitoring</li>
+</ul>
+<h3 id="non-functional-requirements">Non-Functional Requirements<a class="headerlink" href="#non-functional-requirements" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Low Latency:</strong> &lt;5ms flag evaluation (critical path)</li>
+<li><strong>Reliability:</strong> No flag loss, safe rollbacks, high availability</li>
+<li><strong>Consistency:</strong> Eventual consistency for local cache, strong consistency for writes</li>
+<li><strong>Security:</strong> Role-based access control for flag changes</li>
+</ul>
+<h2 id="3-capacity-scale-estimation">3. Capacity &amp; Scale Estimation<a class="headerlink" href="#3-capacity-scale-estimation" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Flags:</strong> 10,000+</li>
+<li><strong>Users:</strong> 1M+</li>
+<li><strong>QPS:</strong> 10k/sec flag evaluations, 100/sec writes</li>
+<li><strong>SDKs:</strong> 1000+ connected clients</li>
+</ul>
+<h2 id="4-high-level-architecture">4. High-Level Architecture<a class="headerlink" href="#4-high-level-architecture" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>graph TD
+    AdminUI --&gt;|CRUD| FeatureFlagService
+    FeatureFlagService --&gt;|Persist| FlagStoreDB
+    FeatureFlagService --&gt;|Push| Cache
+    FeatureFlagService --&gt;|Serve| SDKClient
+    SDKClient --&gt;|Evaluate| App
+    FeatureFlagService --&gt;|Audit| AuditLog
+</code></pre></div>
+<p><strong>Components:</strong>
+- <strong>FeatureFlag Service:</strong> Central API for flag CRUD, targeting, and evaluation
+- <strong>Flag Store (DB):</strong> Durable storage (RDBMS, NoSQL)
+- <strong>Cache:</strong> In-memory cache (Redis, local SDK cache) for fast reads
+- <strong>SDK Client:</strong> Fetches, caches, and evaluates flags locally
+- <strong>Admin UI:</strong> For flag management, monitoring, and audit
+- <strong>Audit Log:</strong> Stores all flag changes for compliance</p>
+<h2 id="5-data-model-api-design">5. Data Model &amp; API Design<a class="headerlink" href="#5-data-model-api-design" title="Permanent link">&para;</a></h2>
+<h3 id="data-models">Data Models<a class="headerlink" href="#data-models" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Flag:</strong> {flag_id, name, enabled, targeting_rules, rollout_percentage, prerequisites, updated_at}</li>
+<li><strong>TargetingRule:</strong> {rule_id, flag_id, user_id/group_id/segment, condition, value}</li>
+<li><strong>AuditLog:</strong> {log_id, flag_id, action, user, timestamp, before, after}</li>
+</ul>
+<h3 id="api-endpoints">API Endpoints<a class="headerlink" href="#api-endpoints" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>POST /v1/flags</code>: Create flag</li>
+<li><code>GET /v1/flags/{flag_id}</code>: Get flag</li>
+<li><code>PUT /v1/flags/{flag_id}</code>: Update flag</li>
+<li><code>DELETE /v1/flags/{flag_id}</code>: Delete flag</li>
+<li><code>GET /v1/flags</code>: List all flags</li>
+<li><code>GET /v1/audit</code>: Get audit log</li>
+</ul>
+<h2 id="6-detailed-component-breakdown">6. Detailed Component Breakdown<a class="headerlink" href="#6-detailed-component-breakdown" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>FeatureFlag Service:</strong><ul>
+<li>CRUD for flags, manages targeting rules, exposes API for SDKs</li>
+<li>Pushes updates to SDKs via WebSocket or polling</li>
+<li>Handles flag dependencies and prerequisites</li>
 </ul>
 </li>
-<li><strong>Non-Functional Requirements:</strong><ul>
-<li><strong>Low Latency:</strong> &lt;5ms flag evaluation.</li>
-<li><strong>Reliability:</strong> No flag loss, safe rollbacks.</li>
-<li><strong>Consistency:</strong> Eventual consistency for local cache.</li>
+<li><strong>Flag Store (DB):</strong><ul>
+<li>Persistent storage for flags, rules, and audit logs</li>
+<li>Supports versioning for safe rollbacks</li>
+</ul>
+</li>
+<li><strong>SDK Client:</strong><ul>
+<li>Fetches and caches flags locally</li>
+<li>Evaluates flags for user/group/segment</li>
+<li>Supports background refresh and instant update via push</li>
+</ul>
+</li>
+<li><strong>Cache:</strong><ul>
+<li>In-memory cache for fast evaluation, supports TTL and refresh</li>
+<li>Local SDK cache for ultra-low latency</li>
+</ul>
+</li>
+<li><strong>Admin UI:</strong><ul>
+<li>For flag management, monitoring, and audit</li>
+<li>Role-based access control</li>
+</ul>
+</li>
+<li><strong>Audit Log:</strong><ul>
+<li>Stores all flag changes, who made them, and when</li>
 </ul>
 </li>
 </ul>
-<h3 id="3-capacity-estimation">3. Capacity Estimation<a class="headerlink" href="#3-capacity-estimation" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Flags:</strong> 10k.</li>
-<li><strong>Users:</strong> 1M.</li>
-<li><strong>QPS:</strong> 10k/sec flag evaluations.</li>
-</ul>
-<h3 id="4-high-level-architecture-diagram">4. High-Level Architecture Diagram<a class="headerlink" href="#4-high-level-architecture-diagram" title="Permanent link">&para;</a></h3>
-<p>Code snippet</p>
-<p><code>graph TD
-    A[Admin UI] --&gt; B[FeatureFlag Service];
-    B --&gt; C[Flag Store (DB)];
-    B --&gt; D[SDK Client];
-    D --&gt; E[App];
-    B --&gt; F[Cache];</code></p>
-<h3 id="5-data-schema-api-design">5. Data Schema &amp; API Design<a class="headerlink" href="#5-data-schema-api-design" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>API:</strong><ul>
-<li><code>POST /v1/flags</code>: Create flag.</li>
-<li><code>GET /v1/flags/{flag_id}</code>: Get flag.</li>
-<li><code>PUT /v1/flags/{flag_id}</code>: Update flag.</li>
-<li><code>DELETE /v1/flags/{flag_id}</code>: Delete flag.</li>
-</ul>
-</li>
-<li><strong>Data Models:</strong><ul>
-<li><strong>Flag:</strong> <code>flag_id, name, enabled, targeting_rules, rollout_percentage, updated_at</code></li>
-<li><strong>TargetingRule:</strong> <code>rule_id, flag_id, user_id/group_id, condition, value</code></li>
-</ul>
-</li>
-</ul>
-<h3 id="6-detailed-component-breakdown">6. Detailed Component Breakdown<a class="headerlink" href="#6-detailed-component-breakdown" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>FeatureFlag Service:</strong> CRUD for flags, manages targeting rules, exposes API for SDKs.</li>
-<li><strong>Flag Store (DB):</strong> Persistent storage for flags and rules.</li>
-<li><strong>SDK Client:</strong> Fetches and caches flags locally, evaluates for user/group.</li>
-<li><strong>Cache:</strong> In-memory cache for fast evaluation, supports TTL and refresh.</li>
-<li><strong>Admin UI:</strong> For flag management and monitoring.</li>
-</ul>
-<h3 id="7-end-to-end-flow-flag-evaluation">7. End-to-End Flow (Flag Evaluation)<a class="headerlink" href="#7-end-to-end-flow-flag-evaluation" title="Permanent link">&para;</a></h3>
-<p>Code snippet</p>
-<p>`sequenceDiagram
+<h2 id="7-end-to-end-flow-flag-evaluation">7. End-to-End Flow (Flag Evaluation)<a class="headerlink" href="#7-end-to-end-flow-flag-evaluation" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>sequenceDiagram
     participant Admin
     participant FlagSvc
     participant DB
     participant SDK
-    participant App</p>
-<div class="codehilite"><pre><span></span><code><span class="n">Admin</span><span class="o">-&gt;&gt;</span><span class="n">FlagSvc</span><span class="o">:</span><span class="w"> </span><span class="n">Create</span><span class="o">/</span><span class="n">Update</span><span class="w"> </span><span class="n">flag</span>
-<span class="n">FlagSvc</span><span class="o">-&gt;&gt;</span><span class="n">DB</span><span class="o">:</span><span class="w"> </span><span class="kr">Persist</span><span class="w"> </span><span class="n">flag</span>
-<span class="n">SDK</span><span class="o">-&gt;&gt;</span><span class="n">FlagSvc</span><span class="o">:</span><span class="w"> </span><span class="nf">Fetch</span><span class="w"> </span><span class="n">flags</span>
-<span class="n">FlagSvc</span><span class="o">--&gt;&gt;</span><span class="n">SDK</span><span class="o">:</span><span class="w"> </span><span class="kr">Return</span><span class="w"> </span><span class="n">flags</span>
-<span class="n">SDK</span><span class="o">-&gt;&gt;</span><span class="n">App</span><span class="o">:</span><span class="w"> </span><span class="kr">Evaluate</span><span class="w"> </span><span class="n">flag</span><span class="w"> </span><span class="n">for</span><span class="w"> </span><span class="n">user</span>
-<span class="n">App</span><span class="o">--&gt;&gt;</span><span class="n">SDK</span><span class="o">:</span><span class="w"> </span><span class="n">Use</span><span class="w"> </span><span class="n">feature</span>
-</code></pre></div>
+    participant App
 
-<p>`</p>
-<h3 id="8-bottlenecks-fault-tolerance-and-trade-offs">8. Bottlenecks, Fault Tolerance, and Trade-offs<a class="headerlink" href="#8-bottlenecks-fault-tolerance-and-trade-offs" title="Permanent link">&para;</a></h3>
+    Admin-&gt;&gt;FlagSvc: Create/Update flag
+    FlagSvc-&gt;&gt;DB: Persist flag
+    FlagSvc-&gt;&gt;AuditLog: Log change
+    SDK-&gt;&gt;FlagSvc: Fetch flags
+    FlagSvc--&gt;&gt;SDK: Return flags
+    SDK-&gt;&gt;App: Evaluate flag for user
+    App--&gt;&gt;SDK: Use feature
+</code></pre></div>
+<h2 id="8-scaling-fault-tolerance-and-trade-offs">8. Scaling, Fault Tolerance, and Trade-offs<a class="headerlink" href="#8-scaling-fault-tolerance-and-trade-offs" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Bottleneck: Cache Staleness:</strong><ul>
-<li>Use TTL and background refresh. Accept brief staleness for performance.</li>
+<li><strong>Scaling:</strong><ul>
+<li>Use sharded DB and distributed cache for high QPS</li>
+<li>Push updates to SDKs for instant propagation</li>
 </ul>
 </li>
-<li><strong>Rollbacks:</strong><ul>
-<li>Support instant disable/rollback. Use versioning for safe updates.</li>
+<li><strong>Fault Tolerance:</strong><ul>
+<li>Durable writes, multi-AZ deployment</li>
+<li>SDKs fall back to last known good config if service is down</li>
 </ul>
 </li>
 <li><strong>Trade-offs:</strong><ul>
-<li>Local cache is fast but may be stale. Centralized API is slower but always fresh.</li>
+<li>Local cache is fast but may be stale; push updates to minimize staleness</li>
+<li>Centralized API is always fresh but higher latency</li>
 </ul>
 </li>
 </ul>
+<h2 id="9-security-operational-considerations">9. Security &amp; Operational Considerations<a class="headerlink" href="#9-security-operational-considerations" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Security:</strong><ul>
+<li>Role-based access for flag changes</li>
+<li>All changes logged for compliance</li>
+</ul>
+</li>
+<li><strong>Monitoring:</strong><ul>
+<li>Real-time dashboards for flag usage, errors, and latency</li>
+</ul>
+</li>
+<li><strong>Disaster Recovery:</strong><ul>
+<li>Regular DB and audit log backups</li>
+</ul>
+</li>
+</ul>
+<h2 id="10-best-practices-industry-insights">10. Best Practices &amp; Industry Insights<a class="headerlink" href="#10-best-practices-industry-insights" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Use versioning for all flag changes to enable instant rollback</li>
+<li>Push updates to SDKs for near real-time propagation</li>
+<li>Use local cache for evaluation, but always support refresh</li>
+<li>Integrate with CI/CD for feature flag-driven deployments</li>
+<li>Design for safe default (fail closed or open as appropriate)</li>
+</ul>
 <hr />
-<p>This design is used by LaunchDarkly, Unleash, and other feature flag platforms for local, low-latency flag evaluation.</p>
+<p>This design is inspired by LaunchDarkly, Unleash, and other industry leaders, and can be extended for experimentation, A/B testing, and progressive delivery.</p>
 
 
 
@@ -922,7 +927,7 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../../../assets/javascripts/bundle.56ea9cef.min.js"></script>

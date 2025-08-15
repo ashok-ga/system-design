@@ -18,7 +18,7 @@
     
     
       
-        <title>Job Scheduler (cron + DAGs) - System Design Hub</title>
+        <title>Job Scheduler (cron + DAGs) — Deep Dive - System Design Hub</title>
       
     
     
@@ -60,7 +60,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#job-scheduler-cron-dags" class="md-skip">
+        <a href="#job-scheduler-cron-dags-deep-dive" class="md-skip">
           Skip to content
         </a>
       
@@ -72,7 +72,9 @@
     
       
 
-<header class="md-header" data-md-component="header">
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../../.." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
@@ -94,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Job Scheduler (cron + DAGs)
+              Job Scheduler (cron + DAGs) — Deep Dive
             
           </span>
         </div>
@@ -170,131 +172,6 @@
       
         
           
-            
-<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
-  <div class="md-grid">
-    <ul class="md-tabs__list">
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
-        
-  
-  
-    
-  
-  Home
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../overview/" class="md-tabs__link">
-          
-  
-  
-  High-Level Design
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../../lld/de-shaw/" class="md-tabs__link">
-          
-  
-  
-  Low-Level Design
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../../../assets/" class="md-tabs__link">
-        
-  
-  
-    
-  
-  Assets
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../../../references/" class="md-tabs__link">
-        
-  
-  
-    
-  
-  References
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../../../../CONTRIBUTING.md" class="md-tabs__link">
-        
-  
-  
-    
-  
-  Contributing
-
-      </a>
-    </li>
-  
-
-      
-    </ul>
-  </div>
-</nav>
-          
         
       
       <main class="md-main" data-md-component="main">
@@ -308,10 +185,8 @@
                     
 
 
-  
 
-
-<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="../../.." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
@@ -369,19 +244,19 @@
     
     
       
-      
+        
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
             
   
   
@@ -488,19 +363,19 @@
     
     
       
-      
+        
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
@@ -698,38 +573,86 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-requirements" class="md-nav__link">
+  <a href="#2-functional-non-functional-requirements" class="md-nav__link">
     <span class="md-ellipsis">
-      2. Requirements
+      2. Functional &amp; Non-Functional Requirements
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Functional &amp; Non-Functional Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functional-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Functional Requirements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#non-functional-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Non-Functional Requirements
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-capacity-scale-estimation" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Capacity &amp; Scale Estimation
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-capacity-estimation" class="md-nav__link">
+  <a href="#4-high-level-architecture" class="md-nav__link">
     <span class="md-ellipsis">
-      3. Capacity Estimation
+      4. High-Level Architecture
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-high-level-architecture-diagram" class="md-nav__link">
+  <a href="#5-data-model-api-design" class="md-nav__link">
     <span class="md-ellipsis">
-      4. High-Level Architecture Diagram
+      5. Data Model &amp; API Design
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Data Model &amp; API Design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#api-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      API Endpoints
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#5-data-schema-api-design" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#data-models" class="md-nav__link">
     <span class="md-ellipsis">
-      5. Data Schema &amp; API Design
+      Data Models
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -743,18 +666,69 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#7-end-to-end-flow-dag-run" class="md-nav__link">
+  <a href="#7-end-to-end-workflows" class="md-nav__link">
     <span class="md-ellipsis">
-      7. End-to-End Flow (DAG Run)
+      7. End-to-End Workflows
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. End-to-End Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-dag-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      a) DAG Run
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-backfill-rerun" class="md-nav__link">
+    <span class="md-ellipsis">
+      b) Backfill &amp; Rerun
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-sla-monitoring-alerting" class="md-nav__link">
+    <span class="md-ellipsis">
+      c) SLA Monitoring &amp; Alerting
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-scaling-fault-tolerance-and-trade-offs" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Scaling, Fault Tolerance, and Trade-offs
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#8-bottlenecks-fault-tolerance-and-trade-offs" class="md-nav__link">
+  <a href="#9-security-operational-considerations" class="md-nav__link">
     <span class="md-ellipsis">
-      8. Bottlenecks, Fault Tolerance, and Trade-offs
+      9. Security &amp; Operational Considerations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-best-practices-industry-insights" class="md-nav__link">
+    <span class="md-ellipsis">
+      10. Best Practices &amp; Industry Insights
     </span>
   </a>
   
@@ -779,106 +753,137 @@
   
 
 
-<h1 id="job-scheduler-cron-dags">Job Scheduler (cron + DAGs)<a class="headerlink" href="#job-scheduler-cron-dags" title="Permanent link">&para;</a></h1>
-<h3 id="1-problem-statement-scope">1. Problem Statement &amp; Scope<a class="headerlink" href="#1-problem-statement-scope" title="Permanent link">&para;</a></h3>
-<p>Design a reliable, scalable job scheduling and orchestration platform for cron and DAG-based workflows (like Airflow/Prefect). The system must support complex dependencies, retries, monitoring, and high availability.</p>
-<h3 id="2-requirements">2. Requirements<a class="headerlink" href="#2-requirements" title="Permanent link">&para;</a></h3>
+<h1 id="job-scheduler-cron-dags-deep-dive">Job Scheduler (cron + DAGs) — Deep Dive<a class="headerlink" href="#job-scheduler-cron-dags-deep-dive" title="Permanent link">&para;</a></h1>
+<h2 id="1-problem-statement-scope">1. Problem Statement &amp; Scope<a class="headerlink" href="#1-problem-statement-scope" title="Permanent link">&para;</a></h2>
+<p>Design a reliable, scalable job scheduling and orchestration platform for cron and DAG-based workflows (like Airflow/Prefect). The system must support complex dependencies, retries, monitoring, high availability, and extensibility for custom operators and plugins.</p>
+<h2 id="2-functional-non-functional-requirements">2. Functional &amp; Non-Functional Requirements<a class="headerlink" href="#2-functional-non-functional-requirements" title="Permanent link">&para;</a></h2>
+<h3 id="functional-requirements">Functional Requirements<a class="headerlink" href="#functional-requirements" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Functional Requirements:</strong><ul>
-<li>Define workflows as DAGs (Directed Acyclic Graphs) of tasks.</li>
-<li>Trigger jobs on schedule (cron) or manually.</li>
-<li>Manage dependencies, retries, backoff, and failure handling.</li>
-<li>UI/API for workflow management and monitoring.</li>
+<li>Define workflows as DAGs (Directed Acyclic Graphs) of tasks</li>
+<li>Trigger jobs on schedule (cron), event, or manually</li>
+<li>Manage dependencies, retries, backoff, and failure handling</li>
+<li>UI/API for workflow management, monitoring, and manual intervention</li>
+<li>Support for parameterized and dynamic DAGs</li>
+<li>SLA monitoring and alerting</li>
+<li>Backfill and rerun for missed/failed jobs</li>
 </ul>
-</li>
-<li><strong>Non-Functional Requirements:</strong><ul>
-<li><strong>Scalability:</strong> 10k+ concurrent jobs.</li>
-<li><strong>Reliability:</strong> No job loss, strong guarantees.</li>
-<li><strong>Extensibility:</strong> Support custom operators, plugins.</li>
-</ul>
-</li>
-</ul>
-<h3 id="3-capacity-estimation">3. Capacity Estimation<a class="headerlink" href="#3-capacity-estimation" title="Permanent link">&para;</a></h3>
+<h3 id="non-functional-requirements">Non-Functional Requirements<a class="headerlink" href="#non-functional-requirements" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Workflows:</strong> 10k active DAGs.</li>
-<li><strong>Tasks/DAG:</strong> Avg 10.</li>
-<li><strong>Job Rate:</strong> 1k/sec peak.</li>
+<li><strong>Scalability:</strong> 10k+ concurrent jobs, 100k+ tasks/day</li>
+<li><strong>Reliability:</strong> No job loss, strong guarantees, at-least-once execution</li>
+<li><strong>Extensibility:</strong> Support custom operators, plugins, and hooks</li>
+<li><strong>Observability:</strong> Real-time status, logs, and metrics</li>
+<li><strong>Security:</strong> Role-based access, audit logs</li>
 </ul>
-<h3 id="4-high-level-architecture-diagram">4. High-Level Architecture Diagram<a class="headerlink" href="#4-high-level-architecture-diagram" title="Permanent link">&para;</a></h3>
-<p>Code snippet</p>
-<p><code>graph TD
-    A[User/UI/API] --&gt; B[Scheduler];
-    B --&gt; C[Metadata DB (Postgres)];
-    B --&gt; D[Message Queue (RabbitMQ/Kafka)];
-    D --&gt; E[Worker Fleet];
-    E --&gt; F[Object Storage];
-    B --&gt; G[Monitoring/Alerting];
-    B --&gt; H[UI/API];</code></p>
-<h3 id="5-data-schema-api-design">5. Data Schema &amp; API Design<a class="headerlink" href="#5-data-schema-api-design" title="Permanent link">&para;</a></h3>
+<h2 id="3-capacity-scale-estimation">3. Capacity &amp; Scale Estimation<a class="headerlink" href="#3-capacity-scale-estimation" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>API:</strong><ul>
-<li><code>POST /v1/dags</code>: Create DAG.</li>
-<li><code>POST /v1/dags/{dag_id}/runs</code>: Trigger run.</li>
-<li><code>GET /v1/dags/{dag_id}/runs/{run_id}</code>: Get status.</li>
+<li><strong>Workflows:</strong> 10k active DAGs</li>
+<li><strong>Tasks/DAG:</strong> Avg 10</li>
+<li><strong>Job Rate:</strong> 1k/sec peak</li>
+<li><strong>Log Storage:</strong> 1TB+/month</li>
 </ul>
-</li>
-<li><strong>Data Models:</strong><ul>
-<li><strong>DAG:</strong> <code>dag_id, definition, schedule, owner, ...</code></li>
-<li><strong>DagRun:</strong> <code>run_id, dag_id, status, start_time, end_time</code></li>
-<li><strong>TaskInstance:</strong> <code>task_id, run_id, status, retries, logs</code></li>
-</ul>
-</li>
-</ul>
-<h3 id="6-detailed-component-breakdown">6. Detailed Component Breakdown<a class="headerlink" href="#6-detailed-component-breakdown" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Scheduler:</strong> Core orchestrator. Evaluates schedules, triggers DAG runs, manages state.</li>
-<li><strong>Metadata DB:</strong> Stores DAG definitions, run history, task state.</li>
-<li><strong>Message Queue:</strong> Decouples scheduling from execution. Ensures reliable delivery of tasks to workers.</li>
-<li><strong>Worker Fleet:</strong> Stateless workers execute tasks. Can autoscale.</li>
-<li><strong>Object Storage:</strong> Stores logs, artifacts, and large outputs.</li>
-<li><strong>Monitoring/Alerting:</strong> Tracks job status, failures, and metrics.</li>
-<li><strong>UI/API:</strong> For workflow management and monitoring.</li>
-</ul>
-<h3 id="7-end-to-end-flow-dag-run">7. End-to-End Flow (DAG Run)<a class="headerlink" href="#7-end-to-end-flow-dag-run" title="Permanent link">&para;</a></h3>
-<p>Code snippet</p>
-<p>`sequenceDiagram
-    participant User
-    participant Scheduler
-    participant DB
-    participant Queue
-    participant Worker
-    participant Storage</p>
-<div class="codehilite"><pre><span></span><code><span class="n">User</span><span class="o">-&gt;&gt;</span><span class="n">Scheduler</span><span class="o">:</span><span class="w"> </span><span class="n">Trigger</span><span class="w"> </span><span class="n">DAG</span><span class="w"> </span><span class="n">run</span>
-<span class="n">Scheduler</span><span class="o">-&gt;&gt;</span><span class="n">DB</span><span class="o">:</span><span class="w"> </span><span class="n">Create</span><span class="w"> </span><span class="n">DagRun</span>
-<span class="n">Scheduler</span><span class="o">-&gt;&gt;</span><span class="n">Queue</span><span class="o">:</span><span class="w"> </span><span class="n">Enqueue</span><span class="w"> </span><span class="n">tasks</span>
-<span class="n">Queue</span><span class="o">-&gt;&gt;</span><span class="n">Worker</span><span class="o">:</span><span class="w"> </span><span class="nf">Fetch</span><span class="w"> </span><span class="n">task</span>
-<span class="n">Worker</span><span class="o">-&gt;&gt;</span><span class="n">Storage</span><span class="o">:</span><span class="w"> </span><span class="n">Write</span><span class="w"> </span><span class="n">logs</span><span class="o">/</span><span class="n">artifacts</span>
-<span class="n">Worker</span><span class="o">-&gt;&gt;</span><span class="n">DB</span><span class="o">:</span><span class="w"> </span><span class="n">Update</span><span class="w"> </span><span class="n">task</span><span class="w"> </span><span class="n">status</span>
-<span class="n">Scheduler</span><span class="o">-&gt;&gt;</span><span class="n">User</span><span class="o">:</span><span class="w"> </span><span class="n">Update</span><span class="w"> </span><span class="n">status</span>
+<h2 id="4-high-level-architecture">4. High-Level Architecture<a class="headerlink" href="#4-high-level-architecture" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>graph TD
+    User[User/UI/API] --&gt; Scheduler
+    Scheduler --&gt; MetadataDB[Metadata DB (Postgres)]
+    Scheduler --&gt; Queue[Message Queue (RabbitMQ/Kafka)]
+    Queue --&gt; WorkerFleet[Worker Fleet]
+    WorkerFleet --&gt; ObjectStorage[Object Storage]
+    Scheduler --&gt; Monitoring[Monitoring/Alerting]
+    Scheduler --&gt; UIAPI[UI/API]
 </code></pre></div>
-
-<p>`</p>
-<h3 id="8-bottlenecks-fault-tolerance-and-trade-offs">8. Bottlenecks, Fault Tolerance, and Trade-offs<a class="headerlink" href="#8-bottlenecks-fault-tolerance-and-trade-offs" title="Permanent link">&para;</a></h3>
+<h2 id="5-data-model-api-design">5. Data Model &amp; API Design<a class="headerlink" href="#5-data-model-api-design" title="Permanent link">&para;</a></h2>
+<h3 id="api-endpoints">API Endpoints<a class="headerlink" href="#api-endpoints" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Bottleneck: Scheduler/Queue:</strong><ul>
-<li>Use active-passive HA for scheduler. Partition queues for scale.</li>
+<li><code>POST /v1/dags</code>: Create DAG</li>
+<li><code>POST /v1/dags/{dag_id}/runs</code>: Trigger run</li>
+<li><code>GET /v1/dags/{dag_id}/runs/{run_id}</code>: Get status</li>
+<li><code>POST /v1/dags/{dag_id}/backfill</code>: Backfill DAG</li>
+<li><code>GET /v1/tasks/{task_id}/logs</code>: Get task logs</li>
+</ul>
+<h3 id="data-models">Data Models<a class="headerlink" href="#data-models" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>DAG:</strong> {dag_id, definition, schedule, owner, ...}</li>
+<li><strong>DagRun:</strong> {run_id, dag_id, status, start_time, end_time}</li>
+<li><strong>TaskInstance:</strong> {task_id, run_id, status, retries, logs, sla_deadline}</li>
+</ul>
+<h2 id="6-detailed-component-breakdown">6. Detailed Component Breakdown<a class="headerlink" href="#6-detailed-component-breakdown" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Scheduler:</strong> Core orchestrator. Evaluates schedules, triggers DAG runs, manages state, handles retries and backoff</li>
+<li><strong>Metadata DB:</strong> Stores DAG definitions, run history, task state, and audit logs</li>
+<li><strong>Message Queue:</strong> Decouples scheduling from execution. Ensures reliable delivery of tasks to workers</li>
+<li><strong>Worker Fleet:</strong> Stateless workers execute tasks, autoscale, heartbeat for liveness</li>
+<li><strong>Object Storage:</strong> Stores logs, artifacts, and large outputs</li>
+<li><strong>Monitoring/Alerting:</strong> Tracks job status, failures, metrics, and SLAs</li>
+<li><strong>UI/API:</strong> For workflow management, monitoring, and manual intervention</li>
+</ul>
+<h2 id="7-end-to-end-workflows">7. End-to-End Workflows<a class="headerlink" href="#7-end-to-end-workflows" title="Permanent link">&para;</a></h2>
+<h3 id="a-dag-run">a) DAG Run<a class="headerlink" href="#a-dag-run" title="Permanent link">&para;</a></h3>
+<ol>
+<li>User triggers DAG run (manual, scheduled, or event)</li>
+<li>Scheduler creates DagRun in DB</li>
+<li>Scheduler enqueues runnable tasks to Message Queue</li>
+<li>Workers fetch tasks, execute, write logs/artifacts to Object Storage</li>
+<li>Workers update task status in DB</li>
+<li>Scheduler monitors progress, retries failed tasks with backoff</li>
+<li>SLA monitor triggers alerts if deadlines missed</li>
+<li>User/UI receives status updates</li>
+</ol>
+<h3 id="b-backfill-rerun">b) Backfill &amp; Rerun<a class="headerlink" href="#b-backfill-rerun" title="Permanent link">&para;</a></h3>
+<ol>
+<li>User triggers backfill for missed/failed runs</li>
+<li>Scheduler re-plans DAG, enqueues tasks as needed</li>
+</ol>
+<h3 id="c-sla-monitoring-alerting">c) SLA Monitoring &amp; Alerting<a class="headerlink" href="#c-sla-monitoring-alerting" title="Permanent link">&para;</a></h3>
+<ol>
+<li>SLA monitor tracks deadlines for each task</li>
+<li>Alerts sent to ops/on-call if missed</li>
+</ol>
+<h2 id="8-scaling-fault-tolerance-and-trade-offs">8. Scaling, Fault Tolerance, and Trade-offs<a class="headerlink" href="#8-scaling-fault-tolerance-and-trade-offs" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Scaling:</strong><ul>
+<li>Partition queues and worker pools for scale</li>
+<li>Use distributed scheduler for HA</li>
 </ul>
 </li>
-<li><strong>Workers:</strong><ul>
-<li>Stateless, autoscale. Use heartbeat/zombie detector to handle failures.</li>
-</ul>
-</li>
-<li><strong>Reliability:</strong><ul>
-<li>All state in DB. Queue is durable. Failed tasks retried with backoff.</li>
+<li><strong>Fault Tolerance:</strong><ul>
+<li>All state persisted in DB, durable queue</li>
+<li>Workers heartbeat, zombie detector for failures</li>
+<li>At-least-once execution, idempotent tasks</li>
 </ul>
 </li>
 <li><strong>Trade-offs:</strong><ul>
-<li>Strong guarantees add complexity. Eventual consistency is possible for non-critical metrics.</li>
+<li>Strong guarantees add complexity; eventual consistency possible for non-critical metrics</li>
+<li>Centralized scheduler is simple, distributed is more resilient</li>
 </ul>
 </li>
 </ul>
+<h2 id="9-security-operational-considerations">9. Security &amp; Operational Considerations<a class="headerlink" href="#9-security-operational-considerations" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Security:</strong><ul>
+<li>Role-based access for job creation and management</li>
+<li>All actions logged for audit</li>
+</ul>
+</li>
+<li><strong>Monitoring:</strong><ul>
+<li>Real-time dashboards for job status, failures, and SLAs</li>
+</ul>
+</li>
+<li><strong>Disaster Recovery:</strong><ul>
+<li>Regular DB and artifact backups</li>
+</ul>
+</li>
+</ul>
+<h2 id="10-best-practices-industry-insights">10. Best Practices &amp; Industry Insights<a class="headerlink" href="#10-best-practices-industry-insights" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Use DAGs for complex dependencies, cron for simple schedules</li>
+<li>Persist all state for reliability</li>
+<li>Use idempotent jobs to handle retries safely</li>
+<li>Integrate with alerting/on-call for SLA misses</li>
+<li>Design for manual override, backfill, and dynamic scaling</li>
+</ul>
 <hr />
-<p>This design is used by modern workflow engines (Airflow, Prefect, Argo) for reliable, scalable job orchestration.</p>
+<p>This design is inspired by Airflow, Prefect, Argo, and other industry workflow engines, and can be extended for event-driven triggers, dynamic scaling, and multi-tenant support.</p>
 
 
 
@@ -933,7 +938,7 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../../../assets/javascripts/bundle.56ea9cef.min.js"></script>

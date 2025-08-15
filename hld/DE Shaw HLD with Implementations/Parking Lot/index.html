@@ -18,7 +18,7 @@
     
     
       
-        <title>Parking Lot - System Design Hub</title>
+        <title>Parking Lot System Design (Deep Dive) - System Design Hub</title>
       
     
     
@@ -60,7 +60,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#parking-lot" class="md-skip">
+        <a href="#parking-lot-system-design-deep-dive" class="md-skip">
           Skip to content
         </a>
       
@@ -72,7 +72,9 @@
     
       
 
-<header class="md-header" data-md-component="header">
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../../.." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
@@ -94,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Parking Lot
+              Parking Lot System Design (Deep Dive)
             
           </span>
         </div>
@@ -170,131 +172,6 @@
       
         
           
-            
-<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
-  <div class="md-grid">
-    <ul class="md-tabs__list">
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
-        
-  
-  
-    
-  
-  Home
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../overview/" class="md-tabs__link">
-          
-  
-  
-  High-Level Design
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../../lld/de-shaw/" class="md-tabs__link">
-          
-  
-  
-  Low-Level Design
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../../../assets/" class="md-tabs__link">
-        
-  
-  
-    
-  
-  Assets
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../../../references/" class="md-tabs__link">
-        
-  
-  
-    
-  
-  References
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../../../../CONTRIBUTING.md" class="md-tabs__link">
-        
-  
-  
-    
-  
-  Contributing
-
-      </a>
-    </li>
-  
-
-      
-    </ul>
-  </div>
-</nav>
-          
         
       
       <main class="md-main" data-md-component="main">
@@ -308,10 +185,8 @@
                     
 
 
-  
 
-
-<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="../../.." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
@@ -369,19 +244,19 @@
     
     
       
-      
+        
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
             
   
   
@@ -488,19 +363,19 @@
     
     
       
-      
+        
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
@@ -689,15 +564,25 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#problem-statement" class="md-nav__link">
+  <a href="#1-problem-statement-scope" class="md-nav__link">
     <span class="md-ellipsis">
-      Problem Statement
+      1. Problem Statement &amp; Scope
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
+  <a href="#2-functional-non-functional-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Functional &amp; Non-Functional Requirements
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Functional &amp; Non-Functional Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#functional-requirements" class="md-nav__link">
     <span class="md-ellipsis">
       Functional Requirements
@@ -705,38 +590,145 @@
   </a>
   
 </li>
+        
+          <li class="md-nav__item">
+  <a href="#non-functional-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Non-Functional Requirements
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#core-concepts" class="md-nav__link">
+  <a href="#3-core-concepts-data-model" class="md-nav__link">
     <span class="md-ellipsis">
-      Core Concepts
+      3. Core Concepts &amp; Data Model
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#high-level-design" class="md-nav__link">
+  <a href="#4-high-level-architecture" class="md-nav__link">
     <span class="md-ellipsis">
-      High-Level Design
+      4. High-Level Architecture
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-by-step-solution" class="md-nav__link">
+  <a href="#5-detailed-workflows" class="md-nav__link">
     <span class="md-ellipsis">
-      Step-by-Step Solution
+      5. Detailed Workflows
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Detailed Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-parking-a-vehicle" class="md-nav__link">
+    <span class="md-ellipsis">
+      a) Parking a Vehicle
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-unparking-a-vehicle" class="md-nav__link">
+    <span class="md-ellipsis">
+      b) Unparking a Vehicle
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-reservation-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      c) Reservation Flow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d-lost-ticket-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      d) Lost Ticket Handling
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-scaling-fault-tolerance-and-trade-offs" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Scaling, Fault Tolerance, and Trade-offs
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#edge-cases" class="md-nav__link">
+  <a href="#7-api-interface-design" class="md-nav__link">
     <span class="md-ellipsis">
-      Edge Cases
+      7. API &amp; Interface Design
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. API &amp; Interface Design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#user-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      User APIs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#admin-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Admin APIs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-security-operational-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Security &amp; Operational Considerations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-best-practices-industry-insights" class="md-nav__link">
+    <span class="md-ellipsis">
+      9. Best Practices &amp; Industry Insights
     </span>
   </a>
   
@@ -761,58 +753,147 @@
   
 
 
-<h1 id="parking-lot">Parking Lot<a class="headerlink" href="#parking-lot" title="Permanent link">&para;</a></h1>
-<h2 id="problem-statement">Problem Statement<a class="headerlink" href="#problem-statement" title="Permanent link">&para;</a></h2>
-<p>Design a multi-floor parking lot with spot types and pricing. Support park/unpark, nearest spot allocation, and billing.</p>
-<h2 id="functional-requirements">Functional Requirements<a class="headerlink" href="#functional-requirements" title="Permanent link">&para;</a></h2>
+<h1 id="parking-lot-system-design-deep-dive">Parking Lot System Design (Deep Dive)<a class="headerlink" href="#parking-lot-system-design-deep-dive" title="Permanent link">&para;</a></h1>
+<h2 id="1-problem-statement-scope">1. Problem Statement &amp; Scope<a class="headerlink" href="#1-problem-statement-scope" title="Permanent link">&para;</a></h2>
+<p>Design a scalable, multi-floor parking lot system supporting various spot types (regular, compact, handicapped, EV, etc.), dynamic pricing, and real-time spot allocation. The system must handle park/unpark, nearest spot allocation, billing, reservations, and operational edge cases.</p>
+<h2 id="2-functional-non-functional-requirements">2. Functional &amp; Non-Functional Requirements<a class="headerlink" href="#2-functional-non-functional-requirements" title="Permanent link">&para;</a></h2>
+<h3 id="functional-requirements">Functional Requirements<a class="headerlink" href="#functional-requirements" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Park/unpark vehicle</li>
-<li>Find nearest suitable spot</li>
-<li>Track tickets and fees</li>
+<li>Park/unpark vehicle (with ticket issuance and validation)</li>
+<li>Find and allocate nearest suitable spot by vehicle type</li>
+<li>Track tickets, entry/exit times, and calculate fees</li>
+<li>Support reservations and dynamic pricing</li>
+<li>Admin APIs for lot status, spot management, and reporting</li>
 </ul>
-<h2 id="core-concepts">Core Concepts<a class="headerlink" href="#core-concepts" title="Permanent link">&para;</a></h2>
+<h3 id="non-functional-requirements">Non-Functional Requirements<a class="headerlink" href="#non-functional-requirements" title="Permanent link">&para;</a></h3>
 <ul>
-<li><code>ParkingLot</code>, <code>Floor</code>, <code>Spot(type, id, isFree)</code>, <code>Vehicle(type)</code></li>
-<li><code>Allocator</code> (nearest/cheapest)</li>
-<li><code>Ticket</code>, <code>Billing</code></li>
+<li><strong>Scalability:</strong> Support 10,000+ spots, 100+ floors, and high QPS at entry/exit</li>
+<li><strong>Reliability:</strong> No ticket/spot loss, robust against hardware failures</li>
+<li><strong>Low Latency:</strong> &lt;100ms for park/unpark operations</li>
+<li><strong>Auditability:</strong> All transactions and events logged</li>
 </ul>
-<h2 id="high-level-design">High-Level Design<a class="headerlink" href="#high-level-design" title="Permanent link">&para;</a></h2>
+<h2 id="3-core-concepts-data-model">3. Core Concepts &amp; Data Model<a class="headerlink" href="#3-core-concepts-data-model" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Structure:</strong><ul>
-<li>ParkingLot contains Floors</li>
-<li>Each Floor has Spots (by type: regular, compact, handicapped, etc.)</li>
+<li><strong>Entities:</strong><ul>
+<li><code>ParkingLot</code>: Top-level container for all floors</li>
+<li><code>Floor</code>: Contains multiple <code>Spot</code> objects</li>
+<li><code>Spot</code>: {id, type, isFree, floorId, reservedFor}</li>
+<li><code>Vehicle</code>: {id, type, licensePlate, owner}</li>
+<li><code>Ticket</code>: {ticketId, vehicleId, spotId, entryTime, exitTime, status, fee}</li>
+<li><code>Reservation</code>: {reservationId, spotId, vehicleId, reservedFrom, reservedTo}</li>
 </ul>
 </li>
-<li><strong>Allocation:</strong><ul>
-<li>On park, find nearest free spot of required type</li>
-<li>On unpark, calculate fee, free spot</li>
+<li><strong>Allocator:</strong> Pluggable strategy (nearest, cheapest, reserved, etc.)</li>
+<li><strong>Billing:</strong> Dynamic pricing, discounts, lost ticket handling</li>
 </ul>
-</li>
-<li><strong>Ticketing:</strong><ul>
-<li>Issue ticket on entry, track time</li>
-<li>On exit, calculate fee (duration × rate)</li>
-</ul>
-</li>
-<li><strong>Edge Cases:</strong><ul>
-<li>Overflow (lot full)</li>
-<li>Reservations</li>
-<li>Lost tickets</li>
-</ul>
-</li>
-</ul>
-<h2 id="step-by-step-solution">Step-by-Step Solution<a class="headerlink" href="#step-by-step-solution" title="Permanent link">&para;</a></h2>
+<h2 id="4-high-level-architecture">4. High-Level Architecture<a class="headerlink" href="#4-high-level-architecture" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>graph TD
+    EntryGate --&gt;|Scan/Issue Ticket| TicketingSystem
+    TicketingSystem --&gt; Allocator
+    Allocator --&gt; SpotDB
+    SpotDB --&gt; Allocator
+    Allocator --&gt;|Assign Spot| DisplayBoard
+    ExitGate --&gt;|Scan Ticket| TicketingSystem
+    TicketingSystem --&gt; Billing
+    Billing --&gt; PaymentGateway
+    AdminPanel --&gt; SpotDB
+</code></pre></div>
+<p><strong>Components:</strong>
+- <strong>Entry/Exit Gates:</strong> Hardware with QR/barcode scanners
+- <strong>Ticketing System:</strong> Issues, validates, and tracks tickets
+- <strong>Allocator:</strong> Finds optimal spot (nearest, reserved, etc.)
+- <strong>SpotDB:</strong> Stores real-time spot status (in-memory + persistent DB)
+- <strong>Billing:</strong> Calculates fees, applies discounts, handles lost tickets
+- <strong>Admin Panel:</strong> For monitoring, reporting, and manual overrides</p>
+<h2 id="5-detailed-workflows">5. Detailed Workflows<a class="headerlink" href="#5-detailed-workflows" title="Permanent link">&para;</a></h2>
+<h3 id="a-parking-a-vehicle">a) Parking a Vehicle<a class="headerlink" href="#a-parking-a-vehicle" title="Permanent link">&para;</a></h3>
 <ol>
-<li><strong>Define classes:</strong> ParkingLot, Floor, Spot, Vehicle, Ticket</li>
-<li><strong>Allocator:</strong> nearest/cheapest strategy</li>
-<li><strong>Billing:</strong> calculate fees</li>
-<li><strong>API:</strong> park, unpark, status endpoints</li>
+<li>Vehicle arrives at entry gate</li>
+<li>System scans license plate or issues new ticket</li>
+<li>Allocator finds nearest available spot of required type</li>
+<li>Spot is reserved and displayed to driver</li>
+<li>Ticket is updated with spotId, entryTime</li>
+<li>Spot status updated in SpotDB (atomic operation)</li>
 </ol>
-<h2 id="edge-cases">Edge Cases<a class="headerlink" href="#edge-cases" title="Permanent link">&para;</a></h2>
+<h3 id="b-unparking-a-vehicle">b) Unparking a Vehicle<a class="headerlink" href="#b-unparking-a-vehicle" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Vehicle arrives at exit gate, presents ticket</li>
+<li>System fetches ticket, calculates duration and fee</li>
+<li>Payment processed (cash/card/app)</li>
+<li>Spot marked as free, ticket closed</li>
+<li>All events logged for audit</li>
+</ol>
+<h3 id="c-reservation-flow">c) Reservation Flow<a class="headerlink" href="#c-reservation-flow" title="Permanent link">&para;</a></h3>
+<ol>
+<li>User reserves spot via app/website</li>
+<li>System blocks spot for reservation window</li>
+<li>On arrival, reservation is validated and spot is assigned</li>
+</ol>
+<h3 id="d-lost-ticket-handling">d) Lost Ticket Handling<a class="headerlink" href="#d-lost-ticket-handling" title="Permanent link">&para;</a></h3>
+<ol>
+<li>User reports lost ticket at exit</li>
+<li>System verifies vehicle via license plate/camera</li>
+<li>Admin override or maximum fee applied</li>
+</ol>
+<h2 id="6-scaling-fault-tolerance-and-trade-offs">6. Scaling, Fault Tolerance, and Trade-offs<a class="headerlink" href="#6-scaling-fault-tolerance-and-trade-offs" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Multiple vehicle types</li>
-<li>Lost ticket handling</li>
-<li>Dynamic pricing</li>
+<li><strong>Scaling:</strong><ul>
+<li>Use sharded SpotDB for large lots</li>
+<li>In-memory cache for real-time spot status, with periodic DB sync</li>
+<li>Async event processing for ticketing and billing</li>
 </ul>
+</li>
+<li><strong>Fault Tolerance:</strong><ul>
+<li>Redundant entry/exit hardware</li>
+<li>Persistent logs for all transactions</li>
+<li>Graceful fallback to manual mode on system failure</li>
+</ul>
+</li>
+<li><strong>Trade-offs:</strong><ul>
+<li>Nearest-spot allocation is fast but may not optimize for exit speed</li>
+<li>Dynamic pricing increases complexity but maximizes revenue</li>
+</ul>
+</li>
+</ul>
+<h2 id="7-api-interface-design">7. API &amp; Interface Design<a class="headerlink" href="#7-api-interface-design" title="Permanent link">&para;</a></h2>
+<h3 id="user-apis">User APIs<a class="headerlink" href="#user-apis" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>POST /park</code>: Park vehicle, returns ticket and spot info</li>
+<li><code>POST /unpark</code>: Unpark vehicle, returns fee</li>
+<li><code>GET /status</code>: Get lot/floor/spot status</li>
+<li><code>POST /reserve</code>: Reserve spot</li>
+</ul>
+<h3 id="admin-apis">Admin APIs<a class="headerlink" href="#admin-apis" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>GET /report</code>: Usage, revenue, occupancy</li>
+<li><code>POST /override</code>: Manual spot/ticket override</li>
+</ul>
+<h2 id="8-security-operational-considerations">8. Security &amp; Operational Considerations<a class="headerlink" href="#8-security-operational-considerations" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Security:</strong><ul>
+<li>Secure entry/exit with cameras and ticket validation</li>
+<li>Prevent ticket reuse and fraud</li>
+</ul>
+</li>
+<li><strong>Monitoring:</strong><ul>
+<li>Real-time dashboards for occupancy, revenue, and incidents</li>
+</ul>
+</li>
+<li><strong>Disaster Recovery:</strong><ul>
+<li>Regular DB backups, failover hardware</li>
+</ul>
+</li>
+</ul>
+<h2 id="9-best-practices-industry-insights">9. Best Practices &amp; Industry Insights<a class="headerlink" href="#9-best-practices-industry-insights" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Use atomic operations for spot allocation to avoid double-booking</li>
+<li>Prefer in-memory cache for real-time status, but always persist to DB</li>
+<li>Integrate with payment gateways for seamless billing</li>
+<li>Use event sourcing for auditability and replay</li>
+<li>Design for manual override in all critical paths</li>
+</ul>
+<hr />
+<p>This design is inspired by real-world systems like Park+ and NEXPA, and can be extended for EV charging, valet, and smart parking integrations.</p>
 
 
 
@@ -867,7 +948,7 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../../../assets/javascripts/bundle.56ea9cef.min.js"></script>

@@ -18,7 +18,7 @@
     
     
       
-        <title>Collaborative Document Editing (Google-Docs-lite) - System Design Hub</title>
+        <title>Collaborative Document Editing (Google-Docs-lite) — Deep Dive - System Design Hub</title>
       
     
     
@@ -60,7 +60,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#collaborative-document-editing-google-docs-lite" class="md-skip">
+        <a href="#collaborative-document-editing-google-docs-lite-deep-dive" class="md-skip">
           Skip to content
         </a>
       
@@ -72,7 +72,9 @@
     
       
 
-<header class="md-header" data-md-component="header">
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../../.." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
@@ -94,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Collaborative Document Editing (Google-Docs-lite)
+              Collaborative Document Editing (Google-Docs-lite) — Deep Dive
             
           </span>
         </div>
@@ -170,131 +172,6 @@
       
         
           
-            
-<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
-  <div class="md-grid">
-    <ul class="md-tabs__list">
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
-        
-  
-  
-    
-  
-  Home
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../overview/" class="md-tabs__link">
-          
-  
-  
-  High-Level Design
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../../lld/de-shaw/" class="md-tabs__link">
-          
-  
-  
-  Low-Level Design
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../../../assets/" class="md-tabs__link">
-        
-  
-  
-    
-  
-  Assets
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../../../references/" class="md-tabs__link">
-        
-  
-  
-    
-  
-  References
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../../../../CONTRIBUTING.md" class="md-tabs__link">
-        
-  
-  
-    
-  
-  Contributing
-
-      </a>
-    </li>
-  
-
-      
-    </ul>
-  </div>
-</nav>
-          
         
       
       <main class="md-main" data-md-component="main">
@@ -308,10 +185,8 @@
                     
 
 
-  
 
-
-<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="../../.." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
@@ -369,19 +244,19 @@
     
     
       
-      
+        
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
             
   
   
@@ -488,19 +363,19 @@
     
     
       
-      
+        
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
@@ -689,72 +564,171 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#requirements" class="md-nav__link">
+  <a href="#1-problem-statement-scope" class="md-nav__link">
     <span class="md-ellipsis">
-      Requirements
+      1. Problem Statement &amp; Scope
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#scale" class="md-nav__link">
+  <a href="#2-functional-non-functional-requirements" class="md-nav__link">
     <span class="md-ellipsis">
-      Scale
+      2. Functional &amp; Non-Functional Requirements
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Functional &amp; Non-Functional Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functional-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Functional Requirements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#non-functional-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Non-Functional Requirements
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-core-architecture-data-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Core Architecture &amp; Data Model
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#core-architecture" class="md-nav__link">
+  <a href="#4-high-level-architecture-diagram" class="md-nav__link">
     <span class="md-ellipsis">
-      Core Architecture
+      4. High-Level Architecture Diagram
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#storage" class="md-nav__link">
+  <a href="#5-detailed-workflows" class="md-nav__link">
     <span class="md-ellipsis">
-      Storage
+      5. Detailed Workflows
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Detailed Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-real-time-editing" class="md-nav__link">
+    <span class="md-ellipsis">
+      a) Real-time Editing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-late-joiner" class="md-nav__link">
+    <span class="md-ellipsis">
+      b) Late Joiner
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-offline-editing" class="md-nav__link">
+    <span class="md-ellipsis">
+      c) Offline Editing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d-versioning-undoredo" class="md-nav__link">
+    <span class="md-ellipsis">
+      d) Versioning &amp; Undo/Redo
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-scaling-fault-tolerance-and-trade-offs" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Scaling, Fault Tolerance, and Trade-offs
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#flow" class="md-nav__link">
+  <a href="#7-api-interface-design" class="md-nav__link">
     <span class="md-ellipsis">
-      Flow
+      7. API &amp; Interface Design
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. API &amp; Interface Design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#client-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Client APIs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#admin-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Admin APIs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-security-operational-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Security &amp; Operational Considerations
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#trade-offs" class="md-nav__link">
+  <a href="#9-best-practices-industry-insights" class="md-nav__link">
     <span class="md-ellipsis">
-      Trade-offs
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#diagram" class="md-nav__link">
-    <span class="md-ellipsis">
-      Diagram
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#notes" class="md-nav__link">
-    <span class="md-ellipsis">
-      Notes
+      9. Best Practices &amp; Industry Insights
     </span>
   </a>
   
@@ -779,45 +753,137 @@
   
 
 
-<h1 id="collaborative-document-editing-google-docs-lite">Collaborative Document Editing (Google-Docs-lite)<a class="headerlink" href="#collaborative-document-editing-google-docs-lite" title="Permanent link">&para;</a></h1>
-<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
+<h1 id="collaborative-document-editing-google-docs-lite-deep-dive">Collaborative Document Editing (Google-Docs-lite) — Deep Dive<a class="headerlink" href="#collaborative-document-editing-google-docs-lite-deep-dive" title="Permanent link">&para;</a></h1>
+<h2 id="1-problem-statement-scope">1. Problem Statement &amp; Scope<a class="headerlink" href="#1-problem-statement-scope" title="Permanent link">&para;</a></h2>
+<p>Design a Google Docs–like system for real-time collaborative editing, supporting dozens of concurrent users, presence, versioning, and robust conflict resolution. The system must ensure low-latency convergence, offline support, and operational resilience.</p>
+<h2 id="2-functional-non-functional-requirements">2. Functional &amp; Non-Functional Requirements<a class="headerlink" href="#2-functional-non-functional-requirements" title="Permanent link">&para;</a></h2>
+<h3 id="functional-requirements">Functional Requirements<a class="headerlink" href="#functional-requirements" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Real-time multi-user edits</li>
-<li>Presence</li>
-<li>Versioning</li>
+<li>Real-time multi-user editing with sub-second latency</li>
+<li>User presence and cursor/selection sharing</li>
+<li>Version history and undo/redo</li>
+<li>Conflict-free merging of concurrent edits</li>
+<li>Late joiners see latest state instantly</li>
+<li>Support for comments, suggestions, and permissions</li>
 </ul>
-<h2 id="scale">Scale<a class="headerlink" href="#scale" title="Permanent link">&para;</a></h2>
+<h3 id="non-functional-requirements">Non-Functional Requirements<a class="headerlink" href="#non-functional-requirements" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Docs with 10–100 concurrent editors</li>
-<li>p99 &lt; 200ms convergence</li>
+<li><strong>Scalability:</strong> 100+ concurrent editors per doc, 1M+ docs</li>
+<li><strong>Reliability:</strong> No data loss, robust against network partitions</li>
+<li><strong>Low Latency:</strong> p99 &lt; 200ms for edit propagation</li>
+<li><strong>Offline Support:</strong> Edits sync when reconnected</li>
+<li><strong>Security:</strong> Access control, audit logs</li>
 </ul>
-<h2 id="core-architecture">Core Architecture<a class="headerlink" href="#core-architecture" title="Permanent link">&para;</a></h2>
+<h2 id="3-core-architecture-data-model">3. Core Architecture &amp; Data Model<a class="headerlink" href="#3-core-architecture-data-model" title="Permanent link">&para;</a></h2>
 <ul>
-<li>OT or CRDT engine</li>
-<li>Doc shard service</li>
-<li>Presence/pubsub</li>
-<li>Snapshot &amp; compaction</li>
+<li><strong>Editing Engine:</strong><ul>
+<li><strong>OT (Operational Transform):</strong> Server-centric, easier for centralized control</li>
+<li><strong>CRDT (Conflict-free Replicated Data Type):</strong> Peer-to-peer/offline, eventual consistency</li>
 </ul>
-<h2 id="storage">Storage<a class="headerlink" href="#storage" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Log of ops + periodic snapshots (RDBMS/Doc store)</li>
+</li>
+<li><strong>Doc Shard Service:</strong> Horizontally sharded doc servers for scalability</li>
+<li><strong>Presence/Notification:</strong> PubSub for user presence, typing, and cursor updates</li>
+<li><strong>Snapshot &amp; Compaction:</strong> Periodic snapshots for fast late join and recovery</li>
+<li><strong>Storage:</strong><ul>
+<li><strong>Op Log:</strong> Append-only log of all edits</li>
+<li><strong>Snapshots:</strong> Periodic full doc state</li>
+<li><strong>Metadata:</strong> User, permissions, comments</li>
 </ul>
-<h2 id="flow">Flow<a class="headerlink" href="#flow" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Edit → transform/merge → broadcast; late join replay since snapshot</li>
+</li>
 </ul>
-<h2 id="trade-offs">Trade-offs<a class="headerlink" href="#trade-offs" title="Permanent link">&para;</a></h2>
-<ul>
-<li>OT easier server-centric; CRDT for P2P/offline</li>
-</ul>
-<h2 id="diagram">Diagram<a class="headerlink" href="#diagram" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>[Client] -&gt; [OT/CRDT Engine] -&gt; [Shard Service] -&gt; [Broadcast/Presence]
+<h2 id="4-high-level-architecture-diagram">4. High-Level Architecture Diagram<a class="headerlink" href="#4-high-level-architecture-diagram" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>graph TD
+    Client --&gt;|Edits| OT_CRDT_Engine
+    OT_CRDT_Engine --&gt;|Transformed Ops| ShardService
+    ShardService --&gt;|Broadcast| PresenceService
+    ShardService --&gt;|Persist| Storage
+    PresenceService --&gt;|Presence| Client
+    Storage --&gt;|Snapshot| ShardService
 </code></pre></div>
-<h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
+<h2 id="5-detailed-workflows">5. Detailed Workflows<a class="headerlink" href="#5-detailed-workflows" title="Permanent link">&para;</a></h2>
+<h3 id="a-real-time-editing">a) Real-time Editing<a class="headerlink" href="#a-real-time-editing" title="Permanent link">&para;</a></h3>
+<ol>
+<li>User types in client; edit sent to OT/CRDT engine</li>
+<li>Engine transforms/merges edit, assigns version</li>
+<li>Edit broadcast to all clients via ShardService</li>
+<li>Clients update local state, show remote cursors</li>
+</ol>
+<h3 id="b-late-joiner">b) Late Joiner<a class="headerlink" href="#b-late-joiner" title="Permanent link">&para;</a></h3>
+<ol>
+<li>New user connects to doc</li>
+<li>Receives latest snapshot + op log since snapshot</li>
+<li>Applies ops to reach current state</li>
+</ol>
+<h3 id="c-offline-editing">c) Offline Editing<a class="headerlink" href="#c-offline-editing" title="Permanent link">&para;</a></h3>
+<ol>
+<li>User edits offline; ops queued locally</li>
+<li>On reconnect, ops sent to server, merged via CRDT/OT</li>
+<li>Conflicts resolved automatically</li>
+</ol>
+<h3 id="d-versioning-undoredo">d) Versioning &amp; Undo/Redo<a class="headerlink" href="#d-versioning-undoredo" title="Permanent link">&para;</a></h3>
+<ol>
+<li>All ops stored in log with user/timestamp</li>
+<li>Undo/redo traverses op log</li>
+<li>Version history allows rollback and diff</li>
+</ol>
+<h2 id="6-scaling-fault-tolerance-and-trade-offs">6. Scaling, Fault Tolerance, and Trade-offs<a class="headerlink" href="#6-scaling-fault-tolerance-and-trade-offs" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Use operational transform for server-centric, CRDT for offline/P2P</li>
-<li>Snapshots for efficient late join</li>
+<li><strong>Scaling:</strong><ul>
+<li>Shard docs by docId for horizontal scaling</li>
+<li>Use distributed pubsub (e.g., Redis, Kafka) for presence and edit broadcast</li>
 </ul>
+</li>
+<li><strong>Fault Tolerance:</strong><ul>
+<li>Persist all ops and snapshots to durable storage</li>
+<li>Use leader election for shard failover</li>
+</ul>
+</li>
+<li><strong>Trade-offs:</strong><ul>
+<li>OT is simpler for server-centric, but CRDT is better for offline/P2P</li>
+<li>Snapshots speed up late join but increase storage</li>
+</ul>
+</li>
+</ul>
+<h2 id="7-api-interface-design">7. API &amp; Interface Design<a class="headerlink" href="#7-api-interface-design" title="Permanent link">&para;</a></h2>
+<h3 id="client-apis">Client APIs<a class="headerlink" href="#client-apis" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>POST /edit</code>: Submit edit op</li>
+<li><code>GET /snapshot</code>: Get latest doc state</li>
+<li><code>GET /presence</code>: Get current users/cursors</li>
+<li><code>POST /comment</code>: Add comment</li>
+</ul>
+<h3 id="admin-apis">Admin APIs<a class="headerlink" href="#admin-apis" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>GET /audit</code>: Get edit history</li>
+<li><code>POST /restore</code>: Restore to previous version</li>
+</ul>
+<h2 id="8-security-operational-considerations">8. Security &amp; Operational Considerations<a class="headerlink" href="#8-security-operational-considerations" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Security:</strong><ul>
+<li>Per-doc/user access control</li>
+<li>All edits and comments logged for audit</li>
+</ul>
+</li>
+<li><strong>Monitoring:</strong><ul>
+<li>Real-time dashboards for doc activity, errors, and latency</li>
+</ul>
+</li>
+<li><strong>Disaster Recovery:</strong><ul>
+<li>Regular backups of op logs and snapshots</li>
+</ul>
+</li>
+</ul>
+<h2 id="9-best-practices-industry-insights">9. Best Practices &amp; Industry Insights<a class="headerlink" href="#9-best-practices-industry-insights" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Use CRDT for offline-first, OT for centralized</li>
+<li>Always persist ops before broadcasting</li>
+<li>Use vector clocks or Lamport timestamps for ordering</li>
+<li>Snapshots every N ops for fast recovery</li>
+<li>Integrate with cloud storage for durability</li>
+<li>Design for graceful degradation (read-only mode on failure)</li>
+</ul>
+<hr />
+<p>This design is inspired by Google Docs, Etherpad, and Figma, and can be extended for rich media, plugins, and enterprise features.</p>
 
 
 
@@ -872,7 +938,7 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../../../assets/javascripts/bundle.56ea9cef.min.js"></script>

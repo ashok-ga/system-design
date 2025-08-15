@@ -18,7 +18,7 @@
     
     
       
-        <title>Distributed Cache (Multi-Region) - System Design Hub</title>
+        <title>Distributed Cache (Multi-Region) — Deep Dive - System Design Hub</title>
       
     
     
@@ -60,7 +60,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#distributed-cache-multi-region" class="md-skip">
+        <a href="#distributed-cache-multi-region-deep-dive" class="md-skip">
           Skip to content
         </a>
       
@@ -72,7 +72,9 @@
     
       
 
-<header class="md-header" data-md-component="header">
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../../.." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
@@ -94,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Distributed Cache (Multi-Region)
+              Distributed Cache (Multi-Region) — Deep Dive
             
           </span>
         </div>
@@ -170,131 +172,6 @@
       
         
           
-            
-<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
-  <div class="md-grid">
-    <ul class="md-tabs__list">
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
-        
-  
-  
-    
-  
-  Home
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../overview/" class="md-tabs__link">
-          
-  
-  
-  High-Level Design
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../../lld/de-shaw/" class="md-tabs__link">
-          
-  
-  
-  Low-Level Design
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../../../assets/" class="md-tabs__link">
-        
-  
-  
-    
-  
-  Assets
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../../../references/" class="md-tabs__link">
-        
-  
-  
-    
-  
-  References
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../../../../CONTRIBUTING.md" class="md-tabs__link">
-        
-  
-  
-    
-  
-  Contributing
-
-      </a>
-    </li>
-  
-
-      
-    </ul>
-  </div>
-</nav>
-          
         
       
       <main class="md-main" data-md-component="main">
@@ -308,10 +185,8 @@
                     
 
 
-  
 
-
-<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="../../.." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
@@ -369,19 +244,19 @@
     
     
       
-      
+        
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
             
   
   
@@ -488,19 +363,19 @@
     
     
       
-      
+        
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
@@ -698,38 +573,86 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-requirements" class="md-nav__link">
+  <a href="#2-functional-non-functional-requirements" class="md-nav__link">
     <span class="md-ellipsis">
-      2. Requirements
+      2. Functional &amp; Non-Functional Requirements
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Functional &amp; Non-Functional Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functional-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Functional Requirements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#non-functional-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Non-Functional Requirements
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-capacity-scale-estimation" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Capacity &amp; Scale Estimation
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-capacity-estimation" class="md-nav__link">
+  <a href="#4-high-level-architecture" class="md-nav__link">
     <span class="md-ellipsis">
-      3. Capacity Estimation
+      4. High-Level Architecture
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-high-level-architecture-diagram" class="md-nav__link">
+  <a href="#5-data-model-api-design" class="md-nav__link">
     <span class="md-ellipsis">
-      4. High-Level Architecture Diagram
+      5. Data Model &amp; API Design
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Data Model &amp; API Design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Models
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#5-data-schema-api-design" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#api-endpoints" class="md-nav__link">
     <span class="md-ellipsis">
-      5. Data Schema &amp; API Design
+      API Endpoints
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -752,9 +675,27 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#8-bottlenecks-fault-tolerance-and-trade-offs" class="md-nav__link">
+  <a href="#8-scaling-fault-tolerance-and-trade-offs" class="md-nav__link">
     <span class="md-ellipsis">
-      8. Bottlenecks, Fault Tolerance, and Trade-offs
+      8. Scaling, Fault Tolerance, and Trade-offs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-security-operational-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      9. Security &amp; Operational Considerations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-best-practices-industry-insights" class="md-nav__link">
+    <span class="md-ellipsis">
+      10. Best Practices &amp; Industry Insights
     </span>
   </a>
   
@@ -779,108 +720,157 @@
   
 
 
-<h1 id="distributed-cache-multi-region">Distributed Cache (Multi-Region)<a class="headerlink" href="#distributed-cache-multi-region" title="Permanent link">&para;</a></h1>
-<h3 id="1-problem-statement-scope">1. Problem Statement &amp; Scope<a class="headerlink" href="#1-problem-statement-scope" title="Permanent link">&para;</a></h3>
-<p>Design a highly available, low-latency, multi-region distributed cache to accelerate database reads for global applications. The system must support strong or eventual consistency, explicit invalidation, and seamless failover across regions.</p>
-<h3 id="2-requirements">2. Requirements<a class="headerlink" href="#2-requirements" title="Permanent link">&para;</a></h3>
+<h1 id="distributed-cache-multi-region-deep-dive">Distributed Cache (Multi-Region) — Deep Dive<a class="headerlink" href="#distributed-cache-multi-region-deep-dive" title="Permanent link">&para;</a></h1>
+<h2 id="1-problem-statement-scope">1. Problem Statement &amp; Scope<a class="headerlink" href="#1-problem-statement-scope" title="Permanent link">&para;</a></h2>
+<p>Design a highly available, low-latency, multi-region distributed cache to accelerate database reads and writes for global applications. The system must support strong or eventual consistency, explicit invalidation, seamless failover, and data locality for optimal performance.</p>
+<h2 id="2-functional-non-functional-requirements">2. Functional &amp; Non-Functional Requirements<a class="headerlink" href="#2-functional-non-functional-requirements" title="Permanent link">&para;</a></h2>
+<h3 id="functional-requirements">Functional Requirements<a class="headerlink" href="#functional-requirements" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Functional Requirements:</strong><ul>
-<li>Store key-value data with TTL.</li>
-<li>Support read-through and write-through patterns.</li>
-<li>Explicit cache invalidation (by key, by pattern).</li>
-<li>Multi-region deployments with data locality.</li>
+<li>Store key-value data with TTL and versioning</li>
+<li>Support read-through, write-through, and write-behind patterns</li>
+<li>Explicit cache invalidation (by key, pattern, or region)</li>
+<li>Multi-region deployments with data locality and failover</li>
+<li>Metrics and monitoring for cache hits/misses, latency, and invalidations</li>
+</ul>
+<h3 id="non-functional-requirements">Non-Functional Requirements<a class="headerlink" href="#non-functional-requirements" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Low Latency:</strong> &lt;10ms for local reads, &lt;50ms for cross-region</li>
+<li><strong>High Availability:</strong> Survive region and node failures</li>
+<li><strong>Consistency:</strong> Configurable (eventual/strong, per key or namespace)</li>
+<li><strong>Scalability:</strong> 1M+ QPS, 10TB+ data, 5+ regions</li>
+<li><strong>Security:</strong> Encrypted in transit and at rest, access control</li>
+</ul>
+<h2 id="3-capacity-scale-estimation">3. Capacity &amp; Scale Estimation<a class="headerlink" href="#3-capacity-scale-estimation" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Cache Size:</strong> 10TB total, 5 regions, 2TB/region</li>
+<li><strong>QPS:</strong> 1M/sec global, 200k/sec/region</li>
+<li><strong>Key Size:</strong> 64B avg, Value Size: 1KB avg</li>
+<li><strong>Replication Lag:</strong> &lt;1s for eventual, &lt;100ms for strong</li>
+</ul>
+<h2 id="4-high-level-architecture">4. High-Level Architecture<a class="headerlink" href="#4-high-level-architecture" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>graph TD
+    App1[App Server (Region 1)] --&gt; Cache1[Cache Cluster (Region 1)]
+    App2[App Server (Region 2)] --&gt; Cache2[Cache Cluster (Region 2)]
+    Cache1 &lt;--&gt; InvalidationBus[Global Invalidation Bus (Kafka)]
+    Cache2 &lt;--&gt; InvalidationBus
+    Cache1 --&gt; DB1[Primary DB (Region 1)]
+    Cache2 --&gt; DB2[DB Replica (Region 2)]
+    InvalidationBus --&gt; Cache1
+    InvalidationBus --&gt; Cache2
+</code></pre></div>
+<p><strong>Components:</strong>
+- <strong>Regional Cache Cluster:</strong> Redis/Memcached/Custom, per region, sharded for scale
+- <strong>Global Invalidation Bus:</strong> Kafka/PubSub for propagating invalidations and updates
+- <strong>Primary DB + Replicas:</strong> Source of truth, cache misses/read-throughs go here
+- <strong>Consistency Controller:</strong> Ensures strong/eventual consistency as configured
+- <strong>Monitoring &amp; Metrics:</strong> Tracks hit/miss, latency, replication lag</p>
+<h2 id="5-data-model-api-design">5. Data Model &amp; API Design<a class="headerlink" href="#5-data-model-api-design" title="Permanent link">&para;</a></h2>
+<h3 id="data-models">Data Models<a class="headerlink" href="#data-models" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Cache Entry:</strong> {key, value, version, timestamp, ttl, region}</li>
+<li><strong>Invalidation Event:</strong> {key/pattern, version, region, timestamp, type}</li>
+</ul>
+<h3 id="api-endpoints">API Endpoints<a class="headerlink" href="#api-endpoints" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>GET /cache/{key}</code>: Get value</li>
+<li><code>SET /cache/{key}</code>: Set value</li>
+<li><code>DEL /cache/{key}</code>: Delete key</li>
+<li><code>INVALIDATE /cache/{pattern}</code>: Invalidate keys by pattern</li>
+<li><code>GET /metrics</code>: Get cache stats</li>
+</ul>
+<h2 id="6-detailed-component-breakdown">6. Detailed Component Breakdown<a class="headerlink" href="#6-detailed-component-breakdown" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Regional Cache Cluster:</strong><ul>
+<li>Handles all local traffic for low latency</li>
+<li>Sharded for scale, replicated for HA</li>
+<li>Supports local and global invalidation</li>
 </ul>
 </li>
-<li><strong>Non-Functional Requirements:</strong><ul>
-<li><strong>Low Latency:</strong> &lt;10ms for local reads.</li>
-<li><strong>High Availability:</strong> Survive region failures.</li>
-<li><strong>Consistency:</strong> Configurable (eventual/strong).</li>
-<li><strong>Scalability:</strong> 1M+ QPS, 10TB+ data.</li>
+<li><strong>Global Invalidation Bus:</strong><ul>
+<li>Propagates invalidation and update events to all regions</li>
+<li>Ensures cache coherence across the globe</li>
+</ul>
+</li>
+<li><strong>Primary DB + Replicas:</strong><ul>
+<li>Source of truth for all data</li>
+<li>Cache misses/read-throughs go here</li>
+</ul>
+</li>
+<li><strong>Consistency Controller:</strong><ul>
+<li>Configurable per key/namespace (eventual/strong)</li>
+<li>Uses distributed locks or consensus for strong consistency</li>
+</ul>
+</li>
+<li><strong>Monitoring &amp; Metrics:</strong><ul>
+<li>Real-time dashboards for hit/miss, latency, replication lag</li>
 </ul>
 </li>
 </ul>
-<h3 id="3-capacity-estimation">3. Capacity Estimation<a class="headerlink" href="#3-capacity-estimation" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Cache Size:</strong> 10TB total, 5 regions, 2TB/region.</li>
-<li><strong>QPS:</strong> 1M/sec global, 200k/sec/region.</li>
-<li><strong>Key Size:</strong> 64B avg, Value Size: 1KB avg.</li>
-</ul>
-<h3 id="4-high-level-architecture-diagram">4. High-Level Architecture Diagram<a class="headerlink" href="#4-high-level-architecture-diagram" title="Permanent link">&para;</a></h3>
-<p>Code snippet</p>
-<p><code>graph TD
-    A[App Server (Region 1)] --&gt; B[Cache Cluster (Region 1)];
-    A2[App Server (Region 2)] --&gt; C[Cache Cluster (Region 2)];
-    B &lt;--&gt; D[Global Invalidation Bus (Kafka)];
-    C &lt;--&gt; D;
-    B --&gt; E[Primary DB (Region 1)];
-    C --&gt; F[DB Replica (Region 2)];
-    D --&gt; B;
-    D --&gt; C;</code></p>
-<h3 id="5-data-schema-api-design">5. Data Schema &amp; API Design<a class="headerlink" href="#5-data-schema-api-design" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>API:</strong><ul>
-<li><code>GET /cache/{key}</code></li>
-<li><code>SET /cache/{key}</code></li>
-<li><code>DEL /cache/{key}</code></li>
-<li><code>INVALIDATE /cache/{pattern}</code></li>
-</ul>
-</li>
-<li><strong>Data Model:</strong><ul>
-<li><strong>Cache Entry:</strong> <code>{key, value, version, timestamp, ttl}</code></li>
-<li><strong>Invalidation Event:</strong> <code>{key/pattern, version, region, timestamp}</code></li>
-</ul>
-</li>
-</ul>
-<h3 id="6-detailed-component-breakdown">6. Detailed Component Breakdown<a class="headerlink" href="#6-detailed-component-breakdown" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Regional Cache Cluster:</strong> Redis/Memcached cluster per region. Handles local traffic for low latency.</li>
-<li><strong>Global Invalidation Bus:</strong> Kafka or similar pub/sub for propagating invalidation events across regions.</li>
-<li><strong>Primary DB + Replicas:</strong> Source of truth. Cache misses/read-throughs go here.</li>
-<li><strong>Consistency Controller:</strong> Ensures strong/eventual consistency as configured.</li>
-</ul>
-<h3 id="7-end-to-end-flow-cache-readwriteinvalidate">7. End-to-End Flow (Cache Read/Write/Invalidate)<a class="headerlink" href="#7-end-to-end-flow-cache-readwriteinvalidate" title="Permanent link">&para;</a></h3>
-<p>Code snippet</p>
-<p>`sequenceDiagram
+<h2 id="7-end-to-end-flow-cache-readwriteinvalidate">7. End-to-End Flow (Cache Read/Write/Invalidate)<a class="headerlink" href="#7-end-to-end-flow-cache-readwriteinvalidate" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>sequenceDiagram
     participant App
     participant Cache
     participant DB
-    participant InvalidationBus</p>
-<div class="codehilite"><pre><span></span><code><span class="n">App</span><span class="o">-&gt;&gt;</span><span class="nl">Cache:</span><span class="w"> </span><span class="n">GET</span><span class="w"> </span><span class="n">key</span>
-<span class="n">alt</span><span class="w"> </span><span class="n">Hit</span>
-<span class="w">    </span><span class="n">Cache</span><span class="o">--&gt;&gt;</span><span class="nl">App:</span><span class="w"> </span><span class="n">Return</span><span class="w"> </span><span class="n">value</span>
-<span class="k">else</span><span class="w"> </span><span class="n">Miss</span>
-<span class="w">    </span><span class="n">Cache</span><span class="o">-&gt;&gt;</span><span class="nl">DB:</span><span class="w"> </span><span class="n">Fetch</span><span class="w"> </span><span class="n">value</span>
-<span class="w">    </span><span class="n">DB</span><span class="o">--&gt;&gt;</span><span class="nl">Cache:</span><span class="w"> </span><span class="n">Return</span><span class="w"> </span><span class="n">value</span>
-<span class="w">    </span><span class="n">Cache</span><span class="o">--&gt;&gt;</span><span class="nl">App:</span><span class="w"> </span><span class="n">Return</span><span class="w"> </span><span class="n">value</span>
-<span class="w">    </span><span class="n">Cache</span><span class="o">-&gt;&gt;</span><span class="nl">Cache:</span><span class="w"> </span><span class="n">SET</span><span class="w"> </span><span class="n">key</span>
-<span class="k">end</span>
-<span class="n">App</span><span class="o">-&gt;&gt;</span><span class="nl">Cache:</span><span class="w"> </span><span class="n">SET</span><span class="o">/</span><span class="n">DEL</span><span class="w"> </span><span class="n">key</span>
-<span class="n">Cache</span><span class="o">-&gt;&gt;</span><span class="nl">InvalidationBus:</span><span class="w"> </span><span class="n">Publish</span><span class="w"> </span><span class="n">invalidation</span>
-<span class="n">InvalidationBus</span><span class="o">-&gt;&gt;</span><span class="nl">Cache:</span><span class="w"> </span><span class="n">Invalidate</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">regions</span>
-</code></pre></div>
+    participant InvalidationBus
 
-<p>`</p>
-<h3 id="8-bottlenecks-fault-tolerance-and-trade-offs">8. Bottlenecks, Fault Tolerance, and Trade-offs<a class="headerlink" href="#8-bottlenecks-fault-tolerance-and-trade-offs" title="Permanent link">&para;</a></h3>
+    App-&gt;&gt;Cache: GET key
+    alt Hit
+        Cache--&gt;&gt;App: Return value
+    else Miss
+        Cache-&gt;&gt;DB: Fetch value
+        DB--&gt;&gt;Cache: Return value
+        Cache--&gt;&gt;App: Return value
+        Cache-&gt;&gt;Cache: SET key
+    end
+    App-&gt;&gt;Cache: SET/DEL key
+    Cache-&gt;&gt;InvalidationBus: Publish invalidation
+    InvalidationBus-&gt;&gt;Cache: Invalidate key in all regions
+</code></pre></div>
+<h2 id="8-scaling-fault-tolerance-and-trade-offs">8. Scaling, Fault Tolerance, and Trade-offs<a class="headerlink" href="#8-scaling-fault-tolerance-and-trade-offs" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Bottleneck: Invalidation Propagation:</strong><ul>
-<li>Use async pub/sub for scale. Accept brief staleness for performance.</li>
+<li><strong>Scaling:</strong><ul>
+<li>Shard cache clusters for scale</li>
+<li>Use async pub/sub for invalidation propagation</li>
 </ul>
 </li>
-<li><strong>Consistency:</strong><ul>
-<li>Eventual consistency is fast, but may serve stale data. Strong consistency is slower, requires cross-region coordination.</li>
-</ul>
-</li>
-<li><strong>Availability:</strong><ul>
-<li>Each region is independent. If one fails, others continue serving.</li>
+<li><strong>Fault Tolerance:</strong><ul>
+<li>Multi-AZ deployment, failover nodes</li>
+<li>Each region operates independently; global bus ensures coherence</li>
 </ul>
 </li>
 <li><strong>Trade-offs:</strong><ul>
-<li>Eventual consistency is simpler and faster. Strong consistency is needed for critical data but adds latency.</li>
+<li>Eventual consistency is fast, but may serve stale data</li>
+<li>Strong consistency is slower, requires cross-region coordination</li>
+<li>Choose per use case: session tokens (strong), product catalog (eventual)</li>
 </ul>
 </li>
 </ul>
+<h2 id="9-security-operational-considerations">9. Security &amp; Operational Considerations<a class="headerlink" href="#9-security-operational-considerations" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Security:</strong><ul>
+<li>Encrypt data in transit (TLS) and at rest</li>
+<li>Access control for cache APIs</li>
+</ul>
+</li>
+<li><strong>Monitoring:</strong><ul>
+<li>Real-time dashboards for cache health, usage, and errors</li>
+</ul>
+</li>
+<li><strong>Disaster Recovery:</strong><ul>
+<li>Regular backups of cache metadata and config</li>
+</ul>
+</li>
+</ul>
+<h2 id="10-best-practices-industry-insights">10. Best Practices &amp; Industry Insights<a class="headerlink" href="#10-best-practices-industry-insights" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Use versioning for all cache entries to avoid stale writes</li>
+<li>Prefer local reads, but always support global invalidation</li>
+<li>Use async propagation for scale, but allow strong consistency for critical data</li>
+<li>Integrate with application monitoring for end-to-end visibility</li>
+<li>Design for graceful degradation (read-through to DB on cache miss)</li>
+</ul>
 <hr />
-<p>This design is used by global-scale apps (e.g., Netflix, AWS ElastiCache Global Datastore) for low-latency, highly available caching.</p>
+<p>This design is inspired by Netflix EVCache, AWS ElastiCache Global Datastore, and other global-scale caching systems, and can be extended for write-behind, near-cache, and edge caching.</p>
 
 
 
@@ -935,7 +925,7 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../../../assets/javascripts/bundle.56ea9cef.min.js"></script>
