@@ -1,0 +1,1105 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation/Token-Bucket%20Rate%20Limiter%20%28Multi-Tenant%29/">
+      
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
+    
+    
+      
+        <title>Token-Bucket Rate Limiter (Multi-Tenant) - System Design Hub</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.342714a4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#token-bucket-rate-limiter-multi-tenant" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            System Design Hub
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Token-Bucket Rate Limiter (Multi-Tenant)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ashok-ga/system-design" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ashok-ga/system-design
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../hld/overview/" class="md-tabs__link">
+          
+  
+  
+  High-Level Design
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../de-shaw/" class="md-tabs__link">
+          
+  
+  
+  Low-Level Design
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../assets/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Assets
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../references/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  References
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../CONTRIBUTING.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Contributing
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    System Design Hub
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ashok-ga/system-design" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ashok-ga/system-design
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    High-Level Design
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            High-Level Design
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hld/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hld/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hld/de-shaw/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DE Shaw
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Low-Level Design
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Low-Level Design
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../de-shaw/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DE Shaw
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../module2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../assets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Assets
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../references/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    References
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../CONTRIBUTING.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Contributing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-system-overview-scope-clarification" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. System Overview &amp; Scope Clarification
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-core-components-and-class-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Core Components and Class Design
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-api-design-multitenantratelimiter" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. API Design (MultiTenantRateLimiter)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-key-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Key Workflows
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-code-implementation-java" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Code Implementation (Java)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-testing-junit-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Testing (JUnit 5)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-scalability-extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Scalability &amp; Extensions
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="token-bucket-rate-limiter-multi-tenant">Token-Bucket Rate Limiter (Multi-Tenant)<a class="headerlink" href="#token-bucket-rate-limiter-multi-tenant" title="Permanent link">&para;</a></h1>
+<p>This problem involves designing a rate limiter that can enforce different request limits for multiple clients (or tenants) using the token bucket algorithm. This is a critical component for API gateways, microservices, and any system needing to control traffic flow.</p>
+<h3 id="1-system-overview-scope-clarification"><strong>1. System Overview &amp; Scope Clarification</strong><a class="headerlink" href="#1-system-overview-scope-clarification" title="Permanent link">&para;</a></h3>
+<p>We are building an in-memory, server-side rate limiting service. The goal is to control the frequency of operations on a per-client basis, identified by a unique key (e.g., user ID, API key, IP address).</p>
+<p><strong>Algorithm Choice: Token Bucket</strong>
+The token bucket algorithm is ideal for this use case. It works as follows:</p>
+<ul>
+<li>A bucket has a maximum capacity of tokens.</li>
+<li>Tokens are added to the bucket at a fixed rate.</li>
+<li>If the bucket is full, new tokens are discarded.</li>
+<li>Each incoming request consumes one token. If the bucket is empty, the request is rejected.
+This allows for <strong>bursts of requests</strong> up to the bucket's capacity, which is often desirable, while maintaining a constant average rate over time.</li>
+</ul>
+<p><strong>Functional Requirements (FR):</strong></p>
+<ul>
+<li><strong><code>isAllowed(key)</code>:</strong> A method that returns <code>true</code> if a request for a given key should proceed, and <code>false</code> if it should be rate-limited.</li>
+<li><strong>Multi-Tenancy:</strong> The system must support different rate limits and burst capacities for different keys.</li>
+<li><strong>Configuration:</strong> Allow setting a default limit and tenant-specific overrides.</li>
+</ul>
+<p><strong>Non-Functional Requirements (NFR):</strong></p>
+<ul>
+<li><strong>Performance:</strong> The <code>isAllowed</code> check (the hot path) must be highly performant, ideally O(1).</li>
+<li><strong>Thread-Safety:</strong> The limiter must handle concurrent requests for the same or different keys correctly.</li>
+<li><strong>Monotonic Clock:</strong> The logic must use a monotonic clock (<code>System.nanoTime()</code>) to be immune to system time changes (e.g., NTP adjustments, daylight saving).</li>
+</ul>
+<p><strong>Scope:</strong></p>
+<ul>
+<li>We will design a single-node, in-memory solution first.</li>
+<li>We will then discuss the necessary modifications to scale it to a distributed environment.</li>
+</ul>
+<hr />
+<h3 id="2-core-components-and-class-design"><strong>2. Core Components and Class Design</strong><a class="headerlink" href="#2-core-components-and-class-design" title="Permanent link">&para;</a></h3>
+<p>The design will consist of a central manager class that holds a collection of individual token buckets.</p>
+<ul>
+<li><strong><code>RateLimiterConfig</code>:</strong> A simple data object (or Java Record) to hold the configuration for a bucket: its <code>capacity</code> (burst size) and <code>refillRateInTokensPerSecond</code>.</li>
+<li><strong><code>TokenBucket</code>:</strong> This class encapsulates the state and logic for a single client's bucket. It will contain the configuration, the current number of tokens, and the timestamp of the last refill. Its methods will be synchronized to ensure thread safety.</li>
+<li><strong><code>MultiTenantRateLimiter</code>:</strong> The main public class. It holds a <code>ConcurrentHashMap</code> mapping a client key (<code>String</code>) to their respective <code>TokenBucket</code>. It manages the creation of new buckets on-demand based on the provided configurations.</li>
+</ul>
+<p><strong>Class Diagram (Textual Representation):</strong></p>
+<p><code>+---------------------------+
+| MultiTenantRateLimiter    |
+|---------------------------|
+| - buckets: ConcurrentHashMap&lt;String, TokenBucket&gt; |
+| - defaultConfig: RateLimiterConfig |
+| - specificConfigs: Map&lt;String, RateLimiterConfig&gt; |
+|---------------------------|
+| + isAllowed(key): boolean |
++---------------------------+
+          |
+          | creates &amp; manages
+          v
++---------------------------+
+|      TokenBucket          |
+|---------------------------|
+| - capacity: long          |
+| - refillRatePerNano: double |
+| - tokens: double          |
+| - lastRefillNanos: long   |
+|---------------------------|
+| + allow(): boolean (sync) |
++---------------------------+</code></p>
+<hr />
+<h3 id="3-api-design-multitenantratelimiter"><strong>3. API Design (<code>MultiTenantRateLimiter</code>)</strong><a class="headerlink" href="#3-api-design-multitenantratelimiter" title="Permanent link">&para;</a></h3>
+<p>Java</p>
+<div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MultiTenantRateLimiter</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="c1">// Constructor to define the default and specific rate limiting rules.</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">MultiTenantRateLimiter</span><span class="p">(</span><span class="n">RateLimiterConfig</span><span class="w"> </span><span class="n">defaultConfig</span><span class="p">,</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">RateLimiterConfig</span><span class="o">&gt;</span><span class="w"> </span><span class="n">specificConfigs</span><span class="p">);</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * Determines if a request for the given key should be allowed.</span>
+<span class="cm">     * This method is thread-safe and has O(1) complexity.</span>
+<span class="cm">     * It lazily creates token buckets for new keys.</span>
+<span class="cm">     * @param key The identifier for the client (e.g., userId, apiKey).</span>
+<span class="cm">     * @return true if the request is within the limit, false otherwise.</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">boolean</span><span class="w"> </span><span class="nf">isAllowed</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">key</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// Configuration record</span>
+<span class="k">public</span><span class="w"> </span><span class="n">record</span><span class="w"> </span><span class="n">RateLimiterConfig</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="n">capacity</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">tokensPerSecond</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+</code></pre></div>
+<hr />
+<h3 id="4-key-workflows"><strong>4. Key Workflows</strong><a class="headerlink" href="#4-key-workflows" title="Permanent link">&para;</a></h3>
+<p><strong><code>isAllowed(key)</code> Workflow:</strong></p>
+<ol>
+<li>The <code>MultiTenantRateLimiter</code> receives a call to <code>isAllowed("some_user_id")</code>.</li>
+<li>It uses <code>ConcurrentHashMap.computeIfAbsent()</code> to atomically get or create the <code>TokenBucket</code> for <code>"some_user_id"</code>.<ul>
+<li><strong>If bucket exists:</strong> The existing instance is returned.</li>
+<li><strong>If bucket does not exist (first request):</strong>
+a. A lambda expression is executed to create the new bucket.
+b. It checks the <code>specificConfigs</code> map for <code>"some_user_id"</code>. If a config is found, it's used.
+c. Otherwise, the <code>defaultConfig</code> is used.
+d. A new <code>TokenBucket</code> is instantiated with the chosen config, starting with a full bucket of tokens.
+e. The new bucket is placed in the map and returned.</li>
+</ul>
+</li>
+<li>The method then calls the <code>allow()</code> method on the retrieved <code>TokenBucket</code>.</li>
+<li><strong>Inside <code>TokenBucket.allow()</code> (a <code>synchronized</code> method):</strong>
+a. A private <code>refill()</code> method is called first.
+b. <code>refill()</code> calculates the time delta in nanoseconds since the last refill (<code>System.nanoTime() - lastRefillNanos</code>).
+c. It calculates tokens to add (<code>delta * refillRatePerNano</code>) and adds them to the current token count.
+d. The token count is capped at the bucket's <code>capacity</code>.
+e. The <code>lastRefillNanos</code> timestamp is updated to the current time.
+f. After refilling, <code>allow()</code> checks if <code>tokens &gt;= 1.0</code>.
+g. If yes, it subtracts <code>1.0</code> from <code>tokens</code> and returns <code>true</code>.
+h. If no, it returns <code>false</code>.</li>
+</ol>
+<hr />
+<h3 id="5-code-implementation-java"><strong>5. Code Implementation (Java)</strong><a class="headerlink" href="#5-code-implementation-java" title="Permanent link">&para;</a></h3>
+<p><strong><code>RateLimiterConfig.java</code></strong></p>
+<p>Java</p>
+<div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="n">record</span><span class="w"> </span><span class="nf">RateLimiterConfig</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="n">capacity</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">tokensPerSecond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">RateLimiterConfig</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">capacity</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">tokensPerSecond</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">IllegalArgumentException</span><span class="p">(</span><span class="s">&quot;Capacity and tokensPerSecond must be positive.&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong><code>TokenBucket.java</code></strong></p>
+<p>Java</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">TokenBucket</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">final</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">capacity</span><span class="p">;</span>
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">final</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">refillRatePerNano</span><span class="p">;</span>
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">tokens</span><span class="p">;</span>
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">lastRefillNanos</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">TokenBucket</span><span class="p">(</span><span class="n">RateLimiterConfig</span><span class="w"> </span><span class="n">config</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="n">capacity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">config</span><span class="p">.</span><span class="n">capacity</span><span class="p">();</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="n">refillRatePerNano</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">config</span><span class="p">.</span><span class="n">tokensPerSecond</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1</span><span class="n">_000_000_000</span><span class="mf">.0</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="n">tokens</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">config</span><span class="p">.</span><span class="n">capacity</span><span class="p">();</span><span class="w"> </span><span class="c1">// Start with a full bucket</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="n">lastRefillNanos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="n">nanoTime</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">refill</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">long</span><span class="w"> </span><span class="n">now</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="n">nanoTime</span><span class="p">();</span>
+<span class="w">        </span><span class="kt">long</span><span class="w"> </span><span class="n">nanosElapsed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">now</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lastRefillNanos</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nanosElapsed</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kt">double</span><span class="w"> </span><span class="n">tokensToAdd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nanosElapsed</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">refillRatePerNano</span><span class="p">;</span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="n">tokens</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Math</span><span class="p">.</span><span class="n">min</span><span class="p">(</span><span class="n">capacity</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="n">tokens</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">tokensToAdd</span><span class="p">);</span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="n">lastRefillNanos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">now</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">synchronized</span><span class="w"> </span><span class="n">boolean</span><span class="w"> </span><span class="n">allow</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">refill</span><span class="p">();</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">tokens</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">1.0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="n">tokens</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="mf">1.0</span><span class="p">;</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong><code>MultiTenantRateLimiter.java</code></strong></p>
+<p>Java</p>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="n">java</span><span class="p">.</span><span class="n">util</span><span class="p">.</span><span class="n">Map</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="n">java</span><span class="p">.</span><span class="n">util</span><span class="p">.</span><span class="n">concurrent</span><span class="p">.</span><span class="n">ConcurrentHashMap</span><span class="p">;</span>
+
+<span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MultiTenantRateLimiter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">final</span><span class="w"> </span><span class="n">ConcurrentHashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">TokenBucket</span><span class="o">&gt;</span><span class="w"> </span><span class="n">buckets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ConcurrentHashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">final</span><span class="w"> </span><span class="n">RateLimiterConfig</span><span class="w"> </span><span class="n">defaultConfig</span><span class="p">;</span>
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">final</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">RateLimiterConfig</span><span class="o">&gt;</span><span class="w"> </span><span class="n">specificConfigs</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">MultiTenantRateLimiter</span><span class="p">(</span><span class="n">RateLimiterConfig</span><span class="w"> </span><span class="n">defaultConfig</span><span class="p">,</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">RateLimiterConfig</span><span class="o">&gt;</span><span class="w"> </span><span class="n">specificConfigs</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="n">defaultConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">defaultConfig</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="n">specificConfigs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">specificConfigs</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">boolean</span><span class="w"> </span><span class="n">isAllowed</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">key</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">TokenBucket</span><span class="w"> </span><span class="n">bucket</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buckets</span><span class="p">.</span><span class="n">computeIfAbsent</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="o">::</span><span class="n">createBucket</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">bucket</span><span class="p">.</span><span class="n">allow</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="n">TokenBucket</span><span class="w"> </span><span class="n">createBucket</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">key</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">RateLimiterConfig</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">specificConfigs</span><span class="p">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">defaultConfig</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TokenBucket</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h3 id="6-testing-junit-5"><strong>6. Testing (JUnit 5)</strong><a class="headerlink" href="#6-testing-junit-5" title="Permanent link">&para;</a></h3>
+<p>Java</p>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="n">org</span><span class="p">.</span><span class="n">junit</span><span class="p">.</span><span class="n">jupiter</span><span class="p">.</span><span class="n">api</span><span class="p">.</span><span class="n">Test</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="n">org</span><span class="p">.</span><span class="n">junit</span><span class="p">.</span><span class="n">jupiter</span><span class="p">.</span><span class="n">api</span><span class="p">.</span><span class="n">Assertions</span><span class="p">.</span><span class="o">*</span><span class="p">;</span>
+
+<span class="k">import</span><span class="w"> </span><span class="n">java</span><span class="p">.</span><span class="n">util</span><span class="p">.</span><span class="n">Map</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="n">java</span><span class="p">.</span><span class="n">util</span><span class="p">.</span><span class="n">concurrent</span><span class="p">.</span><span class="n">ExecutorService</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="n">java</span><span class="p">.</span><span class="n">util</span><span class="p">.</span><span class="n">concurrent</span><span class="p">.</span><span class="n">Executors</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="n">java</span><span class="p">.</span><span class="n">util</span><span class="p">.</span><span class="n">concurrent</span><span class="p">.</span><span class="n">TimeUnit</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="n">java</span><span class="p">.</span><span class="n">util</span><span class="p">.</span><span class="n">concurrent</span><span class="p">.</span><span class="n">atomic</span><span class="p">.</span><span class="n">AtomicInteger</span><span class="p">;</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MultiTenantRateLimiterTest</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="err">@</span><span class="n">Test</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">testAllowsBurstUpToCapacity</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">RateLimiterConfig</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">RateLimiterConfig</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+<span class="w">        </span><span class="n">MultiTenantRateLimiter</span><span class="w"> </span><span class="n">limiter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MultiTenantRateLimiter</span><span class="p">(</span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="n">Map</span><span class="p">.</span><span class="n">of</span><span class="p">());</span>
+
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">limiter</span><span class="p">.</span><span class="n">isAllowed</span><span class="p">(</span><span class="s">&quot;user1&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;Request &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; should be allowed&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">assertFalse</span><span class="p">(</span><span class="n">limiter</span><span class="p">.</span><span class="n">isAllowed</span><span class="p">(</span><span class="s">&quot;user1&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;6th request should be denied&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="err">@</span><span class="n">Test</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">testTokenRefill</span><span class="p">()</span><span class="w"> </span><span class="k">throws</span><span class="w"> </span><span class="n">InterruptedException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 1 token per 100ms</span>
+<span class="w">        </span><span class="n">RateLimiterConfig</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">RateLimiterConfig</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span><span class="w"> </span>
+<span class="w">        </span><span class="n">MultiTenantRateLimiter</span><span class="w"> </span><span class="n">limiter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MultiTenantRateLimiter</span><span class="p">(</span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="n">Map</span><span class="p">.</span><span class="n">of</span><span class="p">());</span>
+
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">limiter</span><span class="p">.</span><span class="n">isAllowed</span><span class="p">(</span><span class="s">&quot;user1&quot;</span><span class="p">));</span><span class="w"> </span><span class="c1">// Consume the only token</span>
+<span class="w">        </span><span class="n">assertFalse</span><span class="p">(</span><span class="n">limiter</span><span class="p">.</span><span class="n">isAllowed</span><span class="p">(</span><span class="s">&quot;user1&quot;</span><span class="p">));</span><span class="w"> </span><span class="c1">// Now it&#39;s empty</span>
+
+<span class="w">        </span><span class="n">Thread</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">110</span><span class="p">);</span><span class="w"> </span><span class="c1">// Wait for more than 100ms for a token to refill</span>
+
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">limiter</span><span class="p">.</span><span class="n">isAllowed</span><span class="p">(</span><span class="s">&quot;user1&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;Should be allowed after refill&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="err">@</span><span class="n">Test</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">testMultiTenantSpecificConfigs</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">RateLimiterConfig</span><span class="w"> </span><span class="n">defaultConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">RateLimiterConfig</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+<span class="w">        </span><span class="n">RateLimiterConfig</span><span class="w"> </span><span class="n">premiumConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">RateLimiterConfig</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">);</span>
+<span class="w">        </span><span class="n">MultiTenantRateLimiter</span><span class="w"> </span><span class="n">limiter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MultiTenantRateLimiter</span><span class="p">(</span>
+<span class="w">            </span><span class="n">defaultConfig</span><span class="p">,</span><span class="w"> </span>
+<span class="w">            </span><span class="n">Map</span><span class="p">.</span><span class="n">of</span><span class="p">(</span><span class="s">&quot;premiumUser&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">premiumConfig</span><span class="p">)</span>
+<span class="w">        </span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Test default user</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">limiter</span><span class="p">.</span><span class="n">isAllowed</span><span class="p">(</span><span class="s">&quot;defaultUser&quot;</span><span class="p">));</span>
+<span class="w">        </span><span class="n">assertFalse</span><span class="p">(</span><span class="n">limiter</span><span class="p">.</span><span class="n">isAllowed</span><span class="p">(</span><span class="s">&quot;defaultUser&quot;</span><span class="p">));</span>
+
+<span class="w">        </span><span class="c1">// Test premium user</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">limiter</span><span class="p">.</span><span class="n">isAllowed</span><span class="p">(</span><span class="s">&quot;premiumUser&quot;</span><span class="p">));</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">assertFalse</span><span class="p">(</span><span class="n">limiter</span><span class="p">.</span><span class="n">isAllowed</span><span class="p">(</span><span class="s">&quot;premiumUser&quot;</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="err">@</span><span class="n">Test</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">testConcurrencyForSingleKey</span><span class="p">()</span><span class="w"> </span><span class="k">throws</span><span class="w"> </span><span class="n">InterruptedException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">RateLimiterConfig</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">RateLimiterConfig</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">);</span>
+<span class="w">        </span><span class="n">MultiTenantRateLimiter</span><span class="w"> </span><span class="n">limiter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MultiTenantRateLimiter</span><span class="p">(</span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="n">Map</span><span class="p">.</span><span class="n">of</span><span class="p">());</span>
+<span class="w">        </span><span class="n">ExecutorService</span><span class="w"> </span><span class="n">executor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Executors</span><span class="p">.</span><span class="n">newFixedThreadPool</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="w">        </span><span class="n">AtomicInteger</span><span class="w"> </span><span class="n">allowedCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">AtomicInteger</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">50</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">executor</span><span class="p">.</span><span class="n">submit</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">limiter</span><span class="p">.</span><span class="n">isAllowed</span><span class="p">(</span><span class="s">&quot;concurrentUser&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">allowedCount</span><span class="p">.</span><span class="n">incrementAndGet</span><span class="p">();</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">});</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="n">executor</span><span class="p">.</span><span class="n">shutdown</span><span class="p">();</span>
+<span class="w">        </span><span class="n">executor</span><span class="p">.</span><span class="n">awaitTermination</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="n">SECONDS</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Initially, the burst capacity of 20 should be allowed.</span>
+<span class="w">        </span><span class="c1">// A few more might get through depending on thread scheduling and refill, but it should be close to 20.</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">allowedCount</span><span class="p">.</span><span class="n">get</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">allowedCount</span><span class="p">.</span><span class="n">get</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">25</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h3 id="7-scalability-extensions"><strong>7. Scalability &amp; Extensions</strong><a class="headerlink" href="#7-scalability-extensions" title="Permanent link">&para;</a></h3>
+<p>The current implementation is for a single application instance. In a distributed system with multiple instances, this design would lead to an effective rate limit of <code>(limit * N)</code> where <code>N</code> is the number of instances, which is incorrect.</p>
+<p><strong>Distributed Rate Limiter using Redis</strong></p>
+<p>To solve this, the state of each token bucket must be centralized in a fast, shared data store like <strong>Redis</strong>.</p>
+<ul>
+<li><strong>State Storage:</strong> For each client key (e.g., <code>"ratelimit:user123"</code>), store a Redis Hash with two fields:<ul>
+<li><code>tokens</code>: The current number of tokens.</li>
+<li><code>last_refill_ts</code>: The timestamp of the last refill (in microseconds or nanoseconds for precision).</li>
+</ul>
+</li>
+<li><strong>Atomic Operations:</strong> The read-modify-write cycle (refill tokens, check, consume) must be atomic to prevent race conditions between different application servers. This is a perfect use case for a <strong>Redis Lua script</strong>.</li>
+<li>
+<p><strong>Lua Script Workflow:</strong></p>
+<ol>
+<li><strong>Input:</strong> The script receives <code>KEYS[1]</code> (the Redis key), <code>ARGV[1]</code> (capacity), <code>ARGV[2]</code> (refill rate per second), and <code>ARGV[3]</code> (current timestamp).</li>
+<li><strong>Get State:</strong> It retrieves the <code>tokens</code> and <code>last_refill_ts</code> from the Redis hash at <code>KEYS[1]</code>. If the hash doesn't exist, it initializes it to the full capacity.</li>
+<li><strong>Refill Logic:</strong> It calculates the time delta and refills tokens, capping at the capacity, just like the in-memory version.</li>
+<li><strong>Check &amp; Consume:</strong> It checks if <code>tokens &gt;= 1</code>. If so, it decrements the token count.</li>
+<li><strong>Update State:</strong> It updates the hash in Redis with the new <code>tokens</code> and <code>last_refill_ts</code>.</li>
+<li><strong>Return:</strong> It returns 1 if allowed, 0 if denied.</li>
+</ol>
+<p>Since Redis executes Lua scripts atomically, this guarantees consistency across all application instances.</p>
+</li>
+</ul>
+<p><strong>Other Extensions:</strong></p>
+<ul>
+<li><strong>Idle Bucket Eviction:</strong> The <code>ConcurrentHashMap</code> will grow indefinitely as new keys make requests. In a long-running application, this is a memory leak. A production-grade solution would use a cache with an eviction policy (like <code>Caffeine</code> or <code>Guava Cache</code>) to remove buckets for clients that have been inactive for a certain period.</li>
+<li><strong>Sliding Window Log:</strong> For more complex rate limiting scenarios (e.g., "100 requests per hour"), the Sliding Window Log algorithm, also implemented efficiently in Redis using sorted sets, can be a better fit than the token bucket.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.56ea9cef.min.js"></script>
+      
+    
+  </body>
+</html>

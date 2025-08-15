@@ -1,0 +1,1258 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation/LRU%20Cache%20with%20TTL%20and%20Write-Back/">
+      
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
+    
+    
+      
+        <title>LRU Cache with TTL and Write-Back - System Design Hub</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.342714a4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lru-cache-with-ttl-and-write-back" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            System Design Hub
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              LRU Cache with TTL and Write-Back
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ashok-ga/system-design" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ashok-ga/system-design
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../hld/overview/" class="md-tabs__link">
+          
+  
+  
+  High-Level Design
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../de-shaw/" class="md-tabs__link">
+          
+  
+  
+  Low-Level Design
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../assets/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Assets
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../references/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  References
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../CONTRIBUTING.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Contributing
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    System Design Hub
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ashok-ga/system-design" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ashok-ga/system-design
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    High-Level Design
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            High-Level Design
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hld/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hld/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hld/de-shaw/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DE Shaw
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Low-Level Design
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Low-Level Design
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../de-shaw/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DE Shaw
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../module2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../assets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Assets
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../references/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    References
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../CONTRIBUTING.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Contributing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-system-overview-scope-clarification" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. System Overview &amp; Scope Clarification
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-core-components-and-class-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Core Components and Class Design
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-api-design-lrucachewithwriteback" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. API Design (LRUCacheWithWriteBack)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-key-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Key Workflows
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-code-implementation-java" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Code Implementation (Java)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-testing-junit-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Testing (JUnit 5)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-concurrency-performance-and-extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Concurrency, Performance, and Extensions
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="lru-cache-with-ttl-and-write-back">LRU Cache with TTL and Write-Back<a class="headerlink" href="#lru-cache-with-ttl-and-write-back" title="Permanent link">&para;</a></h1>
+<p>This problem requires designing a high-performance, thread-safe, in-memory cache that evicts items based on a Least Recently Used (LRU) policy, supports Time-To-Live (TTL) expiration, and provides an optional, asynchronous write-back mechanism to a backing store.</p>
+<h3 id="1-system-overview-scope-clarification"><strong>1. System Overview &amp; Scope Clarification</strong><a class="headerlink" href="#1-system-overview-scope-clarification" title="Permanent link">&para;</a></h3>
+<p>We are building a generic, in-memory key-value cache. It's a fundamental component in many systems for reducing latency and load on slower backend services like databases.</p>
+<p><strong>Functional Requirements (FR):</strong></p>
+<ul>
+<li><strong><code>get(key)</code>:</strong> Retrieve a value. If the item has expired, it should be treated as a miss.</li>
+<li><strong><code>put(key, value, ttl)</code>:</strong> Insert or update a key-value pair with an optional TTL.</li>
+<li><strong><code>delete(key)</code>:</strong> Explicitly remove an item from the cache.</li>
+<li><strong>LRU Eviction:</strong> When the cache reaches its capacity, the least recently used item must be removed to make space.</li>
+<li><strong>TTL Expiration:</strong> Items with a TTL should become inaccessible after the duration has passed. Expiration should be checked lazily on access.</li>
+<li><strong>Write-Back Caching:</strong> When a "dirty" item (one that has been <code>put</code> or modified) is evicted or deleted, it should be asynchronously written to a persistent backing store.</li>
+</ul>
+<p><strong>Non-Functional Requirements (NFR):</strong></p>
+<ul>
+<li><strong>Performance:</strong> <code>get</code> and <code>put</code> operations should be O(1) on average.</li>
+<li><strong>Thread-Safety:</strong> The cache must be safe to use from multiple concurrent threads.</li>
+</ul>
+<p><strong>Assumptions:</strong></p>
+<ul>
+<li>The <code>BackingStore</code> (e.g., a database client) will be provided via an interface.</li>
+<li>The cache will handle its own background thread management for the write-back process.</li>
+<li>We will use a "write-through" approach conceptually, where a <code>put</code> makes an entry "dirty," and the write to the backing store is deferred until eviction.</li>
+</ul>
+<hr />
+<h3 id="2-core-components-and-class-design"><strong>2. Core Components and Class Design</strong><a class="headerlink" href="#2-core-components-and-class-design" title="Permanent link">&para;</a></h3>
+<p>The classic implementation for an LRU cache uses a combination of a <code>HashMap</code> for fast O(1) lookups and a doubly linked list to maintain the O(1) ordering of items by recency.</p>
+<ul>
+<li><strong><code>LRUCacheWithWriteBack&lt;K, V&gt;</code>:</strong> The main public class. It encapsulates all logic, including the data structures, locking, and the write-back worker.</li>
+<li><strong><code>Node&lt;K, V&gt;</code>:</strong> A private inner class representing an entry in the cache. It holds the key, value, expiration time, a <code>dirty</code> flag for the write-back logic, and pointers (<code>prev</code>, <code>next</code>) for the doubly linked list.</li>
+<li><strong><code>BackingStore&lt;K, V&gt;</code>:</strong> An interface that the user of our cache must implement. This decouples the cache from any specific database or storage technology. It will have a <code>write(key, value)</code> and <code>delete(key)</code> method.</li>
+<li><strong>Write-Back Mechanism:</strong> This will be implemented using a <code>java.util.concurrent.BlockingQueue</code> to hold evicted dirty nodes and a dedicated <code>ExecutorService</code> (a single background thread) to consume from the queue and interact with the <code>BackingStore</code>.</li>
+</ul>
+<p><strong>Class Diagram (Textual Representation):</strong></p>
+<p><code>+--------------------------------+
+|  LRUCacheWithWriteBack&lt;K, V&gt;   |
+|--------------------------------|
+| - capacity: int                |
+| - lock: ReentrantLock          |
+| - map: HashMap&lt;K, Node&lt;K, V&gt;&gt;  |
+| - head, tail: Node&lt;K, V&gt;       |
+| - backingStore: BackingStore   |
+| - writeBackQueue: BlockingQueue|
+| - writerExecutor: ExecutorSvc  |
+|--------------------------------|
+| + get(key): V                  |
+| + put(key, value, ttl, unit)   |
+| + delete(key): void            |
+| + shutdown(): void             |
++--------------------------------+
+          |
+          | contains
+          v
++--------------------------------+
+|      &lt;&lt;private inner&gt;&gt;         |
+|         Node&lt;K, V&gt;             |
+|--------------------------------|
+| - key: K                       |
+| - value: V                     |
+| - expireAtNanos: long          |
+| - dirty: boolean               |
+| - prev, next: Node&lt;K, V&gt;       |
++--------------------------------+
+          |
+          | uses
+          v
++-----------------------------+
+|      &lt;&lt;interface&gt;&gt;          |
+|     BackingStore&lt;K, V&gt;      |
+|-----------------------------|
+| + write(key, value): void   |
+| + delete(key): void         |
++-----------------------------+</code></p>
+<hr />
+<h3 id="3-api-design-lrucachewithwriteback"><strong>3. API Design (<code>LRUCacheWithWriteBack</code>)</strong><a class="headerlink" href="#3-api-design-lrucachewithwriteback" title="Permanent link">&para;</a></h3>
+<p>Java</p>
+<p>`public class LRUCacheWithWriteBack<K, V> {</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// Constructor to initialize capacity and backing store.</span>
+<span class="n">public</span><span class="w"> </span><span class="n">LRUCacheWithWriteBack</span><span class="p">(</span><span class="nb">int</span><span class="w"> </span><span class="n">capacity</span><span class="p">,</span><span class="w"> </span><span class="n">BackingStore</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="n">backingStore</span><span class="p">);</span>
+
+<span class="c1">// Get a value from the cache. Returns null if not found or expired.</span>
+<span class="n">public</span><span class="w"> </span><span class="n">V</span><span class="w"> </span><span class="k">get</span><span class="p">(</span><span class="n">K</span><span class="w"> </span><span class="n">key</span><span class="p">);</span>
+
+<span class="c1">// Put a value with a specific TTL. Marks the entry as dirty for write-back.</span>
+<span class="n">public</span><span class="w"> </span><span class="n">void</span><span class="w"> </span><span class="n">put</span><span class="p">(</span><span class="n">K</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">long</span><span class="w"> </span><span class="n">ttl</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="w"> </span><span class="n">unit</span><span class="p">);</span>
+
+<span class="c1">// Put a value with no expiration.</span>
+<span class="n">public</span><span class="w"> </span><span class="n">void</span><span class="w"> </span><span class="n">put</span><span class="p">(</span><span class="n">K</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="w"> </span><span class="n">value</span><span class="p">);</span>
+
+<span class="c1">// Remove a value from the cache. If the item was dirty, it&#39;s queued for deletion from the backing store.</span>
+<span class="n">public</span><span class="w"> </span><span class="n">void</span><span class="w"> </span><span class="nb">delete</span><span class="p">(</span><span class="n">K</span><span class="w"> </span><span class="n">key</span><span class="p">);</span>
+
+<span class="c1">// Shuts down the write-back worker thread gracefully.</span>
+<span class="n">public</span><span class="w"> </span><span class="n">void</span><span class="w"> </span><span class="n">shutdown</span><span class="p">();</span>
+</code></pre></div>
+
+<p>}`</p>
+<hr />
+<h3 id="4-key-workflows"><strong>4. Key Workflows</strong><a class="headerlink" href="#4-key-workflows" title="Permanent link">&para;</a></h3>
+<p><strong>a) <code>get(key)</code> Workflow</strong></p>
+<ol>
+<li>Acquire the global <code>ReentrantLock</code>.</li>
+<li>Look up the <code>Node</code> in the <code>HashMap</code>. If not found, release the lock and return <code>null</code>.</li>
+<li>Check if the node is expired (<code>System.nanoTime() &gt; node.expireAtNanos</code>).<ul>
+<li>If expired, call a private <code>removeNode()</code> helper. This helper will remove it from the list and map. <strong>Crucially, expired items are NOT written back as their data is considered stale.</strong></li>
+<li>Release lock and return <code>null</code>.</li>
+</ul>
+</li>
+<li>If the node is valid, move it to the front of the doubly linked list (marking it as most recently used).</li>
+<li>Release the lock and return the node's value.</li>
+</ol>
+<p><strong>b) <code>put(key, value, ttl)</code> Workflow</strong></p>
+<ol>
+<li>Acquire the global <code>ReentrantLock</code>.</li>
+<li>Check if the key already exists in the <code>HashMap</code>.<ul>
+<li><strong>If it exists:</strong> Update the node's value, set its <code>dirty</code> flag to <code>true</code>, update its <code>expireAtNanos</code>, and move it to the front of the list.</li>
+<li><strong>If it's new:</strong>
+a. Check if the cache is at capacity (<code>map.size() &gt;= capacity</code>).
+b. If so, evict the LRU item (the node just before <code>tail</code>). Call <code>removeNode()</code> on it.
+c. Inside <code>removeNode()</code>, if the evicted node was <code>dirty</code>, add it to the <code>writeBackQueue</code>.
+d. Create a new <code>Node</code> with the key, value, expiration, and <code>dirty = true</code>.
+e. Add the new node to the <code>HashMap</code> and insert it at the front of the list.</li>
+</ul>
+</li>
+<li>Release the lock.</li>
+</ol>
+<p><strong>c) Write-Back Worker (Background Thread)</strong></p>
+<ol>
+<li>The worker thread runs in a loop, calling <code>writeBackQueue.take()</code>. This call blocks until an item is available.</li>
+<li>When a <code>Node</code> is dequeued, the worker calls the appropriate <code>BackingStore</code> method. We can add a special marker for deletion vs. update. A simple way is to check if the <code>value</code> is null.</li>
+<li>It calls <code>backingStore.write(node.key, node.value)</code> or <code>backingStore.delete(node.key)</code>.</li>
+<li>This loop is wrapped in a <code>try-catch</code> block to handle exceptions from the <code>BackingStore</code> (e.g., database connection issues), allowing the worker to log the error and continue processing other items. A retry mechanism could be added here.</li>
+</ol>
+<hr />
+<h3 id="5-code-implementation-java"><strong>5. Code Implementation (Java)</strong><a class="headerlink" href="#5-code-implementation-java" title="Permanent link">&para;</a></h3>
+<p>Java</p>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="n">java</span><span class="p">.</span><span class="n">util</span><span class="p">.</span><span class="n">HashMap</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="n">java</span><span class="p">.</span><span class="n">util</span><span class="p">.</span><span class="n">Map</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="n">java</span><span class="p">.</span><span class="n">util</span><span class="p">.</span><span class="n">concurrent</span><span class="p">.</span><span class="o">*</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="n">java</span><span class="p">.</span><span class="n">util</span><span class="p">.</span><span class="n">concurrent</span><span class="p">.</span><span class="n">locks</span><span class="p">.</span><span class="n">ReentrantLock</span><span class="p">;</span>
+
+<span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">LRUCacheWithWriteBack</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="c1">// Interface for the backing store</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">interface</span><span class="w"> </span><span class="n">BackingStore</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="n">K</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="w"> </span><span class="n">value</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span><span class="n">K</span><span class="w"> </span><span class="n">key</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Node</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">final</span><span class="w"> </span><span class="n">K</span><span class="w"> </span><span class="n">key</span><span class="p">;</span>
+<span class="w">        </span><span class="n">V</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">long</span><span class="w"> </span><span class="n">expireAtNanos</span><span class="p">;</span>
+<span class="w">        </span><span class="n">boolean</span><span class="w"> </span><span class="n">dirty</span><span class="p">;</span>
+<span class="w">        </span><span class="n">Node</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="n">prev</span><span class="p">,</span><span class="w"> </span><span class="n">next</span><span class="p">;</span>
+
+<span class="w">        </span><span class="n">Node</span><span class="p">(</span><span class="n">K</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">expireAtNanos</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">key</span><span class="p">;</span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="n">expireAtNanos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">expireAtNanos</span><span class="p">;</span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="n">dirty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">final</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">capacity</span><span class="p">;</span>
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">final</span><span class="w"> </span><span class="n">BackingStore</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="n">backingStore</span><span class="p">;</span>
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">final</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">Node</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">map</span><span class="p">;</span>
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">final</span><span class="w"> </span><span class="n">Node</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="n">head</span><span class="p">,</span><span class="w"> </span><span class="n">tail</span><span class="p">;</span>
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">final</span><span class="w"> </span><span class="n">ReentrantLock</span><span class="w"> </span><span class="n">lock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ReentrantLock</span><span class="p">();</span>
+
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">final</span><span class="w"> </span><span class="n">BlockingQueue</span><span class="o">&lt;</span><span class="n">Node</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">writeBackQueue</span><span class="p">;</span>
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">final</span><span class="w"> </span><span class="n">ExecutorService</span><span class="w"> </span><span class="n">writerExecutor</span><span class="p">;</span>
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="k">final</span><span class="w"> </span><span class="n">Node</span><span class="w"> </span><span class="n">DELETED_MARKER</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Node</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">null</span><span class="p">,</span><span class="w"> </span><span class="n">null</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">LRUCacheWithWriteBack</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">capacity</span><span class="p">,</span><span class="w"> </span><span class="n">BackingStore</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="n">backingStore</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="n">capacity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">capacity</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="n">backingStore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">backingStore</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="n">map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashMap</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">capacity</span><span class="p">);</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="n">head</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Node</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">null</span><span class="p">,</span><span class="w"> </span><span class="n">null</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="n">tail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Node</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">null</span><span class="p">,</span><span class="w"> </span><span class="n">null</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">        </span><span class="n">head</span><span class="p">.</span><span class="n">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tail</span><span class="p">;</span>
+<span class="w">        </span><span class="n">tail</span><span class="p">.</span><span class="n">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">backingStore</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="n">writeBackQueue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LinkedBlockingQueue</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="n">writerExecutor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Executors</span><span class="p">.</span><span class="n">newSingleThreadExecutor</span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">Thread</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;cache-writer-thread&quot;</span><span class="p">);</span>
+<span class="w">                </span><span class="n">t</span><span class="p">.</span><span class="n">setDaemon</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+<span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="n">t</span><span class="p">;</span>
+<span class="w">            </span><span class="p">});</span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="n">writerExecutor</span><span class="p">.</span><span class="n">submit</span><span class="p">(</span><span class="k">this</span><span class="o">::</span><span class="n">writeBackProcessor</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="n">writeBackQueue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">null</span><span class="p">;</span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="n">writerExecutor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">null</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">V</span><span class="w"> </span><span class="n">get</span><span class="p">(</span><span class="n">K</span><span class="w"> </span><span class="n">key</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">lock</span><span class="p">.</span><span class="n">lock</span><span class="p">();</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">Node</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="n">null</span><span class="p">;</span><span class="w"> </span><span class="c1">// Cache miss</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">isExpired</span><span class="p">(</span><span class="n">node</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">removeNode</span><span class="p">(</span><span class="n">node</span><span class="p">);</span><span class="w"> </span><span class="c1">// Lazy expiration</span>
+<span class="w">                </span><span class="c1">// Expired nodes are NOT written back</span>
+<span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="n">null</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="n">moveToFront</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">value</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="n">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">lock</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">put</span><span class="p">(</span><span class="n">K</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">ttl</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="w"> </span><span class="n">unit</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">long</span><span class="w"> </span><span class="n">expireAtNanos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ttl</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="n">nanoTime</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">unit</span><span class="p">.</span><span class="n">toNanos</span><span class="p">(</span><span class="n">ttl</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">-1L</span><span class="p">;</span>
+<span class="w">        </span><span class="n">lock</span><span class="p">.</span><span class="n">lock</span><span class="p">();</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">Node</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// Update existing node</span>
+<span class="w">                </span><span class="n">node</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="w">                </span><span class="n">node</span><span class="p">.</span><span class="n">expireAtNanos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">expireAtNanos</span><span class="p">;</span>
+<span class="w">                </span><span class="n">node</span><span class="p">.</span><span class="n">dirty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">                </span><span class="n">moveToFront</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// Add new node</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">map</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">capacity</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">evictLru</span><span class="p">();</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">                </span><span class="n">Node</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="n">newNode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Node</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">expireAtNanos</span><span class="p">);</span>
+<span class="w">                </span><span class="n">newNode</span><span class="p">.</span><span class="n">dirty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">                </span><span class="n">map</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">newNode</span><span class="p">);</span>
+<span class="w">                </span><span class="n">addToFront</span><span class="p">(</span><span class="n">newNode</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="n">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">lock</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">put</span><span class="p">(</span><span class="n">K</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">put</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="n">SECONDS</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="k">delete</span><span class="p">(</span><span class="n">K</span><span class="w"> </span><span class="n">key</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">lock</span><span class="p">.</span><span class="n">lock</span><span class="p">();</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">Node</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">.</span><span class="n">remove</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">removeNode</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">backingStore</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">dirty</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="c1">// Create a special marker for deletion</span>
+<span class="w">                     </span><span class="n">Node</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="n">deleteMarker</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Node</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">null</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">                    </span><span class="n">writeBackQueue</span><span class="p">.</span><span class="n">offer</span><span class="p">(</span><span class="n">deleteMarker</span><span class="p">);</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="n">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">lock</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">shutdown</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">writerExecutor</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">writerExecutor</span><span class="p">.</span><span class="n">shutdown</span><span class="p">();</span>
+<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">writerExecutor</span><span class="p">.</span><span class="n">awaitTermination</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="n">SECONDS</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">writerExecutor</span><span class="p">.</span><span class="n">shutdownNow</span><span class="p">();</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">InterruptedException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">writerExecutor</span><span class="p">.</span><span class="n">shutdownNow</span><span class="p">();</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// --- Private helper methods ---</span>
+
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">evictLru</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Node</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lruNode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tail</span><span class="p">.</span><span class="n">prev</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">lruNode</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">head</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">removeNode</span><span class="p">(</span><span class="n">lruNode</span><span class="p">);</span>
+<span class="w">            </span><span class="n">map</span><span class="p">.</span><span class="n">remove</span><span class="p">(</span><span class="n">lruNode</span><span class="p">.</span><span class="n">key</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">backingStore</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">lruNode</span><span class="p">.</span><span class="n">dirty</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">writeBackQueue</span><span class="p">.</span><span class="n">offer</span><span class="p">(</span><span class="n">lruNode</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">writeBackProcessor</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">Thread</span><span class="p">.</span><span class="n">currentThread</span><span class="p">().</span><span class="n">isInterrupted</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">Node</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">writeBackQueue</span><span class="p">.</span><span class="n">take</span><span class="p">();</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// This is our deletion marker</span>
+<span class="w">                    </span><span class="n">backingStore</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="n">key</span><span class="p">);</span>
+<span class="w">                </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">backingStore</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">value</span><span class="p">);</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">InterruptedException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">Thread</span><span class="p">.</span><span class="n">currentThread</span><span class="p">().</span><span class="n">interrupt</span><span class="p">();</span>
+<span class="w">                </span><span class="k">break</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="c1">// Log exception from backing store</span>
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="n">err</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Error writing back to store: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">getMessage</span><span class="p">());</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="n">boolean</span><span class="w"> </span><span class="n">isExpired</span><span class="p">(</span><span class="n">Node</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="n">node</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">expireAtNanos</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="n">nanoTime</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">expireAtNanos</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">moveToFront</span><span class="p">(</span><span class="n">Node</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="n">node</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">removeNode</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
+<span class="w">        </span><span class="n">addToFront</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">removeNode</span><span class="p">(</span><span class="n">Node</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="n">node</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">node</span><span class="p">.</span><span class="n">prev</span><span class="p">.</span><span class="n">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">node</span><span class="p">.</span><span class="n">next</span><span class="p">.</span><span class="n">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">prev</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">addToFront</span><span class="p">(</span><span class="n">Node</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="n">node</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">node</span><span class="p">.</span><span class="n">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">.</span><span class="n">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">node</span><span class="p">.</span><span class="n">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">        </span><span class="n">head</span><span class="p">.</span><span class="n">next</span><span class="p">.</span><span class="n">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span><span class="p">;</span>
+<span class="w">        </span><span class="n">head</span><span class="p">.</span><span class="n">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h3 id="6-testing-junit-5"><strong>6. Testing (JUnit 5)</strong><a class="headerlink" href="#6-testing-junit-5" title="Permanent link">&para;</a></h3>
+<p>We'll use a mock <code>BackingStore</code> to verify the write-back logic.</p>
+<p>Java</p>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="n">org</span><span class="p">.</span><span class="n">junit</span><span class="p">.</span><span class="n">jupiter</span><span class="p">.</span><span class="n">api</span><span class="p">.</span><span class="n">AfterEach</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="n">org</span><span class="p">.</span><span class="n">junit</span><span class="p">.</span><span class="n">jupiter</span><span class="p">.</span><span class="n">api</span><span class="p">.</span><span class="n">BeforeEach</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="n">org</span><span class="p">.</span><span class="n">junit</span><span class="p">.</span><span class="n">jupiter</span><span class="p">.</span><span class="n">api</span><span class="p">.</span><span class="n">Test</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="n">org</span><span class="p">.</span><span class="n">junit</span><span class="p">.</span><span class="n">jupiter</span><span class="p">.</span><span class="n">api</span><span class="p">.</span><span class="n">Assertions</span><span class="p">.</span><span class="o">*</span><span class="p">;</span>
+
+<span class="k">import</span><span class="w"> </span><span class="n">java</span><span class="p">.</span><span class="n">util</span><span class="p">.</span><span class="n">Map</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="n">java</span><span class="p">.</span><span class="n">util</span><span class="p">.</span><span class="n">concurrent</span><span class="p">.</span><span class="n">ConcurrentHashMap</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="n">java</span><span class="p">.</span><span class="n">util</span><span class="p">.</span><span class="n">concurrent</span><span class="p">.</span><span class="n">TimeUnit</span><span class="p">;</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">LRUCacheWithWriteBackTest</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="c1">// A mock backing store for testing</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MockBackingStore</span><span class="w"> </span><span class="n">implements</span><span class="w"> </span><span class="n">LRUCacheWithWriteBack</span><span class="p">.</span><span class="n">BackingStore</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">final</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">store</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ConcurrentHashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">        </span><span class="err">@</span><span class="n">Override</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">write</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">store</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="err">@</span><span class="n">Override</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="k">delete</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">key</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">store</span><span class="p">.</span><span class="n">remove</span><span class="p">(</span><span class="n">key</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="n">LRUCacheWithWriteBack</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">cache</span><span class="p">;</span>
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="n">MockBackingStore</span><span class="w"> </span><span class="n">mockStore</span><span class="p">;</span>
+
+<span class="w">    </span><span class="err">@</span><span class="n">BeforeEach</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">setUp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">mockStore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MockBackingStore</span><span class="p">();</span>
+<span class="w">        </span><span class="n">cache</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LRUCacheWithWriteBack</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">mockStore</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="err">@</span><span class="n">AfterEach</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">tearDown</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cache</span><span class="p">.</span><span class="n">shutdown</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="err">@</span><span class="n">Test</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">testBasicGetAndPut</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cache</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">&quot;k1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v1&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;v1&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">cache</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;k1&quot;</span><span class="p">));</span>
+<span class="w">        </span><span class="n">assertNull</span><span class="p">(</span><span class="n">cache</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;k2&quot;</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="err">@</span><span class="n">Test</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">testLruEviction</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cache</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">&quot;k1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v1&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">cache</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">&quot;k2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v2&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">cache</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">&quot;k3&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v3&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">cache</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;k1&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">// k1 is now most recent</span>
+<span class="w">        </span><span class="n">cache</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">&quot;k4&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v4&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">// k2 should be evicted</span>
+
+<span class="w">        </span><span class="n">assertNull</span><span class="p">(</span><span class="n">cache</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;k2&quot;</span><span class="p">));</span>
+<span class="w">        </span><span class="n">assertNotNull</span><span class="p">(</span><span class="n">cache</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;k1&quot;</span><span class="p">));</span>
+<span class="w">        </span><span class="n">assertNotNull</span><span class="p">(</span><span class="n">cache</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;k3&quot;</span><span class="p">));</span>
+<span class="w">        </span><span class="n">assertNotNull</span><span class="p">(</span><span class="n">cache</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;k4&quot;</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="err">@</span><span class="n">Test</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">testTtlExpiration</span><span class="p">()</span><span class="w"> </span><span class="k">throws</span><span class="w"> </span><span class="n">InterruptedException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cache</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">&quot;k1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="n">MILLISECONDS</span><span class="p">);</span>
+<span class="w">        </span><span class="n">assertNotNull</span><span class="p">(</span><span class="n">cache</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;k1&quot;</span><span class="p">));</span>
+<span class="w">        </span><span class="n">Thread</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">150</span><span class="p">);</span>
+<span class="w">        </span><span class="n">assertNull</span><span class="p">(</span><span class="n">cache</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;k1&quot;</span><span class="p">));</span><span class="w"> </span><span class="c1">// Should be expired</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="err">@</span><span class="n">Test</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">testWriteBackOnEviction</span><span class="p">()</span><span class="w"> </span><span class="k">throws</span><span class="w"> </span><span class="n">InterruptedException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cache</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">&quot;k1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v1&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">cache</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">&quot;k2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v2&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">cache</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">&quot;k3&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v3&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">cache</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">&quot;k4&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v4&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">// Evicts k1</span>
+
+<span class="w">        </span><span class="c1">// Give the writer thread a moment to process</span>
+<span class="w">        </span><span class="n">Thread</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span><span class="w"> </span>
+
+<span class="w">        </span><span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;v1&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">mockStore</span><span class="p">.</span><span class="n">store</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;k1&quot;</span><span class="p">));</span>
+<span class="w">        </span><span class="n">assertNull</span><span class="p">(</span><span class="n">mockStore</span><span class="p">.</span><span class="n">store</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;k4&quot;</span><span class="p">));</span><span class="w"> </span><span class="c1">// k4 is in cache, not written back yet</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="err">@</span><span class="n">Test</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">testNoWriteBackForCleanOrExpiredItems</span><span class="p">()</span><span class="w"> </span><span class="k">throws</span><span class="w"> </span><span class="n">InterruptedException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cache</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">&quot;k1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="n">MILLISECONDS</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Thread</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+<span class="w">        </span><span class="n">cache</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;k1&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">// Triggers lazy expiration</span>
+
+<span class="w">        </span><span class="n">cache</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">&quot;k2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v2&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">cache</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">&quot;k3&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v3&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">cache</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">&quot;k4&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v4&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">// Evicts k2</span>
+
+<span class="w">        </span><span class="n">Thread</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">assertNull</span><span class="p">(</span><span class="n">mockStore</span><span class="p">.</span><span class="n">store</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;k1&quot;</span><span class="p">));</span><span class="w"> </span><span class="c1">// Expired items are not written</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="err">@</span><span class="n">Test</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">testWriteBackOnDelete</span><span class="p">()</span><span class="w"> </span><span class="k">throws</span><span class="w"> </span><span class="n">InterruptedException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cache</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">&quot;k1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v1&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">cache</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="s">&quot;k1&quot;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">Thread</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">assertNull</span><span class="p">(</span><span class="n">cache</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;k1&quot;</span><span class="p">));</span>
+<span class="w">        </span><span class="n">assertFalse</span><span class="p">(</span><span class="n">mockStore</span><span class="p">.</span><span class="n">store</span><span class="p">.</span><span class="n">containsKey</span><span class="p">(</span><span class="s">&quot;k1&quot;</span><span class="p">));</span><span class="w"> </span><span class="c1">// Should be deleted from backing store</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h3 id="7-concurrency-performance-and-extensions"><strong>7. Concurrency, Performance, and Extensions</strong><a class="headerlink" href="#7-concurrency-performance-and-extensions" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Concurrency:</strong> The use of a single <code>ReentrantLock</code> makes the design simple and correct, but it serializes all access. For highly concurrent workloads with many CPU cores, this could become a bottleneck. A more advanced design might use <strong>segmented locking</strong>, where the cache is divided into several segments, each with its own lock, similar to how <code>ConcurrentHashMap</code> works. This increases complexity but improves throughput.</li>
+<li><strong>Performance:</strong> All core operations (<code>get</code>, <code>put</code>, <code>delete</code>) are O(1) because they rely on <code>HashMap</code> lookups and simple pointer manipulations in the doubly linked list, all of which are constant time operations. The write-back mechanism operates on a separate thread, so it doesn't add latency to the cache operations themselves.</li>
+<li><strong>Extensions:</strong><ul>
+<li><strong>Proactive Expiration:</strong> A dedicated "sweeper" thread could periodically scan the cache to remove expired items. This prevents the cache from holding onto a large number of expired-but-never-accessed items, which would otherwise waste memory.</li>
+<li><strong>Read-Through Cache:</strong> The <code>get</code> method could be extended. If an item is not in the cache (a miss), the cache could then try to load it from the <code>BackingStore</code>, insert it into the cache, and then return it to the caller.</li>
+<li><strong>Cache Statistics:</strong> The cache could be instrumented to expose metrics like hit rate, miss rate, eviction count, and the current size of the write-back queue. This is invaluable for monitoring and tuning performance.</li>
+<li><strong>Graceful Shutdown:</strong> The <code>shutdown()</code> method is essential to ensure that on application exit, any pending writes in the queue are flushed to the backing store, preventing data loss.</li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.56ea9cef.min.js"></script>
+      
+    
+  </body>
+</html>

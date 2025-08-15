@@ -137,43 +137,83 @@
          <lastmod>2025-08-15</lastmod>
     </url>
     <url>
-         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation%202501d5d8e01280fc8a7cf93b607d848f/Authentication%20%28Login%20Signup%20%2B%20Sessions%20%26%202FA%29/</loc>
+         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation/Authentication%20%28Login%20Signup%20%2B%20Sessions%20%26%202FA%29/</loc>
          <lastmod>2025-08-15</lastmod>
     </url>
     <url>
-         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation%202501d5d8e01280fc8a7cf93b607d848f/Basic%20Matching%20Engine%20%28with%20Market%20Orders%29/</loc>
+         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation/Basic%20Matching%20Engine%20%28with%20Market%20Orders%29/</loc>
          <lastmod>2025-08-15</lastmod>
     </url>
     <url>
-         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation%202501d5d8e01280fc8a7cf93b607d848f/Cron-like%20Job%20Scheduler%20%28Priority%20%2B%20Retry%29/</loc>
+         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation/Chat%20%281_1%20%2B%20Typing%20%2B%20Read%20Receipts%29/</loc>
          <lastmod>2025-08-15</lastmod>
     </url>
     <url>
-         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation%202501d5d8e01280fc8a7cf93b607d848f/Feature%20Flag%20Service%20%28Local%29/</loc>
+         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation/Cron-like%20Job%20Scheduler%20%28Priority%20%2B%20Retry%29/</loc>
          <lastmod>2025-08-15</lastmod>
     </url>
     <url>
-         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation%202501d5d8e01280fc8a7cf93b607d848f/LRU%20Cache%20with%20TTL%20and%20Write-Back/</loc>
+         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation/Distributed%20ID%20Generator%20%28Snowflake-like%29/</loc>
          <lastmod>2025-08-15</lastmod>
     </url>
     <url>
-         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation%202501d5d8e01280fc8a7cf93b607d848f/Market%20Data%20Fan-out%20%28Feed%20Handler%29/</loc>
+         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation/Elevator%20Controller%20%28N%20Elevators%29/</loc>
          <lastmod>2025-08-15</lastmod>
     </url>
     <url>
-         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation%202501d5d8e01280fc8a7cf93b607d848f/Publisher%E2%80%93Subscriber%20Notification%20Service/</loc>
+         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation/Feature%20Flag%20Service%20%28Local%29/</loc>
          <lastmod>2025-08-15</lastmod>
     </url>
     <url>
-         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation%202501d5d8e01280fc8a7cf93b607d848f/Rolling%20Time-Window%20Aggregator%20%28VWAP%20EMA%29/</loc>
+         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation/In-Memory%20File%20System%20%28Simplified%29/</loc>
          <lastmod>2025-08-15</lastmod>
     </url>
     <url>
-         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation%202501d5d8e01280fc8a7cf93b607d848f/Thread-Safe%20Limit%20Order%20Book%20%28Equities%29/</loc>
+         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation/LRU%20Cache%20with%20TTL%20and%20Write-Back/</loc>
          <lastmod>2025-08-15</lastmod>
     </url>
     <url>
-         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation%202501d5d8e01280fc8a7cf93b607d848f/Token-Bucket%20Rate%20Limiter%20%28Multi-Tenant%29/</loc>
+         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation/Market%20Data%20Fan-out%20%28Feed%20Handler%29/</loc>
+         <lastmod>2025-08-15</lastmod>
+    </url>
+    <url>
+         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation/Meeting%20Room%20Scheduler/</loc>
+         <lastmod>2025-08-15</lastmod>
+    </url>
+    <url>
+         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation/Metrics%20Store%20%28Append-only%20%2B%20Compaction%29/</loc>
+         <lastmod>2025-08-15</lastmod>
+    </url>
+    <url>
+         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation/Parking%20Lot/</loc>
+         <lastmod>2025-08-15</lastmod>
+    </url>
+    <url>
+         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation/Publisher%E2%80%93Subscriber%20Notification%20Service/</loc>
+         <lastmod>2025-08-15</lastmod>
+    </url>
+    <url>
+         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation/Rolling%20Time-Window%20Aggregator%20%28VWAP%20EMA%29/</loc>
+         <lastmod>2025-08-15</lastmod>
+    </url>
+    <url>
+         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation/Splitwise-like%20Expense%20Splitter/</loc>
+         <lastmod>2025-08-15</lastmod>
+    </url>
+    <url>
+         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation/Thread-Safe%20Limit%20Order%20Book%20%28Equities%29/</loc>
+         <lastmod>2025-08-15</lastmod>
+    </url>
+    <url>
+         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation/Threshold%20Alerting%20Engine/</loc>
+         <lastmod>2025-08-15</lastmod>
+    </url>
+    <url>
+         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation/Token-Bucket%20Rate%20Limiter%20%28Multi-Tenant%29/</loc>
+         <lastmod>2025-08-15</lastmod>
+    </url>
+    <url>
+         <loc>https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation/URL%20Shortener%20%28Core%29/</loc>
          <lastmod>2025-08-15</lastmod>
     </url>
 </urlset>

@@ -1,0 +1,1184 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation/Authentication%20%28Login%20Signup%20%2B%20Sessions%20%26%202FA%29/">
+      
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
+    
+    
+      
+        <title>Authentication (Login Signup + Sessions & 2FA) - System Design Hub</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.342714a4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#authentication-login-signup-sessions-2fa" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            System Design Hub
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Authentication (Login Signup + Sessions &amp; 2FA)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ashok-ga/system-design" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ashok-ga/system-design
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../hld/overview/" class="md-tabs__link">
+          
+  
+  
+  High-Level Design
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../de-shaw/" class="md-tabs__link">
+          
+  
+  
+  Low-Level Design
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../assets/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Assets
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../references/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  References
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../CONTRIBUTING.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Contributing
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    System Design Hub
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ashok-ga/system-design" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ashok-ga/system-design
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    High-Level Design
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            High-Level Design
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hld/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hld/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hld/de-shaw/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DE Shaw
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Low-Level Design
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Low-Level Design
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../de-shaw/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DE Shaw
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../module2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../assets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Assets
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../references/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    References
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../CONTRIBUTING.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Contributing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-system-overview-scope-clarification" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. System Overview &amp; Scope Clarification
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-core-components-and-class-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Core Components and Class Design
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-api-design-authservice" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. API Design (AuthService)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-key-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Key Workflows
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-code-implementation-java" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Code Implementation (Java)
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="authentication-login-signup-sessions-2fa">Authentication (Login Signup + Sessions &amp; 2FA)<a class="headerlink" href="#authentication-login-signup-sessions-2fa" title="Permanent link">&para;</a></h1>
+<p>This problem requires designing a robust authentication service. We'll build the core logic for user management, session handling, and security features like 2FA and brute-force protection.</p>
+<h3 id="1-system-overview-scope-clarification"><strong>1. System Overview &amp; Scope Clarification</strong><a class="headerlink" href="#1-system-overview-scope-clarification" title="Permanent link">&para;</a></h3>
+<p>We are designing the backend service responsible for user identity and access management.</p>
+<p><strong>Functional Requirements (FR):</strong></p>
+<ul>
+<li><strong>Signup:</strong> New users can register with an email and password.</li>
+<li><strong>Login:</strong> Registered users can log in using their credentials.</li>
+<li><strong>Logout:</strong> Users can terminate their active session.</li>
+<li><strong>Password Reset:</strong> Users can request a password reset link via email and set a new password.</li>
+<li><strong>Sessions:</strong> Successful login creates a session token, which must be validated for subsequent requests. Sessions must expire.</li>
+<li><strong>Two-Factor Authentication (2FA):</strong> Users can optionally enable Time-based One-Time Password (TOTP) for enhanced security.</li>
+<li><strong>Brute-Force Protection:</strong> After a configurable number of failed login attempts (<code>N</code>), the user's account should be temporarily locked.</li>
+</ul>
+<p><strong>Non-Functional Requirements (NFR):</strong></p>
+<ul>
+<li><strong>Security:</strong> Passwords must be stored securely using a strong, salted hashing algorithm (e.g., BCrypt). Session IDs and 2FA secrets must be secure.</li>
+<li><strong>Performance:</strong> Session validation should have minimal latency (critical path for most authenticated API calls).</li>
+<li><strong>Auditability:</strong> Key events (login success/failure, password change, 2FA setup) should be logged for security analysis.</li>
+</ul>
+<p><strong>Assumptions:</strong></p>
+<ul>
+<li>External services like <code>EmailService</code> and a persistent database are available but will be represented by interfaces (Dependency Inversion).</li>
+<li>We will use in-memory data stores for users and sessions to make the example self-contained and testable. In a production system, these would be backed by a database (e.g., PostgreSQL) and a distributed cache (e.g., Redis).</li>
+</ul>
+<hr />
+<h3 id="2-core-components-and-class-design"><strong>2. Core Components and Class Design</strong><a class="headerlink" href="#2-core-components-and-class-design" title="Permanent link">&para;</a></h3>
+<p>We'll use a service-oriented architecture, with a central <code>AuthService</code> orchestrating various components.</p>
+<ul>
+<li><strong>Models (Data Transfer Objects):</strong><ul>
+<li><code>User</code>: Represents a user's identity and security-related state.</li>
+<li><code>Session</code>: Represents a user's authenticated session.</li>
+</ul>
+</li>
+<li><strong>Services (Business Logic):</strong><ul>
+<li><code>AuthService</code>: The main facade for all authentication operations.</li>
+<li><code>PasswordHasher</code>: An interface for hashing and verifying passwords (Strategy Pattern).</li>
+<li><code>TotpService</code>: An interface for generating and verifying TOTP codes.</li>
+<li><code>TokenService</code>: Generates and validates short-lived tokens for actions like password resets.</li>
+<li><code>EmailService</code>: An interface for sending emails.</li>
+</ul>
+</li>
+<li><strong>Stores (Data Access):</strong><ul>
+<li><code>UserRepository</code>: Interface for CRUD operations on <code>User</code> objects.</li>
+<li><code>SessionRepository</code>: Interface for CRUD operations on <code>Session</code> objects.</li>
+</ul>
+</li>
+<li><strong>Utilities:</strong><ul>
+<li><code>RateLimiter</code>: Manages login attempts to prevent brute-force attacks.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Class Diagram (Textual Representation):</strong></p>
+<p><code>+----------------+      +------------------+      +-------------------+
+| &lt;&lt;interface&gt;&gt;  |      |                  |      |  &lt;&lt;interface&gt;&gt;    |
+| PasswordHasher |-----&gt;|   AuthService    |&lt;-----|   UserRepository  |
++----------------+      |------------------|      +-------------------+
+| + hash()       |      | + signup()       |               ^
+| + verify()     |      | + login()        |               |
++----------------+      | + logout()       |      +-------------------+
+        ^               | + enable2FA()    |      | InMemoryUserRepo  |
+        |               | + verifyTOTP()   |      +-------------------+
++----------------+      | + resetPassword()|
+| BCryptHasher   |      +------------------+      +--------------------+
++----------------+               ^                |  &lt;&lt;interface&gt;&gt;     |
+                                 |                | SessionRepository  |
+                                 |                +--------------------+
++----------------+               |                         ^
+| &lt;&lt;interface&gt;&gt;  |               |                         |
+|   TotpService  |---------------+            +------------------------+
++----------------+               |            | InMemorySessionRepo    |
+| + genSecret()  |               |            +------------------------+
+| + verify()     |               |
++----------------+               |
+        ^                        |
+        |                        |
++----------------+      +----------------+
+|   DefaultTotp  |      | &lt;&lt;interface&gt;&gt;  |
++----------------+      |   EmailService |
+                        +----------------+</code></p>
+<hr />
+<h3 id="3-api-design-authservice"><strong>3. API Design (<code>AuthService</code>)</strong><a class="headerlink" href="#3-api-design-authservice" title="Permanent link">&para;</a></h3>
+<p>We'll define clear method signatures for our main service, including custom exceptions for specific error states.</p>
+<p>Java</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Custom Exceptions</span>
+<span class="kd">class</span> <span class="nc">UserAlreadyExistsException</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+<span class="kd">class</span> <span class="nc">UserNotFoundException</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+<span class="kd">class</span> <span class="nc">InvalidCredentialsException</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+<span class="kd">class</span> <span class="nc">AccountLockedException</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+<span class="kd">class</span> <span class="nc">TwoFactorRequiredException</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">userId</span><span class="p">;</span><span class="w"> </span><span class="c1">// To know which user needs to verify</span>
+<span class="p">}</span>
+<span class="kd">class</span> <span class="nc">InvalidTokenException</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+
+<span class="c1">// Main Service Interface</span>
+<span class="kd">interface</span> <span class="nc">AuthService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Signup</span>
+<span class="w">    </span><span class="n">User</span><span class="w"> </span><span class="nf">signup</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">email</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">password</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">UserAlreadyExistsException</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// Login Flow</span>
+<span class="w">    </span><span class="n">Session</span><span class="w"> </span><span class="nf">login</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">email</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">password</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">UserNotFoundException</span><span class="p">,</span><span class="w"> </span><span class="n">InvalidCredentialsException</span><span class="p">,</span><span class="w"> </span><span class="n">AccountLockedException</span><span class="p">,</span><span class="w"> </span><span class="n">TwoFactorRequiredException</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Session</span><span class="w"> </span><span class="nf">verifyLoginWithTotp</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">userId</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">totpCode</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">UserNotFoundException</span><span class="p">,</span><span class="w"> </span><span class="n">InvalidCredentialsException</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// Logout</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">logout</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">sessionId</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Session Management</span>
+<span class="w">    </span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">Session</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">validateSession</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">sessionId</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// 2FA Management</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="nf">generate2FASecret</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">userId</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">UserNotFoundException</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">enable2FA</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">userId</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">totpCode</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">UserNotFoundException</span><span class="p">,</span><span class="w"> </span><span class="n">InvalidCredentialsException</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// Password Reset</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">requestPasswordReset</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">email</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">UserNotFoundException</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">completePasswordReset</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">resetToken</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">newPassword</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">InvalidTokenException</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h3 id="4-key-workflows"><strong>4. Key Workflows</strong><a class="headerlink" href="#4-key-workflows" title="Permanent link">&para;</a></h3>
+<p><strong>a) User Login (with Brute-Force and 2FA)</strong></p>
+<ol>
+<li><strong>Client:</strong> Calls <code>AuthService.login(email, password)</code>.</li>
+<li><strong>AuthService:</strong>
+a. Retrieves the <code>User</code> from the <code>UserRepository</code> by email. If not found, throws <code>UserNotFoundException</code>.
+b. Checks if the account is locked (<code>user.getLockedUntil()</code> is in the future). If so, throws <code>AccountLockedException</code>.
+c. Calls <code>PasswordHasher.verify(password, user.getPasswordHash())</code>.
+d. <strong>On Failure:</strong>
+i. Atomically increments <code>failedAttempts</code> for the user.
+ii. If <code>failedAttempts</code> exceeds the threshold (e.g., 5), it sets <code>lockedUntil</code> to a future time (e.g., now + 15 minutes).
+iii. Saves the updated user state.
+iv. Throws <code>InvalidCredentialsException</code>.
+e. <strong>On Success:</strong>
+i. Resets <code>failedAttempts</code> to 0 and clears <code>lockedUntil</code>.
+ii. Checks if <code>user.is2FAEnabled()</code>.
+iii. <strong>If 2FA is ON:</strong> Throws <code>TwoFactorRequiredException</code> containing the <code>userId</code>. The client must now prompt the user for their TOTP code and call <code>verifyLoginWithTotp()</code>.
+iv. <strong>If 2FA is OFF:</strong> Creates a new <code>Session</code> with a secure random ID, links it to the <code>userId</code>, sets an expiry time, saves it to <code>SessionRepository</code>, and returns the <code>Session</code> object.</li>
+</ol>
+<p><strong>b) Password Reset</strong></p>
+<ol>
+<li><strong>Client:</strong> Calls <code>AuthService.requestPasswordReset(email)</code>.</li>
+<li><strong>AuthService:</strong>
+a. Finds the user by email.
+b. Calls <code>TokenService.generate(userId, duration)</code> to create a short-lived, signed token (e.g., a JWT).
+c. Calls <code>EmailService.send(...)</code> with a reset link containing this token.</li>
+<li><strong>User:</strong> Clicks the link in the email.</li>
+<li><strong>Client:</strong> Presents a form and calls <code>AuthService.completePasswordReset(token, newPassword)</code>.</li>
+<li><strong>AuthService:</strong>
+a. Calls <code>TokenService.validate(token)</code> to verify its signature and expiry. If invalid, throws <code>InvalidTokenException</code>.
+b. Extracts the <code>userId</code> from the validated token.
+c. Hashes the <code>newPassword</code> using <code>PasswordHasher</code>.
+d. Updates the user's <code>passwordHash</code> in the <code>UserRepository</code>.
+e. (Best Practice) Invalidates all existing sessions for that user by deleting them from the <code>SessionRepository</code>.</li>
+</ol>
+<hr />
+<h3 id="5-code-implementation-java"><strong>5. Code Implementation (Java)</strong><a class="headerlink" href="#5-code-implementation-java" title="Permanent link">&para;</a></h3>
+<p>Below is a complete, runnable implementation. For brevity, dependencies like a TOTP library or a JWT library are mocked or simplified.</p>
+<p><strong>Dependencies (conceptual - for a real project, add these to <code>pom.xml</code> or <code>build.gradle</code>):</strong></p>
+<ul>
+<li><code>org.mindrot:jbcrypt</code>: For BCrypt password hashing.</li>
+<li><code>dev.samstevens.totp:totp</code>: For TOTP generation and verification.</li>
+<li>A testing framework like JUnit 5.</li>
+</ul>
+<p><strong>File Structure:</strong></p>
+<p><code>src/
+└── main/
+    └── java/
+        └── auth/
+            ├── models/
+            │   ├── User.java
+            │   └── Session.java
+            ├── services/
+            │   ├── AuthService.java
+            │   ├── PasswordHasher.java
+            │   ├── BCryptPasswordHasher.java
+            │   └── ... (TotpService, TokenService, etc.)
+            ├── repositories/
+            │   ├── UserRepository.java
+            │   ├── SessionRepository.java
+            │   └── InMemoryUserRepository.java
+            │   └── InMemorySessionRepository.java
+            └── exceptions/
+                └── ... (Custom exceptions)</code></p>
+<p><strong>Core Code Snippets:</strong></p>
+<p><strong><code>User.java</code> (Model)</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.atomic.AtomicInteger</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">User</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">email</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">passwordHash</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">twoFactorEnabled</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">totpSecret</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">lockedUntil</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">AtomicInteger</span><span class="w"> </span><span class="n">failedLoginAttempts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">AtomicInteger</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// ...constructors, getters, setters...</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong><code>Session.java</code> (Model)</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">java.time.Instant</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Session</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">sessionId</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">userId</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Instant</span><span class="w"> </span><span class="n">expiresAt</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// ...constructors, getters...</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong><code>PasswordHasher.java</code> (Interface and Implementation)</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">PasswordHasher</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="nf">hash</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">password</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">verify</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">password</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">hash</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">BCryptPasswordHasher</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">PasswordHasher</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">hash</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">password</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">org</span><span class="p">.</span><span class="na">mindrot</span><span class="p">.</span><span class="na">jbcrypt</span><span class="p">.</span><span class="na">BCrypt</span><span class="p">.</span><span class="na">hashpw</span><span class="p">(</span><span class="n">password</span><span class="p">,</span><span class="w"> </span><span class="n">org</span><span class="p">.</span><span class="na">mindrot</span><span class="p">.</span><span class="na">jbcrypt</span><span class="p">.</span><span class="na">BCrypt</span><span class="p">.</span><span class="na">gensalt</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">verify</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">password</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">hash</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">org</span><span class="p">.</span><span class="na">mindrot</span><span class="p">.</span><span class="na">jbcrypt</span><span class="p">.</span><span class="na">BCrypt</span><span class="p">.</span><span class="na">checkpw</span><span class="p">(</span><span class="n">password</span><span class="p">,</span><span class="w"> </span><span class="n">hash</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong><code>TotpService.java</code> (Interface and Mock Implementation)</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">TotpService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="nf">generateSecret</span><span class="p">();</span>
+<span class="w">    </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">verify</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">secret</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">code</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MockTotpService</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">TotpService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">generateSecret</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;SECRET&quot;</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">verify</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">secret</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">code</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">code</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="s">&quot;123456&quot;</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong><code>UserRepository.java</code> (Interface and In-Memory Implementation)</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.ConcurrentHashMap</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">UserRepository</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">User</span><span class="w"> </span><span class="nf">findByEmail</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">email</span><span class="p">);</span>
+<span class="w">    </span><span class="n">User</span><span class="w"> </span><span class="nf">findById</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">id</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="n">User</span><span class="w"> </span><span class="n">user</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">InMemoryUserRepository</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">UserRepository</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">ConcurrentHashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">User</span><span class="o">&gt;</span><span class="w"> </span><span class="n">byId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ConcurrentHashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">ConcurrentHashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">User</span><span class="o">&gt;</span><span class="w"> </span><span class="n">byEmail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ConcurrentHashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">User</span><span class="w"> </span><span class="nf">findByEmail</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">email</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">byEmail</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">email</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">User</span><span class="w"> </span><span class="nf">findById</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">byId</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">id</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="n">User</span><span class="w"> </span><span class="n">user</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">byId</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">user</span><span class="p">.</span><span class="na">getId</span><span class="p">(),</span><span class="w"> </span><span class="n">user</span><span class="p">);</span>
+<span class="w">        </span><span class="n">byEmail</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">user</span><span class="p">.</span><span class="na">getEmail</span><span class="p">(),</span><span class="w"> </span><span class="n">user</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong><code>SessionRepository.java</code> (Interface and In-Memory Implementation)</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.ConcurrentHashMap</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">SessionRepository</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="n">Session</span><span class="w"> </span><span class="n">session</span><span class="p">);</span>
+<span class="w">    </span><span class="n">Session</span><span class="w"> </span><span class="nf">findById</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">sessionId</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">deleteByUserId</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">userId</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">InMemorySessionRepository</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">SessionRepository</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">ConcurrentHashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Session</span><span class="o">&gt;</span><span class="w"> </span><span class="n">byId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ConcurrentHashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="n">Session</span><span class="w"> </span><span class="n">session</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">byId</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">session</span><span class="p">.</span><span class="na">getSessionId</span><span class="p">(),</span><span class="w"> </span><span class="n">session</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Session</span><span class="w"> </span><span class="nf">findById</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">sessionId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">byId</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">sessionId</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">deleteByUserId</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">userId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">byId</span><span class="p">.</span><span class="na">values</span><span class="p">().</span><span class="na">removeIf</span><span class="p">(</span><span class="n">s</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="na">getUserId</span><span class="p">().</span><span class="na">equals</span><span class="p">(</span><span class="n">userId</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong><code>AuthService.java</code> (Core Logic)</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">java.time.Instant</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Optional</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.UUID</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">AuthServiceImpl</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">AuthService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">UserRepository</span><span class="w"> </span><span class="n">userRepo</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">SessionRepository</span><span class="w"> </span><span class="n">sessionRepo</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">PasswordHasher</span><span class="w"> </span><span class="n">hasher</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">TotpService</span><span class="w"> </span><span class="n">totpService</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// ...TokenService, EmailService omitted for brevity...</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">AuthServiceImpl</span><span class="p">(</span><span class="n">UserRepository</span><span class="w"> </span><span class="n">userRepo</span><span class="p">,</span><span class="w"> </span><span class="n">SessionRepository</span><span class="w"> </span><span class="n">sessionRepo</span><span class="p">,</span><span class="w"> </span><span class="n">PasswordHasher</span><span class="w"> </span><span class="n">hasher</span><span class="p">,</span><span class="w"> </span><span class="n">TotpService</span><span class="w"> </span><span class="n">totpService</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">userRepo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">userRepo</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">sessionRepo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sessionRepo</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">hasher</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hasher</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">totpService</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">totpService</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">User</span><span class="w"> </span><span class="nf">signup</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">email</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">password</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">UserAlreadyExistsException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">userRepo</span><span class="p">.</span><span class="na">findByEmail</span><span class="p">(</span><span class="n">email</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UserAlreadyExistsException</span><span class="p">();</span>
+<span class="w">        </span><span class="n">User</span><span class="w"> </span><span class="n">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">User</span><span class="p">(</span><span class="n">UUID</span><span class="p">.</span><span class="na">randomUUID</span><span class="p">().</span><span class="na">toString</span><span class="p">(),</span><span class="w"> </span><span class="n">email</span><span class="p">,</span><span class="w"> </span><span class="n">hasher</span><span class="p">.</span><span class="na">hash</span><span class="p">(</span><span class="n">password</span><span class="p">));</span>
+<span class="w">        </span><span class="n">userRepo</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">user</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Session</span><span class="w"> </span><span class="nf">login</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">email</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">password</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">UserNotFoundException</span><span class="p">,</span><span class="w"> </span><span class="n">InvalidCredentialsException</span><span class="p">,</span><span class="w"> </span><span class="n">AccountLockedException</span><span class="p">,</span><span class="w"> </span><span class="n">TwoFactorRequiredException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">User</span><span class="w"> </span><span class="n">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">userRepo</span><span class="p">.</span><span class="na">findByEmail</span><span class="p">(</span><span class="n">email</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">user</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UserNotFoundException</span><span class="p">();</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">user</span><span class="p">.</span><span class="na">getLockedUntil</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">currentTimeMillis</span><span class="p">())</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">AccountLockedException</span><span class="p">();</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">hasher</span><span class="p">.</span><span class="na">verify</span><span class="p">(</span><span class="n">password</span><span class="p">,</span><span class="w"> </span><span class="n">user</span><span class="p">.</span><span class="na">getPasswordHash</span><span class="p">()))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kt">int</span><span class="w"> </span><span class="n">attempts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">user</span><span class="p">.</span><span class="na">getFailedLoginAttempts</span><span class="p">().</span><span class="na">incrementAndGet</span><span class="p">();</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">attempts</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">user</span><span class="p">.</span><span class="na">setLockedUntil</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">currentTimeMillis</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">15</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">60</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="n">userRepo</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">InvalidCredentialsException</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">user</span><span class="p">.</span><span class="na">getFailedLoginAttempts</span><span class="p">().</span><span class="na">set</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">        </span><span class="n">user</span><span class="p">.</span><span class="na">setLockedUntil</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">        </span><span class="n">userRepo</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">user</span><span class="p">.</span><span class="na">isTwoFactorEnabled</span><span class="p">())</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TwoFactorRequiredException</span><span class="p">(</span><span class="n">user</span><span class="p">.</span><span class="na">getId</span><span class="p">());</span>
+<span class="w">        </span><span class="n">Session</span><span class="w"> </span><span class="n">session</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Session</span><span class="p">(</span><span class="n">UUID</span><span class="p">.</span><span class="na">randomUUID</span><span class="p">().</span><span class="na">toString</span><span class="p">(),</span><span class="w"> </span><span class="n">user</span><span class="p">.</span><span class="na">getId</span><span class="p">(),</span><span class="w"> </span><span class="n">Instant</span><span class="p">.</span><span class="na">now</span><span class="p">().</span><span class="na">plusSeconds</span><span class="p">(</span><span class="mi">3600</span><span class="p">));</span>
+<span class="w">        </span><span class="n">sessionRepo</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">session</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">session</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Session</span><span class="w"> </span><span class="nf">verifyLoginWithTotp</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">userId</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">totpCode</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">UserNotFoundException</span><span class="p">,</span><span class="w"> </span><span class="n">InvalidCredentialsException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">User</span><span class="w"> </span><span class="n">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">userRepo</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">userId</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">user</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UserNotFoundException</span><span class="p">();</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">totpService</span><span class="p">.</span><span class="na">verify</span><span class="p">(</span><span class="n">user</span><span class="p">.</span><span class="na">getTotpSecret</span><span class="p">(),</span><span class="w"> </span><span class="n">totpCode</span><span class="p">))</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">InvalidCredentialsException</span><span class="p">();</span>
+<span class="w">        </span><span class="n">Session</span><span class="w"> </span><span class="n">session</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Session</span><span class="p">(</span><span class="n">UUID</span><span class="p">.</span><span class="na">randomUUID</span><span class="p">().</span><span class="na">toString</span><span class="p">(),</span><span class="w"> </span><span class="n">user</span><span class="p">.</span><span class="na">getId</span><span class="p">(),</span><span class="w"> </span><span class="n">Instant</span><span class="p">.</span><span class="na">now</span><span class="p">().</span><span class="na">plusSeconds</span><span class="p">(</span><span class="mi">3600</span><span class="p">));</span>
+<span class="w">        </span><span class="n">sessionRepo</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">session</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">session</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">logout</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">sessionId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Remove session (not shown)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">Session</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">validateSession</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">sessionId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Session</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sessionRepo</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">sessionId</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">s</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="na">getExpiresAt</span><span class="p">().</span><span class="na">isBefore</span><span class="p">(</span><span class="n">Instant</span><span class="p">.</span><span class="na">now</span><span class="p">()))</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">Optional</span><span class="p">.</span><span class="na">empty</span><span class="p">();</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">Optional</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">generate2FASecret</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">userId</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">UserNotFoundException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">User</span><span class="w"> </span><span class="n">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">userRepo</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">userId</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">user</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UserNotFoundException</span><span class="p">();</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">secret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">totpService</span><span class="p">.</span><span class="na">generateSecret</span><span class="p">();</span>
+<span class="w">        </span><span class="n">user</span><span class="p">.</span><span class="na">setTotpSecret</span><span class="p">(</span><span class="n">secret</span><span class="p">);</span>
+<span class="w">        </span><span class="n">userRepo</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">secret</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">enable2FA</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">userId</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">totpCode</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">UserNotFoundException</span><span class="p">,</span><span class="w"> </span><span class="n">InvalidCredentialsException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">User</span><span class="w"> </span><span class="n">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">userRepo</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">userId</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">user</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UserNotFoundException</span><span class="p">();</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">totpService</span><span class="p">.</span><span class="na">verify</span><span class="p">(</span><span class="n">user</span><span class="p">.</span><span class="na">getTotpSecret</span><span class="p">(),</span><span class="w"> </span><span class="n">totpCode</span><span class="p">))</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">InvalidCredentialsException</span><span class="p">();</span>
+<span class="w">        </span><span class="n">user</span><span class="p">.</span><span class="na">setTwoFactorEnabled</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+<span class="w">        </span><span class="n">userRepo</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">requestPasswordReset</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">email</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">UserNotFoundException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Omitted for brevity</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">completePasswordReset</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">resetToken</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">newPassword</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">InvalidTokenException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Omitted for brevity</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Testing (JUnit 5)</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">org.junit.jupiter.api.*</span><span class="p">;</span>
+<span class="kn">import static</span><span class="w"> </span><span class="nn">org.junit.jupiter.api.Assertions.*</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">AuthServiceTest</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">AuthServiceImpl</span><span class="w"> </span><span class="n">authService</span><span class="p">;</span>
+<span class="w">    </span><span class="nd">@BeforeEach</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">authService</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">AuthServiceImpl</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">InMemoryUserRepository</span><span class="p">(),</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">InMemorySessionRepository</span><span class="p">(),</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BCryptPasswordHasher</span><span class="p">(),</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MockTotpService</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">testSignupAndLogin</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">User</span><span class="w"> </span><span class="n">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">authService</span><span class="p">.</span><span class="na">signup</span><span class="p">(</span><span class="s">&quot;test@example.com&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;password&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">assertNotNull</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Session</span><span class="w"> </span><span class="n">session</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">authService</span><span class="p">.</span><span class="na">login</span><span class="p">(</span><span class="s">&quot;test@example.com&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;password&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">assertNotNull</span><span class="p">(</span><span class="n">session</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">testBruteForceLockout</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">authService</span><span class="p">.</span><span class="na">signup</span><span class="p">(</span><span class="s">&quot;a@b.com&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;pw&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">authService</span><span class="p">.</span><span class="na">login</span><span class="p">(</span><span class="s">&quot;a@b.com&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;wrong&quot;</span><span class="p">);</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">InvalidCredentialsException</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">AccountLockedException</span><span class="w"> </span><span class="n">ignored</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">assertThrows</span><span class="p">(</span><span class="n">AccountLockedException</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">authService</span><span class="p">.</span><span class="na">login</span><span class="p">(</span><span class="s">&quot;a@b.com&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;pw&quot;</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">// ...more tests for 2FA, password reset, etc...</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.56ea9cef.min.js"></script>
+      
+    
+  </body>
+</html>

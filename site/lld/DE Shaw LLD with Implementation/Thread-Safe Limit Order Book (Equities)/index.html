@@ -1,0 +1,1045 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://ashok-ga.github.io/system-design/lld/DE%20Shaw%20LLD%20with%20Implementation/Thread-Safe%20Limit%20Order%20Book%20%28Equities%29/">
+      
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
+    
+    
+      
+        <title>Thread-Safe Limit Order Book (Equities) - System Design Hub</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.342714a4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#thread-safe-limit-order-book-equities" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            System Design Hub
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Thread-Safe Limit Order Book (Equities)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ashok-ga/system-design" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ashok-ga/system-design
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../hld/overview/" class="md-tabs__link">
+          
+  
+  
+  High-Level Design
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../de-shaw/" class="md-tabs__link">
+          
+  
+  
+  Low-Level Design
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../assets/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Assets
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../references/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  References
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../CONTRIBUTING.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Contributing
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    System Design Hub
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ashok-ga/system-design" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ashok-ga/system-design
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    High-Level Design
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            High-Level Design
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hld/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hld/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hld/de-shaw/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DE Shaw
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Low-Level Design
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Low-Level Design
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../de-shaw/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DE Shaw
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../module2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../assets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Assets
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../references/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    References
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../CONTRIBUTING.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Contributing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-system-overview-scope-clarification" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. System Overview &amp; Scope Clarification
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-core-components-and-class-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Core Components and Class Design
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-api-design-commands-and-the-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. API Design (Commands and the Engine)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-key-workflows-executed-by-the-single-matchingengine-thread" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Key Workflows (executed by the single MatchingEngine thread)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-code-implementation-java" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Code Implementation (Java)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-testing-key-scenarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Testing (Key Scenarios)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-performance-concurrency-and-extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Performance, Concurrency, and Extensions
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="thread-safe-limit-order-book-equities">Thread-Safe Limit Order Book (Equities)<a class="headerlink" href="#thread-safe-limit-order-book-equities" title="Permanent link">&para;</a></h1>
+<p>This problem requires designing the core data structure of a financial exchange: the Limit Order Book (LOB). The design must support adding and canceling orders, matching trades according to strict price-time priority rules, and do so in a thread-safe, deterministic, and low-latency manner.</p>
+<h3 id="1-system-overview-scope-clarification"><strong>1. System Overview &amp; Scope Clarification</strong><a class="headerlink" href="#1-system-overview-scope-clarification" title="Permanent link">&para;</a></h3>
+<p>A Limit Order Book is a centralized record of all outstanding buy (bid) and sell (ask) limit orders for a specific financial instrument (e.g., stock in GOOGLE). Its job is to match incoming orders against resting orders to create trades.</p>
+<p><strong>Core Principle: Price-Time Priority</strong>
+This is the non-negotiable rule for matching orders in most exchanges:</p>
+<ol>
+<li><strong>Price Priority:</strong> The highest-priced buy order (best bid) and the lowest-priced sell order (best ask) have the highest priority.</li>
+<li><strong>Time Priority:</strong> If multiple orders exist at the same best price, the one that was submitted earliest gets executed first (First-In, First-Out).</li>
+</ol>
+<p><strong>Functional Requirements (FR):</strong></p>
+<ul>
+<li><strong>Add Limit Order:</strong> Place a new buy or sell order onto the book with a specific price and quantity.</li>
+<li><strong>Cancel Order:</strong> Remove an existing order from the book using its unique ID.</li>
+<li><strong>Order Matching:</strong> When a new order's price "crosses the spread" (i.e., a buy order's price is &gt;= the best sell price, or a sell order's price is &lt;= the best buy price), it must be matched against resting orders according to price-time priority.</li>
+<li><strong>Query Book State:</strong> Get the best bid and best ask prices and quantities.</li>
+</ul>
+<p><strong>Non-Functional Requirements (NFR):</strong></p>
+<ul>
+<li><strong>Low Latency:</strong> All operations (add, cancel, match) must be completed in microseconds.</li>
+<li><strong>Determinism:</strong> For the same sequence of input commands, the system must produce the exact same sequence of output trades. This is critical for fairness and regulatory compliance.</li>
+<li><strong>High Throughput:</strong> The system must handle tens of thousands to millions of commands per second.</li>
+</ul>
+<p><strong>Concurrency Model: The Single Writer Principle</strong>
+To achieve determinism and avoid complex, slow locking, the standard industry pattern is to have a <strong>single, dedicated thread</strong> (the "matching engine") that processes all state-changing commands serially from a queue. Other threads (e.g., network threads handling client connections) act as producers, placing commands onto this queue. This is a Multiple-Producer, Single-Consumer (MPSC) model.</p>
+<hr />
+<h3 id="2-core-components-and-class-design"><strong>2. Core Components and Class Design</strong><a class="headerlink" href="#2-core-components-and-class-design" title="Permanent link">&para;</a></h3>
+<p>The data structures are chosen for their performance characteristics in sorting and lookups.</p>
+<ul>
+<li><strong><code>Order</code>:</strong> A simple Plain Old Java Object (POJO) representing an order.<ul>
+<li><code>long orderId</code>: Unique identifier.</li>
+<li><code>Side side</code>: An enum (<code>BUY</code>, <code>SELL</code>).</li>
+<li><code>long price</code>: The limit price (using <code>long</code> for fixed-point arithmetic, e.g., representing cents, is faster than <code>BigDecimal</code>).</li>
+<li><code>long quantity</code>: The number of shares.</li>
+<li><code>long timestamp</code>: Arrival time for time-priority.</li>
+<li><code>PriceLevel level</code>: A reference to the <code>PriceLevel</code> it belongs to, for fast cancellation.</li>
+</ul>
+</li>
+<li><strong><code>PriceLevel</code>:</strong> Represents all orders at a single price point.<ul>
+<li><code>long price</code>: The price of this level.</li>
+<li><code>long totalVolume</code>: The sum of quantities of all orders at this level.</li>
+<li><code>Deque&lt;Order&gt; orders</code>: A queue of orders, maintaining FIFO time priority. <code>ArrayDeque</code> is a good choice.</li>
+</ul>
+</li>
+<li><strong><code>OrderBook</code>:</strong> The central data structure holding the two sides of the book.<ul>
+<li><code>NavigableMap&lt;Long, PriceLevel&gt; bids</code>: A map of buy-side price levels, sorted from highest to lowest price. <code>TreeMap</code> with a reverse-order comparator is perfect.</li>
+<li><code>NavigableMap&lt;Long, PriceLevel&gt; asks</code>: A map of sell-side price levels, sorted from lowest to highest price. A standard <code>TreeMap</code> works here.</li>
+<li><code>Map&lt;Long, Order&gt; ordersById</code>: A <code>HashMap</code> for O(1) lookup of any order by its ID, essential for fast cancellations.</li>
+</ul>
+</li>
+<li><strong><code>MatchingEngine</code></strong>: The class that runs the single writer thread, consuming commands and operating on the <code>OrderBook</code>.</li>
+</ul>
+<hr />
+<h3 id="3-api-design-commands-and-the-engine"><strong>3. API Design (Commands and the Engine)</strong><a class="headerlink" href="#3-api-design-commands-and-the-engine" title="Permanent link">&para;</a></h3>
+<p>The API is not a set of direct methods, but rather a set of command objects placed onto a queue.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Command interface</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">sealed</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">OrderBookCommand</span><span class="w"> </span><span class="n">permits</span><span class="w"> </span><span class="n">AddOrder</span><span class="p">,</span><span class="w"> </span><span class="n">CancelOrder</span><span class="w"> </span><span class="p">{}</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">record</span> <span class="nc">AddOrder</span><span class="p">(</span><span class="n">Order</span><span class="w"> </span><span class="n">order</span><span class="p">)</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">OrderBookCommand</span><span class="w"> </span><span class="p">{}</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">record</span> <span class="nc">CancelOrder</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="n">orderId</span><span class="p">)</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">OrderBookCommand</span><span class="w"> </span><span class="p">{}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MatchingEngine</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Runnable</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">BlockingQueue</span><span class="o">&lt;</span><span class="n">OrderBookCommand</span><span class="o">&gt;</span><span class="w"> </span><span class="n">commandQueue</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">OrderBook</span><span class="w"> </span><span class="n">orderBook</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// The single thread runs this loop</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">run</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">Thread</span><span class="p">.</span><span class="na">currentThread</span><span class="p">().</span><span class="na">isInterrupted</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">OrderBookCommand</span><span class="w"> </span><span class="n">command</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">commandQueue</span><span class="p">.</span><span class="na">take</span><span class="p">();</span>
+<span class="w">                </span><span class="n">processCommand</span><span class="p">(</span><span class="n">command</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">InterruptedException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* ... */</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">processCommand</span><span class="p">(</span><span class="n">OrderBookCommand</span><span class="w"> </span><span class="n">command</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">command</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="n">AddOrder</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="n">order</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">orderBook</span><span class="p">.</span><span class="na">addOrder</span><span class="p">(</span><span class="n">order</span><span class="p">);</span>
+<span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="n">CancelOrder</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">orderBook</span><span class="p">.</span><span class="na">cancelOrder</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h3 id="4-key-workflows-executed-by-the-single-matchingengine-thread"><strong>4. Key Workflows (executed by the single <code>MatchingEngine</code> thread)</strong><a class="headerlink" href="#4-key-workflows-executed-by-the-single-matchingengine-thread" title="Permanent link">&para;</a></h3>
+<p><strong>a) <code>OrderBook.addOrder(Order newOrder)</code> Workflow</strong></p>
+<ol>
+<li><strong>Match or Rest?</strong>: The first step is to check if the incoming order is "marketable" (can be matched immediately).<ul>
+<li>If <code>newOrder</code> is a <code>BUY</code>: Check if the <code>asks</code> map is non-empty and <code>newOrder.price &gt;= asks.firstKey()</code>.</li>
+<li>If <code>newOrder</code> is a <code>SELL</code>: Check if the <code>bids</code> map is non-empty and <code>newOrder.price &lt;= bids.firstKey()</code>.</li>
+</ul>
+</li>
+<li><strong>Matching Logic (if marketable):</strong>
+    a. Get the list of price levels from the opposite side (e.g., <code>asks.values()</code> for a buy order).
+    b. Iterate through the price levels, starting from the best price.
+    c. For each <code>PriceLevel</code>, iterate through its <code>Deque&lt;Order&gt;</code> (FIFO).
+    d. Match <code>newOrder</code> against the resting order (<code>restingOrder</code>). The trade quantity is <code>min(newOrder.quantity, restingOrder.quantity)</code>.
+    e. <strong>Generate a <code>Trade</code> event (to be published to downstream systems).</strong>
+    f. Decrement quantities on both orders.
+    g. If <code>restingOrder.quantity == 0</code>, remove it from its <code>PriceLevel</code>'s deque and the main <code>ordersById</code> map. If the <code>PriceLevel</code> becomes empty, remove it from its <code>TreeMap</code>.
+    h. If <code>newOrder.quantity == 0</code>, the process is complete. Stop and return.
+    i. If the price level is exhausted, move to the next best price level and repeat.</li>
+<li><strong>Resting Logic (if not marketable or partially filled):</strong>
+    a. If <code>newOrder</code> still has quantity remaining, it must be placed on the book.
+    b. Find the correct side (<code>bids</code> or <code>asks</code>).
+    c. Use <code>map.computeIfAbsent(newOrder.price, ...)</code> to get or create the <code>PriceLevel</code>.
+    d. Add the <code>newOrder</code> to the end of the <code>PriceLevel</code>'s <code>Deque</code>, update the level's total volume.
+    e. Store the order in the <code>ordersById</code> map for future cancellation.</li>
+</ol>
+<p><strong>b) <code>OrderBook.cancelOrder(long orderId)</code> Workflow</strong></p>
+<ol>
+<li>Use the <code>ordersById</code> map to find the <code>Order</code> object in O(1) time. If it's not found, it was likely already filled; do nothing.</li>
+<li>Get the <code>PriceLevel</code> from the <code>order.level</code> reference.</li>
+<li>Remove the order from the <code>PriceLevel</code>'s <code>Deque</code>. This is O(N) on <code>ArrayDeque</code>. For extreme performance, a custom doubly-linked list implementation where the <code>Order</code> object itself is the node would make this O(1). For an interview, acknowledging this tradeoff is key.</li>
+<li>Update the <code>PriceLevel</code>'s total volume.</li>
+<li>If the <code>PriceLevel</code> is now empty, remove it from the <code>TreeMap</code> (<code>bids</code> or <code>asks</code>).</li>
+<li>Finally, remove the order from the <code>ordersById</code> map.</li>
+</ol>
+<hr />
+<h3 id="5-code-implementation-java"><strong>5. Code Implementation (Java)</strong><a class="headerlink" href="#5-code-implementation-java" title="Permanent link">&para;</a></h3>
+<p>This is a simplified implementation of the <code>OrderBook</code>'s core logic, assuming it's called by the single-threaded <code>MatchingEngine</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.*</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="n">Side</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">BUY</span><span class="p">,</span><span class="w"> </span><span class="n">SELL</span><span class="w"> </span><span class="p">}</span>
+
+<span class="c1">// Simplified Order class for this example</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Order</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">orderId</span><span class="p">;</span><span class="w"> </span><span class="n">Side</span><span class="w"> </span><span class="n">side</span><span class="p">;</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">price</span><span class="p">;</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">quantity</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Order</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">Side</span><span class="w"> </span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">q</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">orderId</span><span class="o">=</span><span class="n">id</span><span class="p">;</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">side</span><span class="o">=</span><span class="n">s</span><span class="p">;</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">price</span><span class="o">=</span><span class="n">p</span><span class="p">;</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">quantity</span><span class="o">=</span><span class="n">q</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">// ...getters and setters...</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">PriceLevel</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">totalVolume</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">Deque</span><span class="o">&lt;</span><span class="n">Order</span><span class="o">&gt;</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayDeque</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">OrderBook</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">NavigableMap</span><span class="o">&lt;</span><span class="n">Long</span><span class="p">,</span><span class="w"> </span><span class="n">PriceLevel</span><span class="o">&gt;</span><span class="w"> </span><span class="n">bids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TreeMap</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">Collections</span><span class="p">.</span><span class="na">reverseOrder</span><span class="p">());</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">NavigableMap</span><span class="o">&lt;</span><span class="n">Long</span><span class="p">,</span><span class="w"> </span><span class="n">PriceLevel</span><span class="o">&gt;</span><span class="w"> </span><span class="n">asks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TreeMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">Long</span><span class="p">,</span><span class="w"> </span><span class="n">Order</span><span class="o">&gt;</span><span class="w"> </span><span class="n">ordersById</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span><span class="w"> </span><span class="c1">// For fast cancellations</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">addOrder</span><span class="p">(</span><span class="n">Order</span><span class="w"> </span><span class="n">newOrder</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// For simplicity, we assume trade events are printed to console.</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">newOrder</span><span class="p">.</span><span class="na">side</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Side</span><span class="p">.</span><span class="na">BUY</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">matchOrder</span><span class="p">(</span><span class="n">newOrder</span><span class="p">,</span><span class="w"> </span><span class="n">asks</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">matchOrder</span><span class="p">(</span><span class="n">newOrder</span><span class="p">,</span><span class="w"> </span><span class="n">bids</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">newOrder</span><span class="p">.</span><span class="na">quantity</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">restOrder</span><span class="p">(</span><span class="n">newOrder</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">matchOrder</span><span class="p">(</span><span class="n">Order</span><span class="w"> </span><span class="n">newOrder</span><span class="p">,</span><span class="w"> </span><span class="n">NavigableMap</span><span class="o">&lt;</span><span class="n">Long</span><span class="p">,</span><span class="w"> </span><span class="n">PriceLevel</span><span class="o">&gt;</span><span class="w"> </span><span class="n">oppositeSide</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Iterator</span><span class="o">&lt;</span><span class="n">Map</span><span class="p">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">Long</span><span class="p">,</span><span class="w"> </span><span class="n">PriceLevel</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">levelIterator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">oppositeSide</span><span class="p">.</span><span class="na">entrySet</span><span class="p">().</span><span class="na">iterator</span><span class="p">();</span>
+
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">levelIterator</span><span class="p">.</span><span class="na">hasNext</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">newOrder</span><span class="p">.</span><span class="na">quantity</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">Map</span><span class="p">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">Long</span><span class="p">,</span><span class="w"> </span><span class="n">PriceLevel</span><span class="o">&gt;</span><span class="w"> </span><span class="n">entry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">levelIterator</span><span class="p">.</span><span class="na">next</span><span class="p">();</span>
+<span class="w">            </span><span class="kt">long</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">entry</span><span class="p">.</span><span class="na">getKey</span><span class="p">();</span>
+<span class="w">            </span><span class="n">PriceLevel</span><span class="w"> </span><span class="n">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">entry</span><span class="p">.</span><span class="na">getValue</span><span class="p">();</span>
+
+<span class="w">            </span><span class="c1">// Price check: can the new order be matched at this level?</span>
+<span class="w">            </span><span class="kt">boolean</span><span class="w"> </span><span class="n">priceMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">newOrder</span><span class="p">.</span><span class="na">side</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Side</span><span class="p">.</span><span class="na">BUY</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">newOrder</span><span class="p">.</span><span class="na">price</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">price</span><span class="p">)</span><span class="w"> </span><span class="o">||</span>
+<span class="w">                                 </span><span class="p">(</span><span class="n">newOrder</span><span class="p">.</span><span class="na">side</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Side</span><span class="p">.</span><span class="na">SELL</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">newOrder</span><span class="p">.</span><span class="na">price</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">price</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">priceMatch</span><span class="p">)</span><span class="w"> </span><span class="k">break</span><span class="p">;</span>
+
+<span class="w">            </span><span class="n">Iterator</span><span class="o">&lt;</span><span class="n">Order</span><span class="o">&gt;</span><span class="w"> </span><span class="n">orderIterator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">level</span><span class="p">.</span><span class="na">orders</span><span class="p">.</span><span class="na">iterator</span><span class="p">();</span>
+<span class="w">            </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">orderIterator</span><span class="p">.</span><span class="na">hasNext</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">newOrder</span><span class="p">.</span><span class="na">quantity</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">Order</span><span class="w"> </span><span class="n">restingOrder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">orderIterator</span><span class="p">.</span><span class="na">next</span><span class="p">();</span>
+<span class="w">                </span><span class="kt">long</span><span class="w"> </span><span class="n">tradeQty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Math</span><span class="p">.</span><span class="na">min</span><span class="p">(</span><span class="n">newOrder</span><span class="p">.</span><span class="na">quantity</span><span class="p">,</span><span class="w"> </span><span class="n">restingOrder</span><span class="p">.</span><span class="na">quantity</span><span class="p">);</span>
+
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">printf</span><span class="p">(</span><span class="s">&quot;TRADE: %d shares at %d%n&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">tradeQty</span><span class="p">,</span><span class="w"> </span><span class="n">restingOrder</span><span class="p">.</span><span class="na">price</span><span class="p">);</span>
+
+<span class="w">                </span><span class="n">newOrder</span><span class="p">.</span><span class="na">quantity</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">tradeQty</span><span class="p">;</span>
+<span class="w">                </span><span class="n">restingOrder</span><span class="p">.</span><span class="na">quantity</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">tradeQty</span><span class="p">;</span>
+<span class="w">                </span><span class="n">level</span><span class="p">.</span><span class="na">totalVolume</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">tradeQty</span><span class="p">;</span>
+
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">restingOrder</span><span class="p">.</span><span class="na">quantity</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">orderIterator</span><span class="p">.</span><span class="na">remove</span><span class="p">();</span><span class="w"> </span><span class="c1">// Remove from Deque</span>
+<span class="w">                    </span><span class="n">ordersById</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="n">restingOrder</span><span class="p">.</span><span class="na">orderId</span><span class="p">);</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">level</span><span class="p">.</span><span class="na">orders</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">levelIterator</span><span class="p">.</span><span class="na">remove</span><span class="p">();</span><span class="w"> </span><span class="c1">// Remove PriceLevel from TreeMap</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">restOrder</span><span class="p">(</span><span class="n">Order</span><span class="w"> </span><span class="n">order</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">NavigableMap</span><span class="o">&lt;</span><span class="n">Long</span><span class="p">,</span><span class="w"> </span><span class="n">PriceLevel</span><span class="o">&gt;</span><span class="w"> </span><span class="n">side</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">order</span><span class="p">.</span><span class="na">side</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Side</span><span class="p">.</span><span class="na">BUY</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">bids</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">asks</span><span class="p">;</span>
+<span class="w">        </span><span class="n">PriceLevel</span><span class="w"> </span><span class="n">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">side</span><span class="p">.</span><span class="na">computeIfAbsent</span><span class="p">(</span><span class="n">order</span><span class="p">.</span><span class="na">price</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PriceLevel</span><span class="p">());</span>
+<span class="w">        </span><span class="n">level</span><span class="p">.</span><span class="na">orders</span><span class="p">.</span><span class="na">addLast</span><span class="p">(</span><span class="n">order</span><span class="p">);</span>
+<span class="w">        </span><span class="n">level</span><span class="p">.</span><span class="na">totalVolume</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">order</span><span class="p">.</span><span class="na">quantity</span><span class="p">;</span>
+<span class="w">        </span><span class="n">ordersById</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">order</span><span class="p">.</span><span class="na">orderId</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Cancellation logic would be here...</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">cancelOrder</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="n">orderId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* ... as described in workflow ... */</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Public query methods</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getBestBid</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">Optional</span><span class="p">.</span><span class="na">ofNullable</span><span class="p">(</span><span class="n">bids</span><span class="p">.</span><span class="na">firstKey</span><span class="p">());</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getBestAsk</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">Optional</span><span class="p">.</span><span class="na">ofNullable</span><span class="p">(</span><span class="n">asks</span><span class="p">.</span><span class="na">firstKey</span><span class="p">());</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h3 id="6-testing-key-scenarios"><strong>6. Testing (Key Scenarios)</strong><a class="headerlink" href="#6-testing-key-scenarios" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Building the Book:</strong> Add a series of non-crossing orders (<code>BUY 100 @ 99</code>, <code>BUY 50 @ 98</code>, <code>SELL 100 @ 101</code>, <code>SELL 50 @ 102</code>). Verify <code>getBestBid()</code> returns 99 and <code>getBestAsk()</code> returns 101.</li>
+<li><strong>Simple Cross:</strong> With the book above, add <code>SELL 75 @ 99</code>. Verify a trade of 75 shares occurs, the original bid is now for 25 shares, and the sell order is gone.</li>
+<li><strong>Multi-Level Cross:</strong> With the book above, add <code>SELL 200 @ 97</code>. Verify it first matches all 100 shares @ 99, then all 50 shares @ 98. The remaining 50 shares should rest on the book, making the new best ask 97.</li>
+<li><strong>Cancellation:</strong> Add an order, then cancel it. Verify it's gone from all data structures.</li>
+</ul>
+<hr />
+<h3 id="7-performance-concurrency-and-extensions"><strong>7. Performance, Concurrency, and Extensions</strong><a class="headerlink" href="#7-performance-concurrency-and-extensions" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Concurrency:</strong> The MPSC queue model is the key. It serializes all writes, making the core logic simple and lock-free. Reads (like providing a market data snapshot) are tricky; they either need to be queued as commands or use non-blocking techniques to read a potentially stale copy of the book state.</li>
+<li><strong>Performance Optimizations:</strong><ul>
+<li><strong>Cancellation:</strong> As noted, O(N) removal from a <code>PriceLevel</code>'s <code>ArrayDeque</code> is a bottleneck. A custom <code>Order</code> class that is also a node in a doubly-linked list makes removal O(1).</li>
+<li><strong>GC-Free:</strong> For HFT, avoiding GC is critical. This involves object pooling (reusing <code>Order</code> objects instead of creating new ones) and avoiding any memory allocation on the critical path.</li>
+<li><strong>Primitives:</strong> Using <code>long</code> for price/quantity avoids <code>BigDecimal</code> object overhead.</li>
+</ul>
+</li>
+<li><strong>Extensions:</strong><ul>
+<li><strong>Market Orders:</strong> Add an <code>Order</code> type with no price. It matches against the best available prices until filled. In the <code>matchOrder</code> logic, a market order would simply not have the <code>priceMatch</code> condition.</li>
+<li><strong>Other Order Types:</strong> Implement Immediate-Or-Cancel (IOC) orders (match what you can immediately, cancel the rest) and Fill-Or-Kill (FOK) orders (execute the entire quantity immediately or cancel).</li>
+<li><strong>Market Data Feeds:</strong> The <code>OrderBook</code> should generate events for every state change (new order, cancel, trade, book update). These events are put onto outbound queues for market data publishers and other downstream systems. The matching engine thread should <em>not</em> be blocked by slow consumers of this data.</li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.56ea9cef.min.js"></script>
+      
+    
+  </body>
+</html>
