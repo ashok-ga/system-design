@@ -8,21 +8,25 @@
       
       
       
-        <link rel="canonical" href="https://ashok-ga.github.io/system-design/hld/DE%20Shaw%20HLD%20with%20Implementations/Elevator%20Controller%20%28N%20Elevators%29/">
+        <link rel="canonical" href="https://ashok-ga.github.io/system-design/lld/de-shaw/">
       
       
+        <link rel="prev" href="../../hld/de-shaw/">
       
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
+        <link rel="next" href="../module2/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
     
     
       
-        <title>Elevator Controller (N Elevators) - System Design Hub</title>
+        <title>DE Shaw - System Design Hub</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.342714a4.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
       
       
 
@@ -41,7 +45,7 @@
       
     
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -59,11 +63,6 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#elevator-controller-n-elevators" class="md-skip">
-          Skip to content
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
@@ -74,7 +73,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+    <a href="../.." title="System Design Hub" class="md-header__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -94,7 +93,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Elevator Controller (N Elevators)
+              DE Shaw
             
           </span>
         </div>
@@ -181,7 +180,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
+      <a href="../.." class="md-tabs__link">
         
   
   
@@ -202,7 +201,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../overview/" class="md-tabs__link">
+        <a href="../../hld/overview/" class="md-tabs__link">
           
   
   
@@ -218,11 +217,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../../lld/de-shaw/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
           
   
   
@@ -240,7 +241,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../assets/" class="md-tabs__link">
+      <a href="../../assets/" class="md-tabs__link">
         
   
   
@@ -259,7 +260,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../references/" class="md-tabs__link">
+      <a href="../../references/" class="md-tabs__link">
         
   
   
@@ -278,7 +279,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../../CONTRIBUTING.md" class="md-tabs__link">
+      <a href="../../../CONTRIBUTING.md" class="md-tabs__link">
         
   
   
@@ -313,7 +314,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
+    <a href="../.." title="System Design Hub" class="md-nav__button md-logo" aria-label="System Design Hub" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -343,7 +344,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -408,7 +409,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../overview/" class="md-nav__link">
+      <a href="../../hld/overview/" class="md-nav__link">
         
   
   
@@ -431,7 +432,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/" class="md-nav__link">
+      <a href="../../hld/architecture/" class="md-nav__link">
         
   
   
@@ -454,7 +455,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../de-shaw/" class="md-nav__link">
+      <a href="../../hld/de-shaw/" class="md-nav__link">
         
   
   
@@ -481,26 +482,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
@@ -513,7 +519,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             Low-Level Design
@@ -524,10 +530,17 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../../lld/de-shaw/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -538,6 +551,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -550,7 +564,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../lld/module2/" class="md-nav__link">
+      <a href="../module2/" class="md-nav__link">
         
   
   
@@ -580,7 +594,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../assets/" class="md-nav__link">
+      <a href="../../assets/" class="md-nav__link">
         
   
   
@@ -602,7 +616,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../references/" class="md-nav__link">
+      <a href="../../references/" class="md-nav__link">
         
   
   
@@ -624,7 +638,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../CONTRIBUTING.md" class="md-nav__link">
+      <a href="../../../CONTRIBUTING.md" class="md-nav__link">
         
   
   
@@ -656,70 +670,6 @@
   
   
   
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#problem-statement" class="md-nav__link">
-    <span class="md-ellipsis">
-      Problem Statement
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#functional-requirements" class="md-nav__link">
-    <span class="md-ellipsis">
-      Functional Requirements
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#core-concepts" class="md-nav__link">
-    <span class="md-ellipsis">
-      Core Concepts
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#high-level-design" class="md-nav__link">
-    <span class="md-ellipsis">
-      High-Level Design
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#step-by-step-solution" class="md-nav__link">
-    <span class="md-ellipsis">
-      Step-by-Step Solution
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#edge-cases" class="md-nav__link">
-    <span class="md-ellipsis">
-      Edge Cases
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
   
 </nav>
                   </div>
@@ -738,49 +688,19 @@
   
 
 
-<h1 id="elevator-controller-n-elevators">Elevator Controller (N Elevators)<a class="headerlink" href="#elevator-controller-n-elevators" title="Permanent link">&para;</a></h1>
-<h2 id="problem-statement">Problem Statement<a class="headerlink" href="#problem-statement" title="Permanent link">&para;</a></h2>
-<p>Schedule N elevators to minimize wait time. Handle hall/cab calls, group control, and safety.</p>
-<h2 id="functional-requirements">Functional Requirements<a class="headerlink" href="#functional-requirements" title="Permanent link">&para;</a></h2>
+  <h1>DE Shaw</h1>
+
 <ul>
-<li>Handle hall &amp; cab calls</li>
-<li>States: IDLE, MOVING, DOOR_OPEN</li>
-<li>Group control, peak modes</li>
-</ul>
-<h2 id="core-concepts">Core Concepts<a class="headerlink" href="#core-concepts" title="Permanent link">&para;</a></h2>
-<ul>
-<li><code>Elevator(id, currentFloor, direction, queue)</code> (State pattern)</li>
-<li><code>Scheduler.assign(call)</code> (Nearest Car / Look Algorithm)</li>
-</ul>
-<h2 id="high-level-design">High-Level Design<a class="headerlink" href="#high-level-design" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>Elevator:</strong><ul>
-<li>Each elevator tracks current floor, direction, and queue of stops</li>
-<li>State transitions: IDLE ↔ MOVING ↔ DOOR_OPEN</li>
-</ul>
-</li>
-<li><strong>Scheduler:</strong><ul>
-<li>Assigns calls to elevators (nearest car, look algorithm)</li>
-<li>Handles peak modes (morning/evening)</li>
-</ul>
-</li>
-<li><strong>Safety:</strong><ul>
-<li>Door interlocks, overload sensors</li>
-</ul>
-</li>
-</ul>
-<h2 id="step-by-step-solution">Step-by-Step Solution<a class="headerlink" href="#step-by-step-solution" title="Permanent link">&para;</a></h2>
-<ol>
-<li><strong>Elevator class:</strong> state, queue, move logic</li>
-<li><strong>Scheduler:</strong> assign calls, optimize for wait time</li>
-<li><strong>Safety:</strong> enforce interlocks</li>
-<li><strong>Simulation:</strong> test with multiple elevators/calls</li>
-</ol>
-<h2 id="edge-cases">Edge Cases<a class="headerlink" href="#edge-cases" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Simultaneous calls</li>
-<li>Overload</li>
-<li>Emergency stop</li>
+<li><a href="../DE%20Shaw%20LLD%20with%20Implementation%202501d5d8e01280fc8a7cf93b607d848f/Authentication%20%28Login%20Signup%20%2B%20Sessions%20%26%202FA%29/">Authentication (Login Signup + Sessions &amp; 2FA)</a></li>
+<li><a href="../DE%20Shaw%20LLD%20with%20Implementation%202501d5d8e01280fc8a7cf93b607d848f/LRU%20Cache%20with%20TTL%20and%20Write-Back/">LRU Cache with TTL and Write-Back</a></li>
+<li><a href="../DE%20Shaw%20LLD%20with%20Implementation%202501d5d8e01280fc8a7cf93b607d848f/Token-Bucket%20Rate%20Limiter%20%28Multi-Tenant%29/">Token-Bucket Rate Limiter (Multi-Tenant)</a></li>
+<li><a href="../DE%20Shaw%20LLD%20with%20Implementation%202501d5d8e01280fc8a7cf93b607d848f/Cron-like%20Job%20Scheduler%20%28Priority%20%2B%20Retry%29/">Cron-like Job Scheduler (Priority + Retry)</a></li>
+<li><a href="../DE%20Shaw%20LLD%20with%20Implementation%202501d5d8e01280fc8a7cf93b607d848f/Publisher%E2%80%93Subscriber%20Notification%20Service/">Publisher–Subscriber Notification Service</a></li>
+<li><a href="../DE%20Shaw%20LLD%20with%20Implementation%202501d5d8e01280fc8a7cf93b607d848f/Thread-Safe%20Limit%20Order%20Book%20%28Equities%29/">Thread-Safe Limit Order Book (Equities)</a></li>
+<li><a href="../DE%20Shaw%20LLD%20with%20Implementation%202501d5d8e01280fc8a7cf93b607d848f/Basic%20Matching%20Engine%20%28with%20Market%20Orders%29/">Basic Matching Engine (with Market Orders)</a></li>
+<li><a href="../DE%20Shaw%20LLD%20with%20Implementation%202501d5d8e01280fc8a7cf93b607d848f/Market%20Data%20Fan-out%20%28Feed%20Handler%29/">Market Data Fan-out (Feed Handler)</a></li>
+<li><a href="../DE%20Shaw%20LLD%20with%20Implementation%202501d5d8e01280fc8a7cf93b607d848f/Rolling%20Time-Window%20Aggregator%20%28VWAP%20EMA%29/">Rolling Time-Window Aggregator (VWAP EMA)</a></li>
+<li><a href="../DE%20Shaw%20LLD%20with%20Implementation%202501d5d8e01280fc8a7cf93b607d848f/Feature%20Flag%20Service%20%28Local%29/">Feature Flag Service (Local)</a></li>
 </ul>
 
 
@@ -836,10 +756,10 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.56ea9cef.min.js"></script>
+      <script src="../../assets/javascripts/bundle.56ea9cef.min.js"></script>
       
     
   </body>
