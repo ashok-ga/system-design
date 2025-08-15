@@ -18,7 +18,7 @@
     
     
       
-        <title>Timeseries Database (Downsampling + Retention) - System Design Hub</title>
+        <title>Timeseries Database - System Design Hub</title>
       
     
     
@@ -94,7 +94,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Timeseries Database (Downsampling + Retention)
+              Timeseries Database
             
           </span>
         </div>
@@ -689,72 +689,123 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#requirements" class="md-nav__link">
+  <a href="#1-problem-statement-requirements" class="md-nav__link">
     <span class="md-ellipsis">
-      Requirements
+      1. Problem Statement &amp; Requirements
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#scale" class="md-nav__link">
+  <a href="#2-high-level-architecture" class="md-nav__link">
     <span class="md-ellipsis">
-      Scale
+      2. High-Level Architecture
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#core-architecture" class="md-nav__link">
+  <a href="#3-data-model-partitioning" class="md-nav__link">
     <span class="md-ellipsis">
-      Core Architecture
+      3. Data Model &amp; Partitioning
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#storage" class="md-nav__link">
+  <a href="#4-key-workflows" class="md-nav__link">
     <span class="md-ellipsis">
-      Storage
+      4. Key Workflows
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Key Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-write-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      a) Write Path
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-compaction-downsampling" class="md-nav__link">
+    <span class="md-ellipsis">
+      b) Compaction &amp; Downsampling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-query-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      c) Query Path
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d-retention-ttl" class="md-nav__link">
+    <span class="md-ellipsis">
+      d) Retention &amp; TTL
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-scaling-reliability" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Scaling &amp; Reliability
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#flow" class="md-nav__link">
+  <a href="#6-trade-offs-alternatives" class="md-nav__link">
     <span class="md-ellipsis">
-      Flow
+      6. Trade-offs &amp; Alternatives
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#trade-offs" class="md-nav__link">
+  <a href="#7-best-practices-extensions" class="md-nav__link">
     <span class="md-ellipsis">
-      Trade-offs
+      7. Best Practices &amp; Extensions
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#diagram" class="md-nav__link">
+  <a href="#8-example-pseudocode-downsampling" class="md-nav__link">
     <span class="md-ellipsis">
-      Diagram
+      8. Example Pseudocode (Downsampling)
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#notes" class="md-nav__link">
+  <a href="#9-references" class="md-nav__link">
     <span class="md-ellipsis">
-      Notes
+      9. References
     </span>
   </a>
   
@@ -779,47 +830,109 @@
   
 
 
+<hr />
 <h1 id="timeseries-database-downsampling-retention">Timeseries Database (Downsampling + Retention)<a class="headerlink" href="#timeseries-database-downsampling-retention" title="Permanent link">&para;</a></h1>
-<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
+<h2 id="1-problem-statement-requirements">1. Problem Statement &amp; Requirements<a class="headerlink" href="#1-problem-statement-requirements" title="Permanent link">&para;</a></h2>
+<p>Design a scalable, multi-tenant timeseries database (TSDB) for high write throughput, efficient range queries, retention, and downsampling.</p>
+<p><strong>Functional Requirements:</strong>
+- Ingest high-frequency timeseries data (metrics, logs, IoT, etc.)
+- Support multi-tenant isolation
+- Range queries over time and labels
+- Retention/TTL and automatic data expiry
+- Downsampling/rollups for older data
+- Support for tags/labels and flexible schema</p>
+<p><strong>Non-Functional Requirements:</strong>
+- 1–10M datapoints/sec writes
+- Query p95 &lt; 500ms for recent data
+- High availability, horizontal scalability</p>
+<p><strong>Assumptions:</strong>
+- Data is append-only, immutable after ingest
+- Hot/cold storage tiers for cost efficiency</p>
+<hr />
+<h2 id="2-high-level-architecture">2. High-Level Architecture<a class="headerlink" href="#2-high-level-architecture" title="Permanent link">&para;</a></h2>
+<p><strong>Components:</strong>
+- <strong>Ingest Tier:</strong> Accepts writes, batches, and deduplicates
+- <strong>Write-Ahead Log (WAL):</strong> Ensures durability before flush
+- <strong>Memtable:</strong> In-memory buffer for fast ingest
+- <strong>Storage Engine:</strong> Sharded, time-partitioned LSM/columnar store
+- <strong>Compactor:</strong> Merges, downsample, and evicts old data
+- <strong>Query Engine:</strong> Executes range, aggregation, and label queries
+- <strong>Retention Manager:</strong> Enforces TTL and tiering</p>
+<p><strong>Architecture Diagram:</strong>
+<div class="highlight"><pre><span></span><code> [Ingest] -&gt; [WAL] -&gt; [Memtable] -&gt; [Storage] -&gt; [Compactor] -&gt; [Query Engine]
+</code></pre></div></p>
+<hr />
+<h2 id="3-data-model-partitioning">3. Data Model &amp; Partitioning<a class="headerlink" href="#3-data-model-partitioning" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Write heavy</li>
-<li>Multi-tenant</li>
-<li>Queries over ranges</li>
-<li>Retention/TTL</li>
-<li>Downsample</li>
+<li><strong>Timeseries:</strong> { metric, labels, points[] }</li>
+<li><strong>Point:</strong> { ts, value }</li>
+<li><strong>Labels:</strong> { key: value, ... } for multi-dimensional queries</li>
+<li><strong>Sharding:</strong> By tenant, metric, and time window</li>
 </ul>
-<h2 id="scale">Scale<a class="headerlink" href="#scale" title="Permanent link">&para;</a></h2>
+<hr />
+<h2 id="4-key-workflows">4. Key Workflows<a class="headerlink" href="#4-key-workflows" title="Permanent link">&para;</a></h2>
+<h3 id="a-write-path">a) Write Path<a class="headerlink" href="#a-write-path" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Ingest tier receives batch of points</li>
+<li>Appends to WAL for durability</li>
+<li>Buffers in memtable (sorted by time)</li>
+<li>On flush, writes to LSM/columnar storage</li>
+</ol>
+<h3 id="b-compaction-downsampling">b) Compaction &amp; Downsampling<a class="headerlink" href="#b-compaction-downsampling" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Compactor merges small files, removes duplicates</li>
+<li>Downsamples old data (e.g., 1s→1m→1h)</li>
+<li>Moves cold data to cheaper storage</li>
+</ol>
+<h3 id="c-query-path">c) Query Path<a class="headerlink" href="#c-query-path" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Query engine parses range/label query</li>
+<li>Reads from memtable, then storage (hot/cold)</li>
+<li>Applies aggregation, downsampling as needed</li>
+</ol>
+<h3 id="d-retention-ttl">d) Retention &amp; TTL<a class="headerlink" href="#d-retention-ttl" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Retention manager scans for expired data</li>
+<li>Deletes or moves to cold storage</li>
+</ol>
+<hr />
+<h2 id="5-scaling-reliability">5. Scaling &amp; Reliability<a class="headerlink" href="#5-scaling-reliability" title="Permanent link">&para;</a></h2>
 <ul>
-<li>1–10M datapoints/s writes</li>
-<li>Query p95 &lt; 500ms for recent data</li>
+<li><strong>Horizontal Scaling:</strong> Shard by tenant/metric/time</li>
+<li><strong>Replication:</strong> For HA and durability</li>
+<li><strong>Tiered Storage:</strong> SSD for hot, object store for cold</li>
+<li><strong>Monitoring:</strong> Ingest lag, compaction, query latency</li>
 </ul>
-<h2 id="core-architecture">Core Architecture<a class="headerlink" href="#core-architecture" title="Permanent link">&para;</a></h2>
+<hr />
+<h2 id="6-trade-offs-alternatives">6. Trade-offs &amp; Alternatives<a class="headerlink" href="#6-trade-offs-alternatives" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Ingest tier</li>
-<li>Sharded time-partitioned storage (LSM/columnar)</li>
-<li>Query engine</li>
-<li>Compactor</li>
+<li><strong>Write Amplification:</strong> LSM/compaction increases writes, but enables fast ingest</li>
+<li><strong>Query Speed:</strong> Columnar/LSM enables fast range queries, but may slow random access</li>
+<li><strong>Indexing:</strong> Time-partitioned and label inverted indices for efficient queries</li>
 </ul>
-<h2 id="storage">Storage<a class="headerlink" href="#storage" title="Permanent link">&para;</a></h2>
-<ul>
-<li>LSM-based TSDB or ClickHouse/Pinot</li>
-<li>Tiered (hot/cold)</li>
-</ul>
-<h2 id="flow">Flow<a class="headerlink" href="#flow" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Append to WAL → memtable → flush → compact; background rollups (1s→1m→1h)</li>
-</ul>
-<h2 id="trade-offs">Trade-offs<a class="headerlink" href="#trade-offs" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Write amplification vs query speed; index choices (time-partition, label inverted index)</li>
-</ul>
-<h2 id="diagram">Diagram<a class="headerlink" href="#diagram" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>[Ingest] -&gt; [WAL] -&gt; [Memtable] -&gt; [Storage] -&gt; [Compactor] -&gt; [Query Engine]
-</code></pre></div>
-<h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
+<hr />
+<h2 id="7-best-practices-extensions">7. Best Practices &amp; Extensions<a class="headerlink" href="#7-best-practices-extensions" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Use background rollups for downsampling</li>
 <li>Tiered storage for cost efficiency</li>
+<li>Support for schema evolution and label cardinality control</li>
+<li>Integrate with Prometheus/OTel for metrics ingest</li>
+</ul>
+<hr />
+<h2 id="8-example-pseudocode-downsampling">8. Example Pseudocode (Downsampling)<a class="headerlink" href="#8-example-pseudocode-downsampling" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">downsample</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">interval</span><span class="p">):</span>
+    <span class="n">buckets</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">points</span><span class="p">:</span>
+        <span class="n">bucket</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">ts</span> <span class="o">//</span> <span class="n">interval</span>
+        <span class="n">buckets</span><span class="p">[</span><span class="n">bucket</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[(</span><span class="n">bucket</span><span class="o">*</span><span class="n">interval</span><span class="p">,</span> <span class="nb">sum</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">vals</span><span class="p">))</span> <span class="k">for</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">vals</span> <span class="ow">in</span> <span class="n">buckets</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+</code></pre></div>
+<hr />
+<h2 id="9-references">9. References<a class="headerlink" href="#9-references" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Log-structured_merge-tree">LSM Trees</a></li>
+<li><a href="https://prometheus.io/docs/prometheus/latest/storage/">Prometheus TSDB</a></li>
+<li><a href="https://clickhouse.com/docs/en/">ClickHouse for Timeseries</a></li>
 </ul>
 
 

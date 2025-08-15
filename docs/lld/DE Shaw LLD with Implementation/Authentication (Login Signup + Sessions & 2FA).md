@@ -50,33 +50,27 @@ We'll use a service-oriented architecture, with a central `AuthService` orchestr
 
 **Class Diagram (Textual Representation):**
 
-`+----------------+      +------------------+      +-------------------+
-| <<interface>>  |      |                  |      |  <<interface>>    |
-| PasswordHasher |----->|   AuthService    |<-----|   UserRepository  |
-+----------------+      |------------------|      +-------------------+
-| + hash()       |      | + signup()       |               ^
-| + verify()     |      | + login()        |               |
-+----------------+      | + logout()       |      +-------------------+
-        ^               | + enable2FA()    |      | InMemoryUserRepo  |
-        |               | + verifyTOTP()   |      +-------------------+
-+----------------+      | + resetPassword()|
-| BCryptHasher   |      +------------------+      +--------------------+
-+----------------+               ^                |  <<interface>>     |
-                                 |                | SessionRepository  |
-                                 |                +--------------------+
-+----------------+               |                         ^
-| <<interface>>  |               |                         |
-|   TotpService  |---------------+            +------------------------+
-+----------------+               |            | InMemorySessionRepo    |
-| + genSecret()  |               |            +------------------------+
-| + verify()     |               |
-+----------------+               |
-        ^                        |
-        |                        |
-+----------------+      +----------------+
-|   DefaultTotp  |      | <<interface>>  |
-+----------------+      |   EmailService |
-                        +----------------+`
+```
+PasswordHasher (interface)         UserRepository (interface)         SessionRepository (interface)
+        |                                   |                                 |
+        v                                   v                                 v
+   BCryptHasher                   InMemoryUserRepo                   InMemorySessionRepo
+
+         |                                   |                                 |
+         +-------------------+   +-----------+-----------+   +-----------------+
+                             |   |                       |   |
+                             v   v                       v   v
+                         +------------------+        TotpService (interface)
+                         |   AuthService    |                |
+                         +------------------+                v
+                         | +signup()        |           DefaultTotp
+                         | +login()         |
+                         | +logout()        |        EmailService (interface)
+                         | +enable2FA()     |
+                         | +verifyTOTP()    |
+                         | +resetPassword() |
+                         +------------------+
+```
 
 ---
 

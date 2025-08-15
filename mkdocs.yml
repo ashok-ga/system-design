@@ -6,7 +6,6 @@ repo_name: ashok-ga/system-design
 theme:
   name: material
   features:
-    - navigation.tabs
     - navigation.sections
     - navigation.top
     - search.suggest
