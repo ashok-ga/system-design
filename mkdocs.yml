@@ -20,6 +20,7 @@ nav:
       - DE Shaw: hld/de-shaw.md
   - Low-Level Design:
       - DE Shaw: lld/de-shaw.md
+      - Common Questions: lld/module1.md
       - Module 2: lld/module2.md
   - Assets: assets/
   - References: references.md
