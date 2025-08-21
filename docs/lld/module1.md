@@ -4,6 +4,8 @@ This module contains in-depth solutions to the most frequently asked Low-Level D
 
 ## Index
 
+* [LLD Common Questions JAVA](module1/LLD_Common_JAVA.md)
+* [LLD Common Questions C++](module1/LLD_Common_CPP.md)
 * [Design a Scalable Rate Limiter](module1/Rate%20Limiter.md)
 * [Design a Thread-Safe LRU Cache](module1/LRU%20Cache.md)
 * [Design a Notification/Observer System](module1/Notification%20System.md)
